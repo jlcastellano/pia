@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Cloud Vision AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Análisis de Emociones con Vision AI</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Google Cloud Platform para Análisis de Emociones con Vision AI</h1>
+    
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>1. Crear una Cuenta en Google Cloud Platform</h1>
+
+        <h2>Cuenta Gratuita Estándar</h2>
+        <p>Google Cloud ofrece un crédito gratuito de <strong>$300 USD</strong> válido por <strong>90 días</strong> para nuevos usuarios.</p>
+
+        <ol>
+            <li>Visita <a href="https://cloud.google.com">cloud.google.com</a></li>
+            <li>Haz clic en "Comenzar gratis" o "Get started for free"</li>
+            <li>Inicia sesión con tu cuenta de Google (o crea una nueva)</li>
+            <li>Completa el formulario con tu información:
+                <ul>
+                    <li>País de residencia</li>
+                    <li>Tipo de cuenta (individual o empresa)</li>
+                    <li>Información de facturación (se requiere tarjeta de crédito/débito, pero <mark>NO se cobrará automáticamente</mark>)</li>
+                </ul>
+            </li>
+            <li>Acepta los términos y condiciones</li>
+        </ol>
+
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>2. Crear un Nuevo Proyecto</h1>
+
+        <ol>
+            <li>En la consola de Google Cloud, haz clic en el selector de proyectos (parte superior izquierda)</li>
+            <li>Clic en "Nuevo proyecto" o "New Project"</li>
+            <li>Configura tu proyecto:
+                <dl>
+                    <dt>Nombre del proyecto</dt>
+                    <dd><code>analisis-emociones-vision-ai</code> (o el nombre que prefieras)</dd>
+                    
+                    <dt>Organización</dt>
+                    <dd>Déjalo como "Sin organización" si es personal</dd>
+                    
+                    <dt>Ubicación</dt>
+                    <dd>Déjalo como está</dd>
+                </dl>
+            </li>
+            <li>Haz clic en "Crear"</li>
+        </ol>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>3. Habilitar la API de Vision</h1>
+
+        <ol>
+            <li>En el menú de navegación (☰), ve a <strong>APIs y servicios</strong> → <strong>Biblioteca</strong></li>
+            <li>Busca "Cloud Vision API"</li>
+            <li>Haz clic en "Cloud Vision API"</li>
+            <li>Presiona el botón "Habilitar" o "Enable"</li>
+            <li>Espera unos segundos mientras se activa la API</li>
+        </ol>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>4. Crear Credenciales de Servicio</h1>
+
+        <ol>
+            <li>Ve a <strong>APIs y servicios</strong> → <strong>Credenciales</strong></li>
+            <li>Haz clic en "Crear credenciales" → "Cuenta de servicio"</li>
+            <li>Completa la información:
+                <dl>
+                    <dt>Nombre de la cuenta de servicio</dt>
+                    <dd><code>vision-api-service</code></dd>
+                    
+                    <dt>ID de cuenta de servicio</dt>
+                    <dd>Se genera automáticamente</dd>
+                    
+                    <dt>Descripción</dt>
+                    <dd>"Cuenta de servicio para análisis de emociones con Vision API"</dd>
+                </dl>
+            </li>
+            <li>Haz clic en "Crear y continuar"</li>
+            <li>En "Otorgar acceso a esta cuenta de servicio al proyecto":
+                <ul>
+                    <li>Selecciona el rol: <strong>Propietario del proyecto</strong> (para desarrollo) o <strong>Usuario de Vision API</strong> (más seguro)</li>
+                </ul>
+            </li>
+            <li>Haz clic en "Continuar" y luego "Listo"</li>
+        </ol>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>5. Descargar el Archivo de Credenciales JSON</h1>
+
+        <ol>
+            <li>En la página de <strong>Credenciales</strong>, busca la cuenta de servicio que acabas de crear</li>
+            <li>Haz clic en el icono de edición (lápiz) o en el nombre de la cuenta</li>
+            <li>Ve a la pestaña "Claves" o "Keys"</li>
+            <li>Haz clic en "Agregar clave" → "Crear clave nueva"</li>
+            <li>Selecciona el formato <strong>JSON</strong></li>
+            <li>Haz clic en "Crear"</li>
+            <li>Se descargará automáticamente un archivo JSON (por ejemplo: <code>proyecto-123456-abcdef123456.json</code>)</li>
+        </ol>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>6. Configurar el Proyecto Flask</h1>
+
+        <h2>Estructura de Carpetas</h2>
+        <p>Crea la siguiente estructura en tu computadora:</p>
+
+<pre><code class="language-plaintext">mi-proyecto-emociones/
+├── app.py
+├── credenciales/
+│   └── google-cloud-credentials.json
+├── templates/
+│   └── index.html
+└── requirements.txt</code></pre>
+
+        <h2>Pasos:</h2>
+
+        <h3>1. Crea la carpeta del proyecto</h3>
+<pre><code class="language-bash">mkdir mi-proyecto-emociones
+cd mi-proyecto-emociones</code></pre>
+
+        <h3>2. Crea la carpeta de credenciales</h3>
+<pre><code class="language-bash">mkdir credenciales</code></pre>
+
+        <h3>3. Mueve el archivo JSON descargado</h3>
+        <p>Mueve el archivo JSON descargado a la carpeta <code>credenciales/</code> y renómbralo a <code>google-cloud-credentials.json</code></p>
+
+        <h3>4. Crea el archivo requirements.txt</h3>
+<pre><code class="language-plaintext">Flask==3.0.0
+google-cloud-vision==3.4.5</code></pre>
+
+        <h3>5. Crea un entorno virtual (recomendado)</h3>
+<pre><code class="language-bash">python -m venv venv
+
+# En Windows:
+venv\Scripts\activate
+
+# En Mac/Linux:
+source venv/bin/activate</code></pre>
+
+        <h3>6. Instala las dependencias</h3>
+<pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+
+        <h3>7. Crea el archivo app.py</h3>
+<pre><code class="language-python">from flask import Flask, request, jsonify, render_template
+import os
+from google.cloud import vision
+import io
+
+app = Flask(__name__)
+
+# Configurar credenciales de Google Cloud
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'credenciales/google-cloud-credentials.json'
+
+# Inicializar cliente de Vision API
+client = vision.ImageAnnotatorClient()
+
+def analizar_emociones(imagen_bytes):
+    """Analiza las emociones en una imagen usando Vision API"""
+    image = vision.Image(content=imagen_bytes)
+    
+    # Detectar rostros
+    response = client.face_detection(image=image)
+    faces = response.face_annotations
+    
+    if response.error.message:
+        raise Exception(f'Error de Vision API: {response.error.message}')
+    
+    resultados = []
+    
+    for face in faces:
+        # Mapear niveles de confianza a porcentajes
+        likelihood_map = {
+            0: 0,    # UNKNOWN
+            1: 10,   # VERY_UNLIKELY
+            2: 30,   # UNLIKELY
+            3: 50,   # POSSIBLE
+            4: 75,   # LIKELY
+            5: 95    # VERY_LIKELY
+        }
+        
+        emociones = {
+            'alegria': likelihood_map.get(face.joy_likelihood, 0),
+            'tristeza': likelihood_map.get(face.sorrow_likelihood, 0),
+            'enojo': likelihood_map.get(face.anger_likelihood, 0),
+            'sorpresa': likelihood_map.get(face.surprise_likelihood, 0)
+        }
+        
+        # Determinar emoción predominante
+        emocion_predominante = max(emociones, key=emociones.get)
+        
+        resultados.append({
+            'confianza': round(face.detection_confidence * 100, 2),
+            'emociones': emociones,
+            'sentimiento_predominante': emocion_predominante.capitalize()
+        })
+    
+    return resultados
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    try:
+        if 'image' not in request.files:
+            return jsonify({'success': False, 'error': 'No se proporcionó imagen'}), 400
+        
+        file = request.files['image']
+        
+        if file.filename == '':
+            return jsonify({'success': False, 'error': 'Archivo vacío'}), 400
+        
+        # Leer bytes de la imagen
+        imagen_bytes = file.read()
+        
+        # Analizar emociones
+        faces = analizar_emociones(imagen_bytes)
+        
+        return jsonify({
+            'success': True,
+            'faces': faces
+        })
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)</code></pre>
+
+        <h3>8. Crea el archivo templates/index.html</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Análisis de Emociones - Vision AI&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4285f4;
+            text-align: center;
+        }
+        .upload-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+        input[type="file"] {
+            margin: 20px 0;
+        }
+        button {
+            background-color: #4285f4;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #357ae8;
+        }
+        #results {
+            margin-top: 30px;
+        }
+        .face-result {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4285f4;
+        }
+        .emotion-bar {
+            background: #e0e0e0;
+            height: 25px;
+            border-radius: 12px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .emotion-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s ease;
+        }
+        .alegria { background-color: #fbbc04; }
+        .tristeza { background-color: #34a853; }
+        .enojo { background-color: #ea4335; }
+        .sorpresa { background-color: #4285f4; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;h1&gt;🎭 Análisis de Emociones con Vision AI&lt;/h1&gt;
+        &lt;div class="upload-section"&gt;
+            &lt;p&gt;Sube una imagen para analizar las emociones faciales:&lt;/p&gt;
+            &lt;input type="file" id="imageInput" accept="image/*"&gt;
+            &lt;br&gt;
+            &lt;button onclick="analyzeImage()"&gt;Analizar Imagen&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div id="results"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        async function analyzeImage() {
+            const fileInput = document.getElementById('imageInput');
+            const resultsDiv = document.getElementById('results');
+            
+            if (!fileInput.files.length) {
+                alert('Por favor selecciona una imagen');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+
+            resultsDiv.innerHTML = '&lt;p&gt;Analizando imagen...&lt;/p&gt;';
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayResults(data.faces);
+                } else {
+                    resultsDiv.innerHTML = `&lt;p style="color: red;"&gt;Error: ${data.error}&lt;/p&gt;`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `&lt;p style="color: red;"&gt;Error: ${error.message}&lt;/p&gt;`;
+            }
+        }
+
+        function displayResults(faces) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (faces.length === 0) {
+                resultsDiv.innerHTML = '&lt;p&gt;No se detectaron rostros en la imagen.&lt;/p&gt;';
+                return;
+            }
+
+            let html = `&lt;h2&gt;Resultados (${faces.length} rostro${faces.length &gt; 1 ? 's' : ''} detectado${faces.length &gt; 1 ? 's' : ''})&lt;/h2&gt;`;
+
+            faces.forEach((face, index) =&gt; {
+                html += `
+                    &lt;div class="face-result"&gt;
+                        &lt;h3&gt;Rostro ${index + 1}&lt;/h3&gt;
+                        &lt;p&gt;&lt;strong&gt;Confianza de detección:&lt;/strong&gt; ${face.confianza}%&lt;/p&gt;
+                        &lt;p&gt;&lt;strong&gt;Sentimiento predominante:&lt;/strong&gt; ${face.sentimiento_predominante}&lt;/p&gt;
+                        &lt;h4&gt;Emociones:&lt;/h4&gt;
+                        &lt;div class="emotion-bar"&gt;
+                            &lt;div class="emotion-fill alegria" style="width: ${face.emociones.alegria}%"&gt;
+                                Alegría: ${face.emociones.alegria}%
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="emotion-bar"&gt;
+                            &lt;div class="emotion-fill tristeza" style="width: ${face.emociones.tristeza}%"&gt;
+                                Tristeza: ${face.emociones.tristeza}%
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="emotion-bar"&gt;
+                            &lt;div class="emotion-fill enojo" style="width: ${face.emociones.enojo}%"&gt;
+                                Enojo: ${face.emociones.enojo}%
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="emotion-bar"&gt;
+                            &lt;div class="emotion-fill sorpresa" style="width: ${face.emociones.sorpresa}%"&gt;
+                                Sorpresa: ${face.emociones.sorpresa}%
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                `;
+            });
+
+            resultsDiv.innerHTML = html;
+        }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>7. Ejecutar la Aplicación</h1>
+
+        <h3>1. Activa tu entorno virtual (si no lo has hecho)</h3>
+<pre><code class="language-bash"># Windows:
+venv\Scripts\activate
+
+# Mac/Linux:
+source venv/bin/activate</code></pre>
+
+        <h3>2. Ejecuta la aplicación</h3>
+<pre><code class="language-bash">python app.py</code></pre>
+
+        <h3>3. Abre tu navegador</h3>
+        <p>Ve a: <code>http://127.0.0.1:5000</code></p>
+
+        <h3>4. Prueba la aplicación</h3>
+        <p>Sube una imagen con rostros y observa los resultados del análisis de emociones.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>8. Monitoreo de Costos y Cuotas Gratuitas</h1>
+
+        <h2>Cuota Gratuita de Vision API</h2>
+        <ul>
+            <li><strong>1,000 análisis de detección de rostros por mes</strong> completamente gratis</li>
+            <li>Después de eso: $1.50 USD por cada 1,000 imágenes</li>
+        </ul>
+
+        <h2>Cómo Monitorear tu Uso</h2>
+        <ol>
+            <li>Ve a <strong>Facturación</strong> en la consola de Google Cloud</li>
+            <li>Revisa el <strong>Dashboard de facturación</strong></li>
+            <li>Configura <strong>alertas de presupuesto</strong> para recibir notificaciones</li>
+        </ol>
+
+        <h2>Establecer Límites de Presupuesto</h2>
+        <ol>
+            <li>Ve a <strong>Facturación</strong> → <strong>Presupuestos y alertas</strong></li>
+            <li>Clic en "Crear presupuesto"</li>
+            <li>Establece un monto máximo (ejemplo: $10 USD)</li>
+            <li>Configura alertas al 50%, 75% y 90%</li>
+        </ol>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>9. Seguridad y Buenas Prácticas</h1>
+
+        <h2>1. Nunca subas el archivo de credenciales a GitHub</h2>
+        <p>Agrega <code>credenciales/</code> a tu archivo <code>.gitignore</code></p>
+
+        <h2>2. Crea un archivo .gitignore</h2>
+<pre><code class="language-plaintext">credenciales/
+venv/
+__pycache__/
+*.pyc
+temp_image.jpg</code></pre>
+
+        <h2>3. Revoca credenciales si las expones accidentalmente</h2>
+        <ul>
+            <li>Ve a <strong>IAM y administración</strong> → <strong>Cuentas de servicio</strong></li>
+            <li>Elimina la clave comprometida y crea una nueva</li>
+        </ul>
+
+        <h2>4. Usa roles con privilegios mínimos en producción</h2>
+        <p>En lugar de "Propietario", usa "Usuario de Vision API"</p>
+    </section>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
