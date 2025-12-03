@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios de Google Cloud Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #4285f4;
+            text-align: center;
+            border-bottom: 3px solid #4285f4;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34a853;
+            margin-top: 30px;
+            border-left: 5px solid #34a853;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #ea4335;
+            margin-top: 20px;
+        }
+        .servicio {
+            background-color: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .categoria {
+            margin-bottom: 40px;
+        }
+        .fecha {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Servicios de Google Cloud Platform (GCP)</h1>
+
+    <div class="categoria">
+        <h2>1. SERVICIOS DE COMPUTACIÓN</h2>
+        
+        <div class="servicio">
+            <h3>Compute Engine</h3>
+            <p>Compute Engine es un servicio de Infraestructura como Servicio (IaaS) que proporciona máquinas virtuales en la infraestructura de Google. Ofrece máquinas virtuales personalizables con opciones de Linux y Windows, permitiendo ejecutar kernels personalizados y aplicaciones que requieren recursos estables. Es ideal para migrar sistemas existentes a la nube, ejecutar contenedores en VMs, y aplicaciones que necesitan configuraciones específicas de hardware. Los usuarios pueden ajustar los tipos de máquinas según sus necesidades y aprovechar discos persistentes para almacenamiento duradero.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>App Engine</h3>
+            <p>App Engine es una plataforma como servicio (PaaS) totalmente administrada que permite construir y alojar aplicaciones escalables en los mismos sistemas que alimentan las aplicaciones de Google. Ajusta automáticamente el tamaño de la aplicación según el tráfico de usuarios, eliminando la necesidad de gestionar la infraestructura subyacente. Incluye características integradas como almacenamiento de datos, APIs y autenticación de usuarios. Es perfecto para crear aplicaciones web escalables y backends de IoT sin preocuparse por la administración de servidores, permitiendo a los desarrolladores enfocarse exclusivamente en el código.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Google Kubernetes Engine (GKE)</h3>
+            <p>Google Kubernetes Engine es un entorno totalmente administrado para ejecutar aplicaciones contenerizadas. Proporciona una plataforma poderosa para implementar, escalar y gestionar contenedores automáticamente utilizando la tecnología de orquestación de Kubernetes. GKE simplifica la gestión de clústeres, ofrece actualizaciones automáticas y reparación automática de nodos, además de integración profunda con otros servicios de Google Cloud. Es ideal para arquitecturas de microservicios, aplicaciones cloud-native y cargas de trabajo que requieren escalamiento horizontal eficiente.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Run</h3>
+            <p>Cloud Run es una plataforma de computación serverless que permite ejecutar aplicaciones contenerizadas sin necesidad de gestionar infraestructura. Escala automáticamente desde cero hasta manejar picos de tráfico y solo se paga por el tiempo de procesamiento utilizado. Es completamente administrado y soporta cualquier lenguaje de programación, biblioteca o binario siempre que esté empaquetado en un contenedor. Cloud Run es perfecto para APIs, sitios web, aplicaciones backend y trabajos de procesamiento de datos que necesitan escalabilidad instantánea sin la complejidad de administrar servidores.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Functions</h3>
+            <p>Cloud Functions es una plataforma de computación basada en eventos para servicios y aplicaciones en la nube. Permite ejecutar código en respuesta a eventos sin necesidad de aprovisionar o administrar servidores. Es ideal para crear arquitecturas de microservicios, procesar datos en tiempo real, integrar sistemas mediante webhooks y automatizar flujos de trabajo. Los desarrolladores solo escriben funciones individuales que se ejecutan automáticamente cuando ocurre un evento específico, pagando únicamente por el tiempo de ejecución real.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>2. SERVICIOS DE ALMACENAMIENTO</h2>
+        
+        <div class="servicio">
+            <h3>Cloud Storage</h3>
+            <p>Cloud Storage es un servicio de almacenamiento de objetos multi-clase y multi-región que ofrece almacenamiento unificado para datos no estructurados. Proporciona diferentes clases de almacenamiento optimizadas para diversos patrones de acceso, desde datos frecuentemente accedidos hasta archivos a largo plazo. Ofrece durabilidad del 99.999999999%, disponibilidad global y escalabilidad ilimitada. Es perfecto para almacenar y servir contenido multimedia, respaldos, archivos de datos grandes, alojamiento de sitios web estáticos y distribución de contenido global.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud SQL</h3>
+            <p>Cloud SQL es un servicio de base de datos relacional totalmente administrado que soporta MySQL, PostgreSQL y SQL Server. Automatiza respaldos, replicación, parches y actualizaciones, permitiendo a los desarrolladores enfocarse en las aplicaciones en lugar de la administración de bases de datos. Ofrece alta disponibilidad, escalabilidad automática de almacenamiento y seguridad integrada con cifrado en reposo y en tránsito. Es ideal para aplicaciones web, sistemas de gestión de contenido, comercio electrónico y cualquier aplicación que requiera una base de datos relacional confiable.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Bigtable</h3>
+            <p>Cloud Bigtable es un servicio de base de datos NoSQL de baja latencia y alto rendimiento diseñado para grandes cargas de trabajo analíticas y operacionales. Puede escalar a petabytes de datos mientras mantiene latencias de milisegundos consistentes. Es el mismo sistema que alimenta servicios críticos de Google como Gmail y Google Maps. Es ideal para series temporales, análisis financiero, Internet de las Cosas (IoT), procesamiento de gráficos y aprendizaje automático donde se necesita procesar grandes volúmenes de datos con acceso rápido.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Spanner</h3>
+            <p>Cloud Spanner es un servicio de base de datos relacional globalmente distribuido que puede escalar horizontalmente. Combina las ventajas de las bases de datos relacionales con la escalabilidad de los sistemas no relacionales, ofreciendo consistencia fuerte y soporte para transacciones ACID a través de ubicaciones globales. Proporciona disponibilidad del 99.999% y permite replicación automática entre regiones. Es perfecto para aplicaciones financieras, sistemas de inventario global, plataformas de comercio electrónico internacional y cualquier aplicación que requiera consistencia de datos a escala global.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Filestore</h3>
+            <p>Filestore es un almacenamiento de archivos conectado a la red (NAS) totalmente administrado para aplicaciones que requieren un sistema de archivos compartido. Ofrece alto rendimiento con latencias bajas y es compatible con el protocolo NFSv3. Es ideal para aplicaciones empresariales, renderizado de medios, análisis genómico, computación de alto rendimiento y cualquier carga de trabajo que necesite un sistema de archivos compartido con acceso simultáneo desde múltiples instancias de Compute Engine o GKE.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>3. SERVICIOS DE BASES DE DATOS ADICIONALES</h2>
+        
+        <div class="servicio">
+            <h3>Firestore</h3>
+            <p>Firestore es una base de datos de documentos NoSQL flexible y escalable para desarrollo móvil, web y de servidor. Ofrece sincronización en tiempo real y soporte offline, permitiendo que las aplicaciones funcionen sin conexión y sincronicen automáticamente cuando se restablece la conectividad. Proporciona consultas expresivas, transacciones ACID y escalamiento automático. Es ideal para aplicaciones móviles y web que necesitan sincronización de datos en tiempo real, aplicaciones colaborativas, juegos multijugador y sistemas de chat.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Memorystore</h3>
+            <p>Memorystore es un servicio de almacenamiento en caché en memoria totalmente administrado compatible con Redis y Memcached. Proporciona acceso a datos con latencias de sub-milisegundo, mejorando significativamente el rendimiento de las aplicaciones. Ofrece alta disponibilidad, replicación automática y escalamiento sin tiempo de inactividad. Es perfecto para cachés de aplicaciones web, almacenamiento de sesiones de usuario, tablas de clasificación de juegos, análisis en tiempo real y cualquier escenario donde se necesite acceso ultrarrápido a datos frecuentemente consultados.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>AlloyDB</h3>
+            <p>AlloyDB es un servicio de base de datos relacional totalmente administrado compatible con PostgreSQL, diseñado para cargas de trabajo empresariales exigentes. Ofrece rendimiento superior hasta 4 veces más rápido que PostgreSQL estándar para cargas transaccionales y hasta 100 veces más rápido para consultas analíticas. Combina la mejor compatibilidad con PostgreSQL con innovaciones de Google en escalabilidad, disponibilidad y aprendizaje automático. Es ideal para aplicaciones empresariales críticas, sistemas de comercio electrónico de alto tráfico, análisis operacionales y modernización de bases de datos PostgreSQL existentes que requieren mejor rendimiento.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>4. SERVICIOS DE REDES</h2>
+        
+        <div class="servicio">
+            <h3>Virtual Private Cloud (VPC)</h3>
+            <p>Virtual Private Cloud permite establecer una red privada personalizada dentro de Google Cloud Platform. Se extiende a través de múltiples regiones y facilita conexiones a redes adicionales, ya sean locales o en la nube. Ofrece flexibilidad para personalizar rangos de IP, subredes, rutas y otras configuraciones de red. Proporciona aislamiento de red, controles de firewall granulares y conectividad privada entre recursos. Es esencial para cualquier implementación empresarial que requiera seguridad de red, segmentación y conectividad híbrida entre infraestructura local y la nube.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Load Balancing</h3>
+            <p>Cloud Load Balancing es un servicio de balanceo de carga completamente distribuido y definido por software que distribuye el tráfico de usuarios entre múltiples instancias de aplicaciones. Ofrece balanceo de carga global con un solo anycast IP, escalamiento automático y conmutación por error automática. Soporta HTTP(S), TCP/SSL y UDP, proporcionando alta disponibilidad y baja latencia. Es ideal para distribuir tráfico web globalmente, asegurar disponibilidad de aplicaciones, manejar picos de tráfico y proporcionar experiencias de usuario consistentes sin importar la ubicación geográfica.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud CDN</h3>
+            <p>Cloud CDN (Content Delivery Network) utiliza la red global de Google para acelerar la entrega de contenido a usuarios finales. Almacena en caché contenido en puntos de presencia distribuidos globalmente, reduciendo la latencia y mejorando la experiencia del usuario. Se integra perfectamente con Cloud Load Balancing y Cloud Storage. Es perfecto para sitios web con audiencia global, streaming de video, distribución de software, juegos en línea y cualquier aplicación que necesite entregar contenido estático o dinámico rápidamente a usuarios distribuidos geográficamente.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud DNS</h3>
+            <p>Cloud DNS es un servicio de Sistema de Nombres de Dominio (DNS) escalable, confiable y administrado que se ejecuta en la misma infraestructura que Google. Ofrece baja latencia, alta disponibilidad del 100% respaldada por SLA, y soporta DNSSEC para seguridad mejorada. Proporciona gestión de zonas DNS programática mediante APIs y CLI. Es ideal para alojar dominios, gestionar registros DNS, implementar estrategias de failover basadas en DNS y asegurar resolución rápida y confiable de nombres de dominio para aplicaciones críticas.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Interconnect</h3>
+            <p>Cloud Interconnect proporciona conectividad de alto rendimiento y baja latencia entre la infraestructura local y Google Cloud. Ofrece opciones de Dedicated Interconnect para conexiones físicas directas y Partner Interconnect para conexiones a través de proveedores de servicios. Permite transferencias de datos más rápidas, costos de egreso reducidos y mayor seguridad que las conexiones por Internet pública. Es esencial para empresas que necesitan conectividad híbrida robusta, transferencias masivas de datos, aplicaciones de baja latencia y cumplimiento de requisitos de seguridad estrictos.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud VPN</h3>
+            <p>Cloud VPN conecta de forma segura la red local o de otro proveedor de nube con Virtual Private Cloud de Google a través de túneles VPN IPsec. Proporciona cifrado de tráfico, alta disponibilidad con configuraciones de VPN HA, y se integra con Cloud Router para enrutamiento dinámico. Es una solución económica para establecer conectividad híbrida cuando no se requiere el ancho de banda dedicado de Cloud Interconnect. Es ideal para implementaciones híbridas, acceso remoto seguro, recuperación ante desastres y conexiones entre nubes.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud NAT</h3>
+            <p>Cloud NAT (Network Address Translation) permite que instancias sin direcciones IP externas accedan a Internet de forma segura para actualizaciones, parches y acceso a servicios externos. Es un servicio regional totalmente administrado que proporciona traducción de direcciones de red sin la necesidad de dispositivos NAT gateway dedicados. Ofrece escalamiento automático, alta disponibilidad y registros detallados de conexiones. Es ideal para mantener instancias privadas seguras mientras permiten acceso saliente controlado, reducir la exposición de la superficie de ataque y cumplir con políticas de seguridad que requieren que los recursos permanezcan privados.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>5. SERVICIOS DE BIG DATA Y ANALÍTICA</h2>
+        
+        <div class="servicio">
+            <h3>BigQuery</h3>
+            <p>BigQuery es un almacén de datos completamente administrado y serverless que permite realizar consultas SQL rápidas sobre conjuntos de datos masivos. Puede analizar petabytes de datos en segundos utilizando la infraestructura de procesamiento de Google. Se integra perfectamente con otros servicios de GCP y soporta aprendizaje automático a través de BigQuery ML. No requiere administración de infraestructura y escala automáticamente. Es perfecto para análisis de datos empresariales, inteligencia de negocios, pronósticos, almacenamiento de datos históricos y análisis en tiempo real de grandes volúmenes de información.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Dataflow</h3>
+            <p>Dataflow es un servicio administrado para procesar datos tanto en flujo (streaming) como por lotes utilizando Apache Beam. Proporciona escalamiento automático, procesamiento de datos en tiempo real y optimización automática de recursos. Permite crear pipelines de ETL (Extracción, Transformación y Carga), análisis en tiempo real y procesamiento de datos impulsado por eventos. Es ideal para transformar y enriquecer datos, procesar flujos de eventos de IoT, análisis de clickstream, detección de fraudes en tiempo real y preparación de datos para aprendizaje automático.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Dataproc</h3>
+            <p>Dataproc es un servicio administrado para ejecutar clústeres de Apache Hadoop, Spark y otros frameworks de big data. Permite aprovisionar clústeres rápidamente en minutos, integra perfectamente con servicios de almacenamiento de GCP y ofrece escalamiento automático de clústeres. Los usuarios pagan solo por los recursos utilizados y pueden apagar clústeres cuando no se necesitan. Es ideal para procesamiento de big data, lagos de datos, aprendizaje automático a gran escala, migración de cargas de trabajo Hadoop/Spark existentes y procesamiento batch de grandes volúmenes de datos.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Pub/Sub</h3>
+            <p>Pub/Sub es un servicio de mensajería en tiempo real completamente administrado que permite enviar y recibir mensajes entre aplicaciones independientes. Ofrece entrega de mensajes confiable, escalamiento automático a millones de mensajes por segundo y garantías de entrega at-least-once. Soporta tanto patrones de publicación/suscripción como pull/push. Es fundamental para arquitecturas de microservicios, procesamiento de eventos en tiempo real, integración de sistemas, streaming de datos, ingesta de datos de IoT y desacoplamiento de componentes de aplicaciones distribuidas.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Dataprep</h3>
+            <p>Dataprep es un servicio inteligente de preparación de datos sin servidor para explorar, limpiar y preparar datos para análisis y aprendizaje automático. Ofrece una interfaz visual intuitiva que sugiere transformaciones automáticamente basándose en el perfil de los datos. No requiere codificación y puede manejar datos de diversas fuentes. Es ideal para analistas de datos, científicos de datos y profesionales de negocios que necesitan preparar datos rápidamente sin conocimientos profundos de programación, permitiendo transformaciones complejas mediante una interfaz de apuntar y hacer clic.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Data Fusion</h3>
+            <p>Data Fusion es un servicio de integración de datos nativo de la nube totalmente administrado para construir y gestionar pipelines de datos de forma visual. Basado en el proyecto de código abierto CDAP, ofrece más de 150 conectores prediseñados, transformaciones visuales mediante arrastrar y soltar, y linaje de datos completo. Permite a usuarios técnicos y no técnicos crear pipelines de integración de datos complejos sin escribir código. Es perfecto para migración de datos, integración de múltiples fuentes, ETL empresarial y modernización de almacenes de datos.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Looker / Looker Studio</h3>
+            <p>Looker es una plataforma moderna de inteligencia de negocios y análisis de datos que permite crear experiencias de datos enriquecidas. Looker Studio (anteriormente Data Studio) permite crear informes y dashboards interactivos y compartibles. Ambos servicios se integran con BigQuery y otras fuentes de datos, ofreciendo visualizaciones personalizables y capacidades de colaboración. Son ideales para democratizar el acceso a datos en la organización, crear reportes ejecutivos, dashboards operacionales, análisis self-service y visualización de métricas clave de negocio en tiempo real.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Dataplex</h3>
+            <p>Dataplex es un servicio inteligente de gestión de datos que permite organizar, descubrir y gestionar datos distribuidos en lagos de datos y almacenes de datos. Proporciona gobernanza de datos unificada, descubrimiento automático de metadatos, calidad de datos y clasificación de seguridad. Permite crear zonas de datos lógicas que abarcan múltiples proyectos y regiones, facilitando la gestión centralizada de activos de datos dispersos. Es ideal para implementar arquitecturas de data mesh, gobernar lagos de datos a escala empresarial, asegurar el cumplimiento de políticas de datos y facilitar el descubrimiento y uso de datos en toda la organización.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>6. SERVICIOS DE INTELIGENCIA ARTIFICIAL Y MACHINE LEARNING</h2>
+        
+        <div class="servicio">
+            <h3>Vertex AI</h3>
+            <p>Vertex AI es una plataforma unificada de inteligencia artificial que facilita la construcción, entrenamiento e implementación de modelos de aprendizaje automático a escala. Integra herramientas para todo el ciclo de vida del ML, desde la preparación de datos hasta el despliegue y monitoreo de modelos. Soporta frameworks populares como TensorFlow y PyTorch, ofrece AutoML para usuarios sin experiencia profunda en ML, y proporciona acceso a modelos fundacionales como Gemini. Es ideal para desarrollar soluciones de IA personalizadas, implementar modelos generativos, crear agentes de IA y automatizar procesos empresariales con inteligencia artificial.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Vertex AI Studio</h3>
+            <p>Vertex AI Studio es una interfaz de usuario en la consola de Google Cloud para prototipar y probar rápidamente modelos de IA generativa. Permite experimentar con diferentes modelos de lenguaje, ajustar parámetros, crear prompts personalizados y evaluar resultados sin necesidad de escribir código. Facilita la exploración de casos de uso de IA generativa como generación de texto, resúmenes, extracción de información y creación de contenido. Es perfecto para equipos que quieren explorar capacidades de IA generativa, validar ideas rápidamente y desarrollar prototipos antes de la implementación completa.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>AutoML</h3>
+            <p>AutoML es un conjunto de herramientas que permite a desarrolladores con conocimientos limitados de aprendizaje automático crear modelos personalizados de alta calidad. Cubre diferentes tareas como clasificación de imágenes, procesamiento de lenguaje natural, análisis de datos tabulares, traducción y análisis de video. El proceso de entrenamiento de modelos se simplifica mediante una interfaz intuitiva y características automatizadas que optimizan el modelo automáticamente. Es ideal para empresas que quieren aprovechar el aprendizaje automático sin invertir en equipos especializados de ciencia de datos.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Vision AI</h3>
+            <p>Vision AI ofrece potentes modelos de aprendizaje automático pre-entrenados para detectar objetos, rostros, texto, contenido inapropiado y más en imágenes. Puede entrenar modelos personalizados con AutoML Vision o usar la API de Vision para tareas comunes. Soporta detección de etiquetas, reconocimiento óptico de caracteres (OCR), detección de rostros y puntos de referencia, y clasificación de contenido. Es ideal para moderación de contenido, búsqueda de imágenes, análisis de documentos, control de calidad en manufactura, análisis de imágenes médicas y experiencias de realidad aumentada.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Natural Language AI</h3>
+            <p>Natural Language AI permite extraer información y entender el significado de texto no estructurado mediante modelos de aprendizaje automático. Puede realizar análisis de sentimiento, extracción de entidades, análisis sintáctico, clasificación de contenido y análisis de sentimiento de entidades. Soporta múltiples idiomas y puede entrenarse con datos personalizados. Es perfecto para análisis de opinión de clientes, clasificación automática de tickets de soporte, extracción de información de documentos, moderación de contenido textual, análisis de redes sociales y comprensión de feedback de usuarios.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Speech-to-Text y Text-to-Speech</h3>
+            <p>Speech-to-Text convierte audio a texto utilizando modelos de aprendizaje automático avanzados, soportando más de 125 idiomas y variantes. Puede manejar audio en tiempo real o por lotes, reconocer múltiples hablantes y adaptarse a vocabulario específico. Text-to-Speech hace lo contrario, generando voz natural a partir de texto con voces WaveNet de alta calidad. Estos servicios son ideales para transcripción de llamadas, subtítulos automáticos, asistentes virtuales, accesibilidad, centros de contacto, aplicaciones de voz interactivas y cualquier interfaz que requiera interacción por voz.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Translation AI</h3>
+            <p>Translation AI proporciona traducción automática de alta calidad para más de 100 idiomas utilizando modelos de traducción neuronal. Puede traducir texto, documentos y sitios web dinámicamente. Ofrece detección automática de idioma, glosarios personalizados para terminología específica de dominio y soporte para traducción por lotes. AutoML Translation permite entrenar modelos personalizados con datos específicos de la industria. Es ideal para localización de aplicaciones y sitios web, traducción de contenido de soporte al cliente, comercio internacional, análisis de contenido multilingüe y comunicación global.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Recommendations AI</h3>
+            <p>Recommendations AI proporciona recomendaciones de productos personalizadas de calidad similar a Google para minoristas. Utiliza aprendizaje automático avanzado para entender las preferencias de los clientes y mostrar productos relevantes en tiempo real. Se adapta automáticamente a cambios en inventario y comportamiento del usuario. Soporta múltiples tipos de recomendaciones como "otros también compraron", "recomendados para ti" y "similares". Es perfecto para sitios de comercio electrónico, aumentar conversiones, incrementar el valor promedio de pedidos, mejorar la experiencia del cliente y personalizar el recorrido de compra.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Document AI</h3>
+            <p>Document AI automatiza el procesamiento y captura de datos de documentos a escala utilizando aprendizaje automático. Puede extraer información estructurada de documentos no estructurados como facturas, recibos, contratos, formularios y documentos de identidad. Ofrece procesadores especializados pre-entrenados y la capacidad de crear procesadores personalizados. Reduce el trabajo manual, mejora la precisión y acelera los procesos empresariales. Es ideal para automatización de contabilidad, procesamiento de reclamos de seguros, onboarding de clientes, gestión de contratos y digitalización de archivos heredados.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Video AI</h3>
+            <p>Video AI permite extraer metadatos, identificar objetos clave, transcribir audio y analizar contenido de video mediante aprendizaje automático. Puede detectar y rastrear objetos, reconocer acciones, identificar celebridades y lugares, extraer texto visible y moderar contenido. Ofrece análisis a nivel de fotograma, escena y video completo. Es ideal para plataformas de medios que necesitan categorización automática de contenido, búsqueda de video basada en contenido, moderación de contenido generado por usuarios, análisis de sentimiento en video, subtitulado automático y enriquecimiento de metadatos para bibliotecas de video extensas.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Gemini para Google Cloud</h3>
+            <p>Gemini es la suite de modelos de IA generativa más avanzada de Google, integrada en Google Cloud. Combina capacidades multimodales para procesar y generar texto, código, imágenes y más. Gemini Enterprise ofrece agentes de IA, conectividad con fuentes de datos empresariales, automatización de flujos de trabajo y funcionalidades de búsqueda potenciadas por IA generativa. Es ideal para asistentes de productividad empresarial, generación automatizada de contenido, análisis de datos complejos, desarrollo asistido por IA y transformación digital impulsada por inteligencia artificial generativa.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Gemini Code Assist</h3>
+            <p>Gemini Code Assist es un asistente de IA para desarrollo de aplicaciones y codificación que proporciona generación de código, recomendaciones inteligentes y completado automático. Ayuda a los desarrolladores a escribir código más rápido, entender bases de código complejas, generar pruebas automáticas y refactorizar código existente. Se integra con IDEs populares y entiende el contexto del proyecto completo. Es perfecto para aumentar la productividad de desarrolladores, acelerar el desarrollo de nuevas características, reducir bugs, facilitar el aprendizaje de nuevos frameworks y mejorar la calidad del código.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Contact Center AI (CCAI)</h3>
+            <p>Contact Center AI es una suite de soluciones de IA para transformar centros de contacto con agentes virtuales conversacionales, análisis de sentimiento y asistencia en tiempo real para agentes humanos. Utiliza procesamiento de lenguaje natural avanzado para entender intenciones de clientes, proporcionar respuestas automatizadas precisas y asistir a agentes con sugerencias contextuales durante las llamadas. Incluye transcripción en tiempo real, análisis de conversaciones y detección de insights. Es ideal para reducir costos operativos, mejorar la experiencia del cliente, escalar el soporte durante picos de demanda, proporcionar servicio 24/7 y aumentar la eficiencia de agentes humanos.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Dialogflow</h3>
+            <p>Dialogflow es una plataforma de comprensión de lenguaje natural para diseñar e integrar interfaces conversacionales en aplicaciones móviles, aplicaciones web, dispositivos, bots, sistemas de respuesta de voz interactiva y más. Proporciona herramientas para crear agentes conversacionales sofisticados que pueden entender el contexto y mantener conversaciones naturales con usuarios. Ofrece integración con más de 20 plataformas incluyendo Google Assistant, Amazon Alexa, Facebook Messenger y Slack. Soporta más de 30 idiomas y puede entrenarse con ejemplos personalizados. Dialogflow CX ofrece capacidades avanzadas para construir experiencias conversacionales complejas a nivel empresarial con gestión visual de flujos de conversación, controles de versión y herramientas de análisis. Es ideal para chatbots de servicio al cliente, asistentes virtuales, sistemas IVR conversacionales, automatización de reservas y citas, aplicaciones de comercio conversacional y cualquier interfaz que requiera interacción en lenguaje natural con los usuarios.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Agent Assist</h3>
+            <p>Agent Assist proporciona asistencia en tiempo real a agentes de centros de contacto mediante IA durante las conversaciones con clientes. Ofrece sugerencias de artículos de conocimiento relevantes, respuestas recomendadas basadas en el contexto de la conversación, resúmenes automáticos y detección de cumplimiento normativo. Utiliza procesamiento de lenguaje natural para entender conversaciones en tiempo real tanto de voz como de chat. Se integra con Contact Center AI y plataformas de centros de contacto existentes. Es ideal para mejorar la productividad de agentes, reducir tiempos de manejo de llamadas, mantener consistencia en las respuestas, acelerar la formación de nuevos agentes y asegurar cumplimiento de políticas empresariales durante interacciones con clientes.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>7. SERVICIOS DE DESARROLLO Y HERRAMIENTAS</h2>
+        
+        <div class="servicio">
+            <h3>Cloud Build</h3>
+            <p>Cloud Build es un servicio de integración continua y entrega continua (CI/CD) que ejecuta compilaciones en la infraestructura de Google Cloud. Permite importar código desde repositorios, ejecutar pasos de compilación en contenedores Docker, y desplegar artefactos en diversos entornos. Ofrece compilaciones paralelas rápidas, integración con GitHub, Bitbucket y Cloud Source Repositories, y triggers automáticos. Es ideal para automatizar pipelines de compilación, implementar prácticas DevOps, realizar pruebas automáticas, construir imágenes de contenedores y desplegar aplicaciones de manera continua y confiable.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Source Repositories</h3>
+            <p>Cloud Source Repositories proporciona repositorios Git privados completamente administrados alojados en Google Cloud. Se integra perfectamente con Cloud Build, Cloud Logging y Cloud Debugger. Ofrece búsqueda de código potente, integración con herramientas de desarrollo populares y sincronización con repositorios de GitHub y Bitbucket. Es ideal para equipos que quieren repositorios Git privados con integración nativa de GCP, control de versiones para infraestructura como código, colaboración en proyectos de desarrollo y gestión centralizada de código fuente.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Artifact Registry</h3>
+            <p>Artifact Registry es un servicio para almacenar, gestionar y asegurar imágenes de contenedores y paquetes de lenguajes. Soporta Docker, Maven, npm, Python, y otros formatos de artefactos. Ofrece análisis de vulnerabilidades integrado, control de acceso granular mediante IAM, y replicación regional. Se integra con Cloud Build y GKE para flujos de trabajo CI/CD sin interrupciones. Es esencial para gestionar artefactos de compilación, almacenar imágenes de contenedores de forma segura, distribuir paquetes internos y mantener un registro privado de dependencias empresariales.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Debugger</h3>
+            <p>Cloud Debugger permite inspeccionar el estado de una aplicación en producción en tiempo real sin detenerla ni ralentizarla. Puede establecer puntos de captura para capturar el estado de la aplicación, variables locales y pilas de llamadas. No requiere agregar declaraciones de registro ni recompilar código. Funciona con aplicaciones en App Engine, Compute Engine, GKE y otros entornos. Es invaluable para depurar problemas en producción, entender comportamientos inesperados, diagnosticar errores intermitentes y resolver problemas sin impactar la experiencia del usuario.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Shell</h3>
+            <p>Cloud Shell es un entorno de shell interactivo con una línea de comandos integrada accesible directamente desde el navegador. Viene pre-cargado con herramientas de línea de comandos de Google Cloud, editores de código, 5GB de almacenamiento persistente y acceso temporal a una máquina virtual. No requiere configuración local y está siempre actualizado. Es perfecto para administrar recursos de GCP rápidamente, ejecutar scripts de automatización, aprender comandos de gcloud, desarrollar aplicaciones pequeñas y realizar tareas administrativas sin necesidad de instalar software localmente.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Deployment Manager</h3>
+            <p>Cloud Deployment Manager permite crear y gestionar recursos de Google Cloud mediante plantillas declarativas. Define la infraestructura como código usando YAML, Python o Jinja2, permitiendo versionado, reutilización y automatización de despliegues. Soporta despliegues repetibles, actualizaciones y eliminaciones controladas de recursos. Es ideal para implementar infraestructura como código (IaC), crear entornos consistentes de desarrollo/prueba/producción, automatizar aprovisionamiento de recursos complejos y mantener configuraciones de infraestructura versionadas y auditables.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud SDK</h3>
+            <p>Cloud SDK es un conjunto de herramientas de línea de comandos para interactuar con Google Cloud Platform. Incluye gcloud (gestión general), gsutil (Cloud Storage), bq (BigQuery) y kubectl (Kubernetes). Permite scripting, automatización y gestión de recursos desde la terminal. Soporta autenticación, configuración de múltiples proyectos y está disponible para Windows, macOS y Linux. Es fundamental para desarrolladores y administradores que prefieren interfaces de línea de comandos, scripts de automatización, integración en pipelines CI/CD y gestión programática de infraestructura.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>AppSheet</h3>
+            <p>AppSheet es una plataforma de desarrollo sin código para construir y extender aplicaciones sin programación. Permite crear aplicaciones móviles y web conectadas a datos empresariales desde hojas de cálculo, bases de datos y otras fuentes. Ofrece automatización de flujos de trabajo, integraciones con servicios de Google y terceros, y generación automática de interfaces. Es ideal para ciudadanos desarrolladores, automatización de procesos empresariales, aplicaciones departamentales, formularios de recopilación de datos, aplicaciones de campo y soluciones rápidas sin requerir equipos de desarrollo tradicionales.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Workstations</h3>
+            <p>Cloud Workstations proporciona estaciones de trabajo de desarrollo completamente administradas y seguras en la nube. Ofrece entornos de desarrollo preconfigurados, accesibles desde cualquier dispositivo mediante navegador, con configuraciones personalizables, escalamiento de recursos bajo demanda y integración con herramientas de desarrollo populares. Permite a los equipos estandarizar entornos de desarrollo, mejorar la seguridad mediante acceso controlado al código y datos, facilitar onboarding de desarrolladores y proporcionar acceso remoto seguro a recursos de desarrollo sin comprometer el rendimiento.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>8. SERVICIOS DE SEGURIDAD E IDENTIDAD</h2>
+        
+        <div class="servicio">
+            <h3>Identity and Access Management (IAM)</h3>
+            <p>Cloud IAM permite controlar quién tiene acceso a qué recursos en Google Cloud. Proporciona un sistema unificado de permisos basado en roles que permite asignar permisos granulares a usuarios, grupos y cuentas de servicio. Sigue el principio de privilegio mínimo y ofrece auditoría completa de accesos. Soporta políticas de organización, jerarquías de recursos y condiciones de acceso contextual. Es fundamental para implementar controles de seguridad, cumplir requisitos de cumplimiento normativo, gestionar accesos empresariales y asegurar que solo usuarios autorizados puedan acceder a recursos sensibles.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Security Command Center</h3>
+            <p>Security Command Center es una plataforma unificada de gestión de seguridad y riesgo de datos para Google Cloud. Proporciona visibilidad centralizada de recursos, vulnerabilidades y amenazas. Ofrece detección de amenazas, escaneo de configuraciones incorrectas, evaluación de cumplimiento y recomendaciones de seguridad. Se integra con servicios de seguridad de terceros y proporciona dashboards de postura de seguridad. Es esencial para equipos de seguridad que necesitan monitorear la postura de seguridad, detectar amenazas en tiempo real, priorizar remediaciones y mantener el cumplimiento normativo.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Sensitive Data Protection (anteriormente DLP)</h3>
+            <p>Sensitive Data Protection es un servicio para descubrir, clasificar y proteger datos sensibles. Puede detectar automáticamente más de 150 tipos de información sensible como números de tarjetas de crédito, información personal identificable, credenciales y secretos. Ofrece técnicas de redacción, enmascaramiento, tokenización y cifrado para proteger datos sensibles. Se integra con BigQuery, Cloud Storage y otras fuentes de datos. Es crucial para cumplimiento de GDPR, HIPAA y otras regulaciones, prevención de pérdida de datos, protección de privacidad y gestión de riesgos de datos.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Web Risk API</h3>
+            <p>Web Risk API es un servicio de Google Cloud que permite a las aplicaciones cliente verificar URLs contra las listas constantemente actualizadas de Google de recursos web inseguros. Protege contra sitios de phishing, malware y contenido potencialmente dañino. Ofrece consultas en tiempo real, actualizaciones frecuentes de bases de datos de amenazas y baja latencia. Es ideal para navegadores, aplicaciones de mensajería, clientes de correo electrónico, servicios de URL shortening y cualquier aplicación que necesite proteger usuarios de amenazas web conocidas.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Certificate Authority Service</h3>
+            <p>Certificate Authority Service permite crear y gestionar autoridades de certificación (CAs) privadas para emitir y gestionar certificados X.509. Ofrece CAs totalmente administradas con alta disponibilidad, integración con herramientas de infraestructura como código, y jerarquías de CA personalizables. Soporta rotación automática y revocación de certificados. Es ideal para implementar infraestructura de clave pública (PKI) privada, asegurar comunicaciones internas, autenticación mutua TLS, firma de código, autenticación de dispositivos IoT y cifrado de aplicaciones empresariales.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Binary Authorization</h3>
+            <p>Binary Authorization es un servicio de aplicación de políticas en tiempo de despliegue que garantiza que solo imágenes de contenedores confiables se desplieguen en GKE o Cloud Run. Requiere que las imágenes estén firmadas por autoridades confiables antes del despliegue. Proporciona control granular mediante políticas basadas en proyectos, clústeres o namespaces. Es esencial para pipelines de CI/CD seguros, cumplimiento de estándares de seguridad, prevención de despliegues no autorizados y garantía de que el software en producción proviene de fuentes verificadas y aprobadas.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Identity-Aware Proxy (IAP)</h3>
+            <p>Identity-Aware Proxy permite controlar el acceso a aplicaciones basándose en la identidad y contexto del usuario en lugar de solo la red. Proporciona autenticación centralizada sin necesidad de VPN, verificación de identidad basada en Google, y políticas de acceso contextuales. Se integra con aplicaciones en App Engine, Compute Engine y GKE. Es ideal para acceso seguro a aplicaciones internas, implementar modelo de seguridad de confianza cero, proteger aplicaciones web sin modificar código y proporcionar acceso remoto seguro sin VPNs tradicionales.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Secret Manager</h3>
+            <p>Secret Manager es un servicio seguro y conveniente para almacenar secretos de API, contraseñas, certificados y otros datos sensibles. Proporciona versionado automático de secretos, control de acceso mediante IAM, auditoría completa y cifrado en reposo y tránsito. Se integra con Cloud Build, GKE y otros servicios. Ofrece rotación automática y programada de secretos. Es fundamental para eliminar secretos codificados en código fuente, gestión centralizada de credenciales, cumplimiento de políticas de seguridad, rotación de credenciales y protección de información sensible de configuración.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Armor</h3>
+            <p>Cloud Armor es un servicio de seguridad de red que proporciona protección DDoS y firewall de aplicaciones web (WAF). Protege aplicaciones de ataques de capa 3 (red), capa 4 (transporte) y capa 7 (aplicación). Ofrece reglas predefinidas y personalizables, listas de control de acceso basadas en IP, protección adaptativa y mitigación de DDoS a escala. Es esencial para proteger aplicaciones públicas, prevenir ataques DDoS, filtrar tráfico malicioso, implementar controles geográficos y defender aplicaciones críticas contra amenazas de seguridad web.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>reCAPTCHA Enterprise</h3>
+            <p>reCAPTCHA Enterprise protege sitios web y aplicaciones móviles contra bots, spam y abuso utilizando análisis de riesgo avanzado. Proporciona puntuaciones de riesgo en tiempo real sin fricciones de usuario, detecta actividades fraudulentas y automatización maliciosa. Ofrece múltiples tipos de desafíos cuando es necesario, análisis detallados y API de verificación. Es ideal para proteger formularios de registro y login, prevenir scraping de contenido, detección de fraude en transacciones, protección de APIs y cualquier interacción en línea que necesite distinguir entre usuarios humanos legítimos y bots automatizados.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Assured Workloads</h3>
+            <p>Assured Workloads ayuda a las organizaciones a cumplir con requisitos regulatorios y de cumplimiento normativo en Google Cloud. Proporciona controles de seguridad y privacidad específicos para industrias reguladas, restricciones geográficas de datos, controles de acceso mejorados y auditoría completa. Soporta estándares como FedRAMP, CJIS, ITAR, y regulaciones específicas por país. Es esencial para organizaciones en sectores altamente regulados como gobierno, salud, servicios financieros y defensa que necesitan cumplir requisitos estrictos de soberanía de datos, residencia de datos y cumplimiento normativo mientras utilizan servicios en la nube.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>9. SERVICIOS DE GESTIÓN Y MONITOREO</h2>
+        
+        <div class="servicio">
+            <h3>Cloud Monitoring (anteriormente Stackdriver)</h3>
+            <p>Cloud Monitoring proporciona visibilidad del rendimiento, disponibilidad y salud de aplicaciones e infraestructura. Recopila métricas, eventos y metadatos de Google Cloud, AWS, aplicaciones instrumentadas y servicios populares. Ofrece dashboards personalizables, alertas configurables, y análisis en tiempo real. Soporta métricas personalizadas y se integra con herramientas de terceros. Es fundamental para monitoreo de SLIs/SLOs, detección proactiva de problemas, troubleshooting de rendimiento, optimización de costos y mantenimiento de la fiabilidad del sistema.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Logging (anteriormente Stackdriver Logging)</h3>
+            <p>Cloud Logging permite almacenar, buscar, analizar, monitorear y alertar sobre datos de logs y eventos. Recopila logs de servicios de Google Cloud, aplicaciones y sistemas operativos. Ofrece retención de logs configurable, búsqueda poderosa, exportación a BigQuery para análisis avanzado, y integración con Cloud Monitoring. Soporta logs estructurados y no estructurados. Es esencial para auditoría de seguridad, troubleshooting de aplicaciones, análisis de comportamiento de usuarios, cumplimiento normativo y comprensión de eventos del sistema en tiempo real.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Trace</h3>
+            <p>Cloud Trace es un sistema de rastreo distribuido que recopila datos de latencia de aplicaciones distribuidas. Ayuda a entender cuánto tiempo toman las operaciones y dónde ocurren cuellos de botella. Proporciona análisis de latencia, visualizaciones de trazas, detección automática de problemas de rendimiento y comparación de versiones. Se integra con App Engine, Compute Engine, GKE y aplicaciones instrumentadas. Es invaluable para optimizar rendimiento de microservicios, identificar llamadas lentas, entender dependencias entre servicios y mejorar la experiencia del usuario final.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Profiler</h3>
+            <p>Cloud Profiler es una herramienta de perfilado continuo de bajo overhead que recopila información de uso de CPU y memoria de aplicaciones en producción. Ayuda a identificar funciones que consumen más recursos, comprender patrones de asignación de memoria y optimizar el código. Funciona con aplicaciones en múltiples lenguajes incluyendo Java, Go, Python y Node.js. Tiene overhead mínimo en producción. Es perfecto para optimización de rendimiento, reducción de costos de infraestructura, identificación de regresiones de rendimiento y mejora de eficiencia de aplicaciones.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Error Reporting</h3>
+            <p>Error Reporting agrega y muestra errores producidos en servicios en la nube de forma automática. Analiza logs de aplicaciones, agrupa errores similares, proporciona notificaciones en tiempo real de nuevos errores, y muestra tendencias. Se integra con Cloud Logging y soporta múltiples lenguajes. Reduce el tiempo de detección de errores críticos. Es esencial para mantener la calidad de aplicaciones, responder rápidamente a problemas en producción, priorizar correcciones de bugs, entender el impacto de errores y mejorar la estabilidad general del sistema.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Service Health</h3>
+            <p>Service Health proporciona información sobre el estado de los servicios de Google Cloud y ayuda a identificar interrupciones de servicios en la nube. Ofrece visibilidad en tiempo real del estado de servicios, notificaciones personalizadas de incidentes que afectan proyectos específicos, histórico de incidentes y tiempos de resolución estimados. Permite a las organizaciones entender si los problemas son causados por servicios de Google Cloud o por su propia infraestructura, facilitando la resolución rápida de problemas y mejorando la comunicación durante incidentes.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>10. SERVICIOS DE MIGRACIÓN Y TRANSFERENCIA DE DATOS</h2>
+        
+        <div class="servicio">
+            <h3>Database Migration Service</h3>
+            <p>Database Migration Service simplifica la migración de bases de datos a Google Cloud con tiempo de inactividad mínimo. Soporta migraciones desde MySQL, PostgreSQL, SQL Server y Oracle hacia Cloud SQL, AlloyDB y otros destinos. Ofrece replicación continua de datos, conversión de esquemas y validación de datos. Minimiza el riesgo y complejidad de migraciones. Es ideal para modernizar infraestructura de bases de datos, migrar desde data centers locales, consolidar bases de datos, adoptar servicios administrados y reducir costos de operación de bases de datos heredadas.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Transfer Service</h3>
+            <p>Transfer Service permite programar y gestionar transferencias de datos a Cloud Storage desde otras nubes (AWS S3, Azure Blob Storage), buckets de Cloud Storage o endpoints HTTP/HTTPS. Ofrece transferencias programadas, sincronización continua, ancho de banda optimizado y notificaciones de finalización. Gestiona reintentos automáticos y valida integridad de datos. Es perfecto para migraciones de datos a gran escala, respaldos entre nubes, sincronización de lagos de datos, ingesta de datos desde fuentes externas y consolidación de almacenamiento.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Transfer Appliance</h3>
+            <p>Transfer Appliance es una solución de hardware para transferir grandes volúmenes de datos (hasta 1 petabyte) a Google Cloud cuando las transferencias por red no son prácticas. Google envía un dispositivo físico de almacenamiento, se cargan los datos localmente, se devuelve a Google y los datos se cargan en Cloud Storage. Es ideal para migraciones masivas iniciales, datacenter shutdowns, transferencias donde el ancho de banda es limitado o costoso, y situaciones donde transferir por red tomaría semanas o meses.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>BigQuery Data Transfer Service</h3>
+            <p>BigQuery Data Transfer Service automatiza el movimiento de datos a BigQuery de forma programada y totalmente administrada. Soporta transferencias desde Google Ads, Campaign Manager, YouTube, Google Play, SaaS applications como Salesforce, data warehouses como Teradata y Amazon S3. Configura pipelines de datos recurrentes sin código. Es ideal para centralizar datos de marketing para análisis, consolidar datos de múltiples fuentes SaaS, automatizar reportes empresariales, migrar warehouses históricos y mantener actualizados los análisis con datos frescos.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Migrate to Virtual Machines</h3>
+            <p>Migrate to Virtual Machines (anteriormente Migrate for Compute Engine) facilita la migración de máquinas virtuales y servidores físicos a Compute Engine desde on-premises, AWS, Azure u otros entornos. Proporciona replicación continua, migraciones con mínimo downtime, validación de migraciones y adaptación automática al entorno de Google Cloud. Es fundamental para proyectos de migración a la nube, modernización de data centers, recuperación ante desastres, salida de data centers y consolidación de infraestructura en Google Cloud.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>11. SERVICIOS DE INTERNET DE LAS COSAS (IoT)</h2>
+        
+        <div class="servicio">
+            <h3>Cloud IoT Core (Deprecado - reemplazado por soluciones de terceros)</h3>
+            <p>Aunque Cloud IoT Core ha sido deprecado, Google Cloud continúa soportando soluciones IoT mediante integraciones con partners y servicios existentes como Pub/Sub, Dataflow, BigQuery y Cloud Functions. Estas herramientas permiten construir pipelines de ingesta de datos IoT, procesamiento en tiempo real, análisis y visualización. Las organizaciones pueden implementar arquitecturas IoT completas utilizando protocolos MQTT y HTTP, gestionar flotas de dispositivos, procesar telemetría en tiempo real y ejecutar análisis predictivos sobre datos de sensores y dispositivos conectados.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>12. SERVICIOS ADICIONALES Y ESPECIALIZADOS</h2>
+        
+        <div class="servicio">
+            <h3>Anthos</h3>
+            <p>Anthos es una plataforma moderna de gestión de aplicaciones que permite gestionar cargas de trabajo en múltiples nubes con una plataforma consistente. Proporciona Kubernetes gestionado que funciona en Google Cloud, on-premises, AWS y Azure. Ofrece políticas de configuración y seguridad unificadas, service mesh integrado, CI/CD y gestión centralizada. Es ideal para estrategias multi-cloud y híbridas, modernización de aplicaciones, portabilidad entre nubes, gestión consistente de microservicios y evitar el lock-in de proveedores de nube.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Apigee</h3>
+            <p>Apigee es una plataforma de gestión de APIs que permite diseñar, asegurar, desplegar, monitorear y escalar APIs. Proporciona gateway de API, portal de desarrolladores, análisis de API, monetización, seguridad (OAuth, API keys, JWT) y transformación de datos. Soporta APIs REST y GraphQL. Es esencial para estrategias API-first, exposición segura de servicios backend, monetización de datos y servicios, construcción de ecosistemas de desarrolladores, integración con partners y gestión del ciclo de vida completo de APIs empresariales.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Firebase</h3>
+            <p>Firebase es una plataforma de desarrollo de aplicaciones móviles y web que proporciona herramientas para construir, mejorar y hacer crecer aplicaciones. Incluye base de datos en tiempo real, autenticación, hosting, Cloud Functions, analytics, messaging, crash reporting y testing. Se integra perfectamente con Google Cloud. Es ideal para desarrollo rápido de aplicaciones móviles, aplicaciones en tiempo real, autenticación de usuarios, notificaciones push, análisis de comportamiento de usuarios, A/B testing y backend serverless para aplicaciones móviles y web.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Workflows</h3>
+            <p>Workflows es un servicio serverless para orquestar y automatizar servicios de Google Cloud y APIs basadas en HTTP de forma declarativa. Define flujos de trabajo como código usando YAML o JSON, encadena servicios, maneja errores con reintentos y gestiona estado. No requiere infraestructura ni escalamiento. Es perfecto para automatizar procesos empresariales, orquestar microservicios, implementar pipelines de datos complejos, integrar sistemas heterogéneos y crear flujos de trabajo de aprobación sin gestionar infraestructura de orquestación.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Eventarc</h3>
+            <p>Eventarc permite construir arquitecturas basadas en eventos conectando servicios de Google Cloud mediante eventos. Envía eventos desde más de 90 fuentes de eventos de Google Cloud a destinos como Cloud Run, GKE y Workflows. Soporta eventos de Audit Logs, Pub/Sub y fuentes personalizadas. Utiliza CloudEvents estándar. Es ideal para arquitecturas event-driven, desacoplamiento de servicios, automatización reactiva, procesamiento de eventos en tiempo real y construcción de sistemas distribuidos resilientes y escalables.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Scheduler</h3>
+            <p>Cloud Scheduler es un servicio totalmente administrado de cron jobs empresariales. Permite programar prácticamente cualquier trabajo, incluyendo invocaciones de lotes, operaciones de big data, operaciones en la nube y más. Soporta destinos HTTP/HTTPS, Pub/Sub y App Engine. Ofrece reintentos configurables, zonas horarias y cron syntax estándar. Es perfecto para automatizar tareas recurrentes, limpieza de datos programada, generación de reportes periódicos, respaldos automatizados, trabajos de mantenimiento y cualquier tarea que necesite ejecutarse en horarios específicos.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cloud Tasks</h3>
+            <p>Cloud Tasks es un servicio de cola de tareas distribuidas totalmente administrado que permite gestionar la ejecución, distribución y entrega de un gran número de tareas distribuidas. Permite desacoplar componentes de aplicaciones, gestionar trabajos asíncronos, controlar la tasa de ejecución y manejar reintentos. Soporta destinos HTTP y App Engine. Es ideal para procesamiento asíncrono, limitación de tasa de solicitudes, nivelación de carga, desacoplamiento de componentes de aplicaciones y garantizar entrega confiable de trabajos en sistemas distribuidos.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Backup and DR Service</h3>
+            <p>Backup and DR Service proporciona servicios de respaldo y recuperación ante desastres como SaaS. Ofrece protección de datos para cargas de trabajo en Google Cloud y on-premises, respaldos automatizados, recuperación rápida, retención a largo plazo y cumplimiento normativo. Soporta bases de datos, máquinas virtuales, aplicaciones y almacenamiento. Es esencial para continuidad del negocio, protección contra ransomware, cumplimiento de políticas de retención, recuperación ante desastres y garantizar que los datos críticos puedan restaurarse rápidamente en caso de incidentes.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Google Distributed Cloud</h3>
+            <p>Google Distributed Cloud extiende la infraestructura y servicios de Google Cloud a ubicaciones edge y data centers de clientes. Permite ejecutar cargas de trabajo en entornos air-gapped o con requisitos de baja latencia, manteniendo consistencia con Google Cloud. Soporta Kubernetes, gestión centralizada y conectividad opcional. Es ideal para aplicaciones de baja latencia, cumplimiento de soberanía de datos, industrias reguladas, procesamiento en el edge, aplicaciones de realidad aumentada/virtual, telecomunicaciones 5G y escenarios donde los datos no pueden salir de ubicaciones específicas.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>VMware Engine</h3>
+            <p>VMware Engine permite ejecutar cargas de trabajo VMware nativamente en Google Cloud sin necesidad de refactorizar aplicaciones. Proporciona infraestructura VMware totalmente administrada (vSphere, vSAN, NSX-T) con integración nativa a servicios de Google Cloud. Facilita migraciones lift-and-shift, recuperación ante desastres y extensión de data centers. Es ideal para organizaciones con inversiones existentes en VMware, migración rápida de cargas de trabajo sin refactorización, estrategias de salida de data centers, disaster recovery y mantener operaciones VMware mientras se moderniza gradualmente en Google Cloud.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Bare Metal Solution</h3>
+            <p>Bare Metal Solution proporciona servidores físicos dedicados en ubicaciones cercanas a regiones de Google Cloud, diseñados específicamente para cargas de trabajo especializadas como SAP HANA, Oracle y otras aplicaciones que requieren hardware dedicado. Ofrece baja latencia a servicios de Google Cloud, configuraciones certificadas, conectividad de alta velocidad y gestión completa del hardware. Es ideal para migrar aplicaciones legadas certificadas, cumplir requisitos de licenciamiento específicos, bases de datos de alto rendimiento y aplicaciones que no pueden virtualizarse fácilmente.</p>
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>13. SERVICIOS DE COSTOS Y FACTURACIÓN</h2>
+        
+        <div class="servicio">
+            <h3>Cloud Billing</h3>
+            <p>Cloud Billing proporciona herramientas para gestionar y entender los costos de Google Cloud. Ofrece reportes detallados de uso, exportación de datos de facturación a BigQuery para análisis personalizado, presupuestos y alertas, y herramientas de visualización de costos. Soporta múltiples cuentas de facturación y asignación de costos por proyectos, servicios y etiquetas. Es fundamental para optimización de costos, análisis de tendencias de gasto, identificación de recursos subutilizados, showback/chargeback departamental y gestión financiera de infraestructura en la nube.</p>
+        </div>
+
+        <div class="servicio">
+            <h3>Cost Management Tools</h3>
+            <p>Google Cloud ofrece diversas herramientas de gestión de costos incluyendo Recommender (recomendaciones de optimización), Committed Use Discounts (descuentos por compromisos), Sustained Use Discounts (descuentos automáticos por uso sostenido), y pricing calculator. Estas herramientas ayudan a identificar oportunidades de ahorro, rightsize de recursos, eliminar recursos no utilizados y planificar presupuestos. Son esenciales para FinOps, optimización continua de costos, planificación financiera y maximización del retorno de inversión en infraestructura de nube.</p>
+        </div>
+    </div>
+
+    <div style="margin-top: 50px; padding: 20px; background-color: #e8f0fe; border-radius: 5px;">
+        <h2 style="color: #1a73e8; border: none;">Nota sobre Actualizaciones</h2>
+        <p>Google Cloud Platform está en constante evolución, con nuevos servicios, características y mejoras lanzadas regularmente. Algunos servicios pueden ser renombrados, consolidados o deprecados con el tiempo. Se recomienda consultar la documentación oficial de Google Cloud (cloud.google.com) para obtener la información más actualizada sobre servicios específicos, disponibilidad regional, precios y características.</p>
+    </div>
+
+    <div style="margin-top: 30px; padding: 15px; background-color: #fff3cd; border-left: 5px solid #ffc107; border-radius: 5px;">
+        <h3 style="color: #856404; margin-top: 0;">Modelo de Precios</h3>
+        <p>Google Cloud generalmente sigue un modelo de pago por uso (pay-as-you-go) para la mayoría de los servicios, donde solo se paga por lo que se utiliza. Además, ofrece descuentos por uso sostenido automáticos cuando se usan servicios durante períodos extendidos, descuentos por compromisos de uso (Committed Use Discounts) para obtener precios reducidos a cambio de compromisos de 1 o 3 años, y VMs preemptibles/Spot para cargas de trabajo tolerantes a interrupciones a precios significativamente reducidos.</p>
+    </div>
+
+</body>
+</html>
