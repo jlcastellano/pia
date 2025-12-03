@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Cloud Platform: La Plataforma en la Nube de Google</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Aplicaciones de IA en la nube y APIs</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Google Cloud Platform: La Plataforma en la Nube de Google</h1>
+        
+        <h2>1.1.- Vertex AI y AutoML: Inteligencia Artificial Simplificada</h2>
+
+        <h3>¿Qué es Vertex AI?</h3>
+
+        <p>Vertex AI es la plataforma unificada de Google Cloud que reúne todos los servicios de aprendizaje automático (machine learning) en un solo lugar, con una interfaz coherente y fácil de usar. Imagina que es como tener una caja de herramientas completa para inteligencia artificial, donde todo está organizado y accesible.</p>
+
+        <p>Con Vertex AI tienes dos opciones principales:</p>
+
+        <p><strong>1.</strong> Utilizar modelos ya entrenados y listos para usar (como usar una herramienta ya fabricada)</p>
+        <p><strong>2.</strong> Entrenar tus propios modelos personalizados usando AutoML, adaptados específicamente a las necesidades de tu negocio</p>
+
+        <h3>Cómo acceder a Vertex AI</h3>
+
+        <p>Desde la pantalla principal de la Consola de GCP:</p>
+
+        <p><strong>1.</strong> Haz clic en el menú lateral (las tres líneas horizontales en la esquina superior izquierda)</p>
+        <p><strong>2.</strong> Desplázate hacia abajo hasta encontrar la sección "Inteligencia Artificial"</p>
+        <p><strong>3.</strong> Dentro de esta sección encontrarás Vertex AI junto con otros servicios de IA que ofrece Google Cloud</p>
+        <p><strong>4.</strong> Al hacer clic en Vertex AI, se despliega su propio menú organizado de forma lógica</p>
+
+        <h3>La organización del menú de Vertex AI</h3>
+
+        <figure>
+            <img src="img02-05.png" alt="Menú de Vertex AI">
+        </figure>
+
+        <p>Una de las grandes ventajas de Vertex AI es que su menú está organizado siguiendo las fases naturales de cualquier proyecto de inteligencia artificial, desde el principio hasta el final. Estas fases son:</p>
+
+        <p><strong>1. Panel general:</strong> Vista panorámica de tu proyecto</p>
+        <p><strong>2. Preparación de datos:</strong> Donde subes y analizas la información</p>
+        <p><strong>3. Entrenamiento:</strong> Donde configuras y entrenas tu modelo</p>
+        <p><strong>4. Evaluación:</strong> Donde verificas qué tan bien funciona tu modelo</p>
+        <p><strong>5. Despliegue:</strong> Donde pones tu modelo a funcionar en producción</p>
+
+        <p>En cada fase, la plataforma te guía para configurar los parámetros necesarios de forma sencilla.</p>
+
+        <h3>Trabajando con conjuntos de datos</h3>
+
+        <p>En la sección "Conjunto de datos" puedes cargar información desde diferentes fuentes:</p>
+
+        <p>- Google Storage (el sistema de almacenamiento de archivos de Google Cloud)</p>
+        <p>- BigQuery (la base de datos masiva de Google)</p>
+        <p>- Subida directa de archivos CSV desde tu ordenador</p>
+
+        <p>Una vez que has cargado tus datos, la plataforma te permite analizarlos y generar estadísticas automáticamente. Esto te ayuda a comprender mejor la información con la que vas a trabajar y a explorarla en profundidad antes de crear tu modelo.</p>
+
+        <h3>Entrenando tu modelo de inteligencia artificial</h3>
+
+        <p>En la sección "Entrenamiento" es donde ocurre la magia. Aquí configuras cómo quieres que funcione tu modelo de inteligencia artificial.</p>
+
+        <p>Para configurar bien el modelo, es fundamental entender el tipo de problema que estás intentando resolver:</p>
+
+        <p>- ¿Qué tipo de datos tienes? (imágenes, texto, números, videos...)</p>
+        <p>- ¿Tus datos ya están etiquetados o clasificados? Por ejemplo, si tienes fotos de animales, ¿ya sabes cuáles son gatos y cuáles son perros?</p>
+        <p>- Si tus datos están etiquetados, podrás usar técnicas de aprendizaje supervisado como clasificación (agrupar cosas en categorías) o regresión (predecir valores numéricos)</p>
+        <p>- Las estadísticas de tus datos te ayudan a entender cómo se comportarán las predicciones</p>
+
+        <p><mark>Es crucial dedicar tiempo suficiente a conocer en profundidad el conjunto de datos con el que trabajas. Cuanto mejor entiendas tus datos, mejores resultados obtendrás.</mark></p>
+
+        <h3>Tipos de problemas que Vertex AI puede resolver automáticamente</h3>
+
+        <p>La gran ventaja de AutoML es que automatiza gran parte del trabajo técnico complejo. La plataforma te guía según el tipo de problema que quieras resolver. En la sección de conjunto de datos, te presenta las categorías de problemas disponibles:</p>
+
+        <p><strong>Para imágenes:</strong></p>
+
+        <p>- <strong>Clasificación de imágenes (una etiqueta):</strong> Predice la categoría correcta para una imagen. Por ejemplo, identificar si una foto es de un gato o un perro.</p>
+
+        <p>- <strong>Clasificación de imágenes (varias etiquetas):</strong> Predice todas las categorías aplicables a una imagen. Por ejemplo, una foto podría contener "gato", "sofá" y "ventana" simultáneamente.</p>
+
+        <p>- <strong>Detección de objetos:</strong> Localiza y marca dónde están los objetos que te interesan dentro de una imagen.</p>
+
+        <p>- <strong>Segmentación de imágenes:</strong> Identifica áreas específicas de la imagen píxel por píxel y las etiqueta.</p>
+
+        <p><strong>Para datos tabulares (tablas con filas y columnas):</strong></p>
+
+        <p>- <strong>Regresión/clasificación:</strong> Predice el valor de una columna específica basándose en las demás. Funciona con tablas de cientos de columnas y millones de filas.</p>
+
+        <p>- <strong>Previsión:</strong> Predice la probabilidad de que ocurran ciertos eventos futuros o demandas. Por ejemplo, predecir las ventas del próximo mes.</p>
+
+        <p><strong>Para texto:</strong></p>
+
+        <p>- <strong>Clasificación de texto (una etiqueta):</strong> Asigna la categoría correcta a un documento. Por ejemplo, clasificar emails como "spam" o "no spam".</p>
+
+        <p>- <strong>Clasificación de texto (varias etiquetas):</strong> Asigna múltiples categorías correctas a un documento. Por ejemplo, un artículo de noticias podría ser "política" y "economía" al mismo tiempo.</p>
+
+        <p>- <strong>Extracción de entidades:</strong> Identifica elementos específicos en el texto, como nombres de personas, lugares, fechas, etc.</p>
+
+        <p>- <strong>Análisis de opiniones:</strong> Determina si un texto expresa una opinión positiva, negativa o neutral.</p>
+
+        <p><strong>Para videos:</strong></p>
+
+        <p>- <strong>Reconocimiento de acciones:</strong> Identifica qué acciones están ocurriendo y en qué momentos del video.</p>
+
+        <p>- <strong>Clasificación de videos:</strong> Asigna etiquetas a fotogramas individuales, segmentos o videos completos.</p>
+
+        <p>- <strong>Seguimiento de objetos:</strong> Rastrea objetos específicos a lo largo del video, proporcionando su ubicación y el tiempo en que aparecen.</p>
+
+        <h3>Evaluando el rendimiento de tu modelo</h3>
+
+        <p>Una vez que el entrenamiento ha terminado, puedes ver en la sección "Modelo" qué tan bien funciona tu creación. La plataforma te muestra diferentes métricas de desempeño que te ayudan a entender la calidad de las predicciones:</p>
+
+        <p>- <strong>Precisión:</strong> De todas las predicciones positivas que hizo el modelo, ¿cuántas fueron correctas?</p>
+
+        <p>- <strong>Recuperación (Recall):</strong> De todos los casos positivos reales, ¿cuántos identificó correctamente el modelo?</p>
+
+        <p>- <strong>F1 score:</strong> Una combinación equilibrada de precisión y recuperación</p>
+
+        <p>- <strong>Curvas ROC y PR:</strong> Gráficos que muestran el rendimiento del modelo en diferentes escenarios</p>
+
+        <p>- <strong>Matriz de confusión:</strong> Una tabla que muestra exactamente qué etiquetas confunde más frecuentemente el modelo</p>
+
+        <p>Estas métricas te permiten ajustar el "umbral de confianza" (el nivel de seguridad que debe tener el modelo para hacer una predicción). El umbral óptimo depende de tu caso de uso específico.</p>
+
+        <h3>Poniendo tu modelo en funcionamiento</h3>
+
+        <p>Para usar tu modelo entrenado en aplicaciones reales, necesitas crear lo que se llama un <strong>"endpoint"</strong> o punto de acceso. Piensa en ello como la puerta de entrada a tu modelo, que permite que otras aplicaciones le hagan consultas.</p>
+
+        <p>Vertex AI simplifica enormemente este proceso. Prácticamente solo necesitas hacer clic en un botón y la plataforma se encarga de todo el trabajo técnico complejo.</p>
+
+        <p>Una vez implementado el endpoint, puedes:</p>
+
+        <p>- Hacer pruebas introduciendo valores manualmente para ver qué predice el modelo</p>
+        <p>- Realizar predicciones por lotes (procesar muchos casos a la vez)</p>
+        <p>- Integrar el endpoint en tus aplicaciones mediante una API REST (una forma estándar de que diferentes programas se comuniquen entre sí)</p>
+
+        <h3>Recomendación importante sobre costes</h3>
+
+        <p><mark>Antes de empezar a experimentar con Vertex AI, consulta cuidadosamente las condiciones de facturación y verifica qué crédito gratuito tienes disponible en tu cuenta.</mark></p>
+
+        <p>El entrenamiento de un modelo de inteligencia artificial consume recursos computacionales significativos y tiene un coste relativamente elevado. En 2025, Google continúa ofreciendo un programa gratuito para nuevos usuarios que se registran, que incluye créditos gratuitos y un período de prueba.</p>
+
+        <p>Consulta las condiciones específicas del programa gratuito antes de registrarte. Es importante que no desperdicies el plazo de validez de los créditos (normalmente 90 días) si no planeas utilizarlos inmediatamente después del registro.</p>
+
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

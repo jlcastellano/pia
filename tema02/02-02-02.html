@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Cloud Platform: La Plataforma en la Nube de Google</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Aplicaciones de IA en la nube y APIs</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Google Cloud Platform: La Plataforma en la Nube de Google</h1>
+        
+        <h2>1.2.- Vision AI: Reconocimiento de Imágenes Listo para Usar</h2>
+
+        <h3>¿Qué es Vision AI?</h3>
+
+        <p>Google Cloud Platform ofrece un producto llamado <strong>Vision AI</strong> que es un modelo de reconocimiento de imágenes ya entrenado y listo para usar. Es la solución perfecta cuando no tienes conjuntos de datos propios ni experiencia en crear y entrenar modelos desde cero.</p>
+
+        <h3>Funcionalidades principales de la API de Vision</h3>
+
+        <figure>
+            <img src="img02-06.png" alt="Funcionalidades de Vision AI">
+        </figure>
+
+        <p>La API de Vision de GCP te ofrece las siguientes capacidades:</p>
+
+        <p><strong>1. Reconocimiento facial:</strong> Detecta rostros en imágenes y analiza sus características</p>
+
+        <p><strong>2. Reconocimiento de objetos:</strong> Identifica objetos comunes presentes en una imagen</p>
+
+        <p><strong>3. Identificación de etiquetas:</strong> Asigna etiquetas descriptivas generales a una imagen</p>
+
+        <p><strong>4. Extracción de texto:</strong> Lee y extrae texto que aparezca en la imagen (OCR - Reconocimiento Óptico de Caracteres)</p>
+
+        <p><strong>5. Detección de contenido no seguro:</strong> Identifica elementos sensibles como violencia, contenido sexual, imágenes racistas, etc.</p>
+
+        <h3>Reconocimiento facial y emociones</h3>
+
+        <p>Cuando se trata de reconocimiento facial, el modelo de Vision AI realiza un análisis sofisticado:</p>
+
+        <p>- Detecta los elementos principales del rostro (ojos, nariz, boca, etc.)</p>
+
+        <p>- Según las posiciones relativas de estos elementos, el modelo ha sido entrenado para identificar las principales emociones expresadas</p>
+
+        <p>- También detecta la orientación del rostro en la imagen mediante tres ángulos:</p>
+
+        <p><strong>Roll</strong> (inclinación lateral): por ejemplo, 12°</p>
+
+        <p><strong>Tilt</strong> (inclinación vertical): por ejemplo, 11°</p>
+
+        <p><strong>Pan</strong> (rotación horizontal): por ejemplo, 30°</p>
+
+        <p>Para cada emoción detectada, el modelo proporciona un nivel de confianza:</p>
+
+        <p>- Alegría: Muy probable</p>
+        <p>- Tristeza: Muy improbable</p>
+        <p>- Enfado: Muy improbable</p>
+        <p>- Sorpresa: Muy improbable</p>
+        <p>- Exposición (si la cara está claramente visible): Muy improbable</p>
+
+        <h3>Reconocimiento de objetos en imágenes</h3>
+
+        <p>El modelo de Vision AI puede reconocer objetos en imágenes mediante la detección de bordes y formas. Ha sido entrenado con millones de imágenes etiquetadas que incluyen todo tipo de objetos cotidianos.</p>
+
+        <p>Por ejemplo, en una foto de una comida familiar, el modelo podría detectar:</p>
+
+        <p>- Comida: 77% de confianza</p>
+        <p>- Persona: 76% de confianza</p>
+        <p>- Vajilla (platos, cubiertos): 68% de confianza</p>
+        <p>- Otra persona: 67% de confianza</p>
+        <p>- Más comida: 62% de confianza</p>
+        <p>- Gafas: 51% de confianza</p>
+
+        <p><strong>Limitación importante:</strong> Si necesitas que se reconozcan objetos muy peculiares, específicos de tu industria u originales que no son comunes, entonces necesitarías entrenar tu propio modelo personalizado utilizando imágenes bien etiquetadas que contengan esos objetos específicos.</p>
+
+        <h3>Detección de contenido no seguro (Safe Search)</h3>
+
+        <p>Esta funcionalidad es especialmente importante para aplicaciones que puedan ser utilizadas por menores de edad o que necesiten cumplir con regulaciones de contenido.</p>
+
+        <p>La API puede analizar imágenes y detectar:</p>
+
+        <p>- <strong>Contenido adulto:</strong> Muy improbable / Improbable / Posible / Probable / Muy probable</p>
+
+        <p>- <strong>Contenido engañoso o falsificado (Spoof):</strong> Muy improbable / Improbable / Posible / Probable / Muy probable</p>
+
+        <p>- <strong>Contenido médico:</strong> Muy improbable / Improbable / Posible / Probable / Muy probable</p>
+
+        <p>- <strong>Violencia:</strong> Muy improbable / Improbable / Posible / Probable / Muy probable</p>
+
+        <p>- <strong>Contenido subido de tono (Racy):</strong> Muy improbable / Improbable / Posible / Probable / Muy probable</p>
+
+        <p>Estos niveles de probabilidad te permiten establecer filtros automáticos. Por ejemplo, podrías configurar tu aplicación para bloquear o advertir sobre cualquier imagen que tenga "Probable" o "Muy probable" en categorías sensibles.</p>
+
+        <h3>Extracción de texto de imágenes (OCR)</h3>
+
+        <p>Una de las funcionalidades más utilizadas de Vision AI es la detección y extracción de texto en imágenes. El modelo ha sido entrenado para reconocer los trazos característicos de letras y caracteres escritos, y los entrega organizados por bloques.</p>
+
+        <p>Por ejemplo, si tienes una foto de un cartel antiguo o un anuncio, el modelo puede extraer todo el texto visible, identificando bloques separados como:</p>
+
+        <p>- Bloque 1: "ROBUSTIANO"</p>
+        <p>- Bloque 2: "SEMILLAS"</p>
+        <p>- Bloque 3: "GRANOS, LEGUMBRES"</p>
+        <p>- Bloque 4: "DIEZ OBESO 70" (nombre de la calle)</p>
+        <p>- Y así sucesivamente</p>
+
+        <p><strong>Aspecto importante a considerar:</strong> El modelo de Vision AI solo detecta que hay texto y lo extrae. No interpreta su significado. Si necesitas entender qué significa el texto o clasificarlo por intención (por ejemplo, si es un anuncio publicitario, una señal de tráfico, o un documento oficial), necesitarías aplicar posteriormente un modelo de procesamiento de lenguaje natural (NLP) para analizar el texto extraído.</p>
+
+        <h3>Cuándo usar AutoML Vision en lugar de Vision AI</h3>
+
+        <p>Las funcionalidades estándar de la API de Vision son muy potentes para casos de uso generales. Sin embargo, hay situaciones en las que no son suficientes:</p>
+
+        <p>- Cuando necesitas detectar objetos muy específicos de tu sector o industria</p>
+        <p>- Cuando requieres parámetros de reconocimiento personalizados</p>
+        <p>- Cuando los elementos que quieres identificar son muy especializados o poco comunes</p>
+
+        <p>En estos casos, es mejor recurrir a <strong>AutoML Vision</strong>, que te permite entrenar modelos de reconocimiento de imagen personalizados con tus propios datos. AutoML Vision puede funcionar de forma independiente o integrado dentro del entorno completo de Vertex AI (como vimos en la sección anterior).</p>
+
+ 
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Cloud Platform: La Plataforma en la Nube de Google</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Aplicaciones de IA en la nube y APIs</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Google Cloud Platform: La Plataforma en la Nube de Google</h1>
+        
+        <h2>1.3.- Dialogflow: Tu asistente para crear conversaciones inteligentes</h2>
+        <p>Dialogflow es una plataforma creada por Google Cloud que te permite construir aplicaciones capaces de entender y mantener conversaciones en lenguaje natural con las personas. Piensa en ella como el cerebro que hace posible que tu aplicación pueda hablar y entender a los usuarios de manera natural.</p>
+
+        <p>Esta herramienta está especialmente diseñada para crear interfaces conversacionales (como chatbots o asistentes virtuales) y lo mejor es que puedes integrarla en prácticamente cualquier cosa: aplicaciones móviles, páginas web, sistemas automatizados, robots e incluso en centros de atención al cliente donde trabajan personas reales. De hecho, existe una extensión llamada Agent Assist que permite que tu chatbot colabore con agentes humanos para dar mejor servicio.</p>
+
+        <p>Una de las funcionalidades más poderosas de Dialogflow es su capacidad de conectarse con servicios externos y realizar acciones reales. Por ejemplo, imagina que tienes un restaurante: cuando un cliente quiere reservar una mesa, Dialogflow puede consultar automáticamente tu base de datos de reservas y confirmarle si hay disponibilidad para el día y la hora que desea.</p>
+
+        <h2>¿Cómo funciona Dialogflow paso a paso?</h2>
+        <p>El flujo de trabajo es el siguiente:</p>
+
+        <figure>
+            <img src="img02-07.png" alt="Imagen didáctica 1">
+            <figcaption>El flujo de trabajo de 7 pasos es un proceso complejo y secuencial que es mucho más fácil de entender y recordar con una representación visual que muestre las relaciones y el orden de los pasos</figcaption>
+        </figure>
+
+        <ol>
+            <li>El usuario final escribe o habla su mensaje (por ejemplo, "quiero reservar mesa para dos personas")</li>
+            <li>Dialogflow analiza el mensaje y busca coincidir con una intención (intent matching)</li>
+            <li>Si es necesario obtener información adicional o realizar una acción, Dialogflow envía una solicitud (webhook request) a tu servicio</li>
+            <li>Tu servicio puede entonces realizar acciones como consultar una base de datos o llamar a APIs externas</li>
+            <li>El servicio devuelve la respuesta (webhook response) con la información solicitada</li>
+            <li>Dialogflow prepara la respuesta final para el usuario</li>
+            <li>El usuario recibe la respuesta en formato texto o voz</li>
+        </ol>
+
+        <h2>Formas de comunicación con Dialogflow</h2>
+        <p>Dialogflow es muy flexible en cuanto a cómo puede recibir y enviar información. Puede aceptar entradas de texto (cuando escribes) o audio (cuando hablas), por ejemplo a través de Google Assistant o desde una llamada telefónica. Del mismo modo, puede responder mediante texto escrito o utilizando voz sintética (como cuando Siri o Alexa te hablan).</p>
+
+        <p>Esta plataforma forma parte de un conjunto más amplio de servicios que Google Cloud ofrece bajo el nombre "Conversational AI" (Inteligencia Artificial Conversacional). Estos servicios trabajan juntos para ayudarte a crear aplicaciones conversacionales completas y profesionales para tu negocio.</p>
+
+        <p>Por ejemplo, cuando le dices a tu teléfono "Hey Google, háblame sobre Kotlin", sucede lo siguiente:</p>
+        <ul>
+            <li>Tu voz se convierte en texto (Speech to Text)</li>
+            <li>Se procesa el lenguaje natural para entender qué quieres (NLP)</li>
+            <li>Se identifica la intención correspondiente</li>
+            <li>Se busca la mejor respuesta</li>
+            <li>La respuesta se convierte en voz (Text to Speech) para que la escuches</li>
+        </ul>
+
+        <h2>Los dos pilares de un asistente conversacional</h2>
+        <p>Para crear un asistente conversacional efectivo necesitas fundamentalmente dos cosas:</p>
+
+        <p><strong>1. Identificar las intenciones del usuario:</strong> Cuando alguien hace una pregunta o solicita algo, tu asistente debe entender qué es lo que realmente quiere. Por ejemplo, si dice "hace frío aquí", puede estar pidiendo que subas la temperatura, no solo haciendo una observación.</p>
+
+        <p><strong>2. Proporcionar respuestas adecuadas:</strong> Una vez que has entendido qué quiere el usuario, necesitas tener preparadas las respuestas apropiadas y seleccionar la más adecuada para cada situación.</p>
+
+        <h2>Cómo empezar a crear tu agente en Dialogflow</h2>
+        <p>El primer paso es crear tu agente (así se llama al asistente conversacional en Dialogflow). El proceso es sencillo:</p>
+
+        <p><strong>1. Aceptas los términos de servicio.</strong> Es importante saber que al aceptar, también estás de acuerdo en seguir los términos de Firebase si decides usar esos servicios. Por defecto, tus datos de Firebase Analytics pueden ayudar a mejorar otros productos de Google, pero puedes controlar esto en la configuración cuando quieras.</p>
+
+        <p><strong>2. Haces clic en "Create new agent" (Crear nuevo agente)</strong></p>
+
+        <p><strong>3. Configuras los detalles básicos:</strong></p>
+        <ul>
+            <li><strong>Nombre del agente:</strong> El nombre que identificará a tu asistente</li>
+            <li><strong>Idioma predeterminado:</strong> El idioma principal en el que trabajará (puedes añadir más idiomas después). En 2025, Dialogflow soporta más de 30 idiomas</li>
+            <li><strong>Zona horaria:</strong> Para gestionar correctamente fechas y horas en las conversaciones</li>
+            <li><strong>Proyecto de Google Cloud:</strong> Puedes vincular o crear un proyecto para acceder a funcionalidades avanzadas</li>
+            <li><strong>Tipo de agente:</strong> Tienes la opción de crear un "Mega Agent" que puede combinar varios agentes más pequeños</li>
+        </ul>
+
+        <h2>Trabajando con Intenciones (Intents)</h2>
+        <p>Las intenciones son el corazón de tu agente conversacional. Representan lo que el usuario quiere hacer o saber. Dialogflow viene con algunas intenciones predeterminadas que cubren situaciones comunes:</p>
+
+        <p><strong>Default Welcome Intent:</strong> Se activa cuando el usuario saluda o inicia la conversación. Incluye frases como "hey", "hola", "qué tal", "buenas".</p>
+
+        <p><strong>Default Fallback Intent:</strong> Se activa cuando el agente no entiende lo que el usuario quiere decir. Es importante tener respuestas amables y útiles como "¿No he entendido a qué te refieres?", "¿Podrías repetirlo por favor?", "¿Disculpa?", "Entiendo, ¿podrías ser más específico?".</p>
+
+        <h2>Creando tus propias intenciones personalizadas</h2>
+
+        <figure>
+            <img src="img02-08.png" alt="Imagen didáctica 2">
+            <figcaption>La estructura de una intención con sus componentes y relaciones es un concepto abstracto fundamental que necesita visualización para comprender cómo se construye y conecta cada elemento</figcaption>
+        </figure>
+
+        <p>Una vez que tienes las intenciones básicas, puedes crear las tuyas propias siguiendo este proceso:</p>
+
+        <p><strong>1. Añade frases de entrenamiento (Training Phrases o Utterances):</strong> Son ejemplos de cómo los usuarios podrían expresar esa intención. Por ejemplo, para una intención de "ReservaMesa", podrías incluir:</p>
+        <ul>
+            <li>"llamaba para reservar una mesa para dos personas"</li>
+            <li>"tienen mesa para dos hoy a mediodía?"</li>
+            <li>"tienen disponibilidad para comer hoy dos personas?"</li>
+            <li>"hay disponible una mesa para hoy?"</li>
+            <li>"Querría una mesa para dos"</li>
+            <li>"quiero reservar una mesa"</li>
+        </ul>
+
+        <p>Se recomienda incluir entre 10 y 15 frases diferentes por cada intención. Esto ayuda al sistema a aprender mejor y reconocer diferentes formas de expresar lo mismo.</p>
+
+        <p><strong>2. Define los parámetros necesarios:</strong> Son los datos que necesitas del usuario para completar la acción. Por ejemplo, para reservar mesa necesitas:</p>
+        <ul>
+            <li>Número de personas (number)</li>
+            <li>Fecha y hora (date-time)</li>
+            <li>Restaurante (si tienes varios)</li>
+            <li>Ubicación (location, opcional)</li>
+        </ul>
+
+        <p>Puedes marcar parámetros como REQUERIDOS, lo que significa que si el usuario no los menciona, el agente le preguntará automáticamente. Por ejemplo: "¿Para cuántas personas?", "¿Para qué fecha y hora?", "¿En qué restaurante?"</p>
+
+        <p><strong>3. Crea las respuestas:</strong> Define qué debe decir el agente cuando identifica esta intención y tiene toda la información necesaria. Puedes usar variables para personalizar las respuestas con los datos proporcionados por el usuario:</p>
+        <ul>
+            <li>"Su reserva en $restaurante el día $date-time ha sido confirmada"</li>
+            <li>"Reserva realizada para el día $date-time"</li>
+        </ul>
+
+        <p>Puedes incluir varias variantes de respuesta para que las conversaciones sean más naturales y no siempre diga exactamente lo mismo.</p>
+
+        <h2>Ejercicio Práctico: Tu primer chatbot</h2>
+        <p>Miguel trabajó alguna vez creando un chatbot para la página web de un restaurante. Antes, con las técnicas tradicionales, tenía que dedicar muchísimas horas de trabajo y el resultado no era muy natural en las conversaciones. Sin embargo, cuando descubrió Dialogflow, decidió hacer una primera prueba simple y se sorprendió de lo rápido y efectivo que podía ser.</p>
+
+        <p><strong>¿Quieres probar tú también?</strong></p>
+
+        <p>Sigue estos pasos:</p>
+
+        <ol>
+            <li>Accede a la interfaz de trabajo de Dialogflow (console.dialogflow.cloud.google.com)</li>
+            <li>Utiliza el documento guía paso a paso que se proporciona para crear tu primer chatbot</li>
+            <li>Sigue las instrucciones cuidadosamente</li>
+            <li>Una vez que termines el ejercicio básico, ¡no te detengas ahí! Experimenta añadiendo más intenciones, prueba diferentes frases de entrenamiento, añade más parámetros y respuestas creativas</li>
+        </ol>
+
+        <p>La mejor forma de aprender es practicando y experimentando. Cada intención que añadas te ayudará a entender mejor cómo funciona Dialogflow y cómo crear conversaciones más naturales e inteligentes.</p>
+
+        <p>En 2025, Dialogflow continúa siendo una de las plataformas más utilizadas para crear asistentes conversacionales, y se ha integrado aún más profundamente con el ecosistema de Google Cloud, ofreciendo mejores capacidades de inteligencia artificial y procesamiento de lenguaje natural.</p>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

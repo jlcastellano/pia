@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Web Services</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Aplicaciones de IA en la nube y APIs</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Amazon Web Services</h1>
+
+        <h2>¿Qué es Amazon Web Services?</h2>
+        <p>La plataforma de servicios en la nube de Amazon, conocida como AWS, es una de las más populares y utilizadas en todo el mundo. Su historia comenzó oficialmente en 2006, cuando Chris Pinkham y Benjamin Black tuvieron una idea brillante: en Amazon.com tenían servidores y recursos tecnológicos que no se utilizaban todo el tiempo (estaban "sobredimensionados"), así que pensaron en ofrecerlos como un servicio de negocio para otras empresas y desarrolladores.</p>
+        
+        <p>AWS tiene una colección enorme de servicios diseñados para programadores y organizaciones. Lo interesante es que permite que toda la lógica del negocio (cómo funcionan los procesos de una empresa) esté integrada en un mismo flujo de trabajo. Para acceder a estos servicios se usa internet (mediante el protocolo HTTP) y tecnologías llamadas REST y SOAP, que son formas estándar de comunicación entre sistemas.</p>
+        
+        <p>AWS fue pionera en ofrecer un modelo de "pago por uso" en infraestructura tecnológica. Esto surgió en un momento importante: después de que explotara la llamada "burbuja de las punto com" (cuando muchas empresas de internet quebraron a principios de los años 2000), internet estaba resurgiendo con nuevas propuestas. Este formato de pago fue revolucionario porque facilitó que muchas startups (empresas nuevas) y proyectos pudieran empezar sin necesidad de invertir grandes cantidades de dinero desde el principio, algo que hubiera sido imposible con los servicios de hosting tradicionales de la época.</p>
+        
+        <p>Uno de los servicios más valorados, especialmente para proyectos nuevos que necesitan crecer rápidamente (escalabilidad), es la arquitectura sin servidor. Esta funciona mediante "funciones Lambda", que fueron lanzadas en 2014. Las funciones Lambda permiten ejecutar código sin tener que preocuparse por gestionar servidores.</p>
+
+        <p>En el campo de la inteligencia artificial, AWS cuenta con un servicio administrado llamado SageMaker, diseñado específicamente para crear, entrenar y poner en funcionamiento modelos de aprendizaje automático (machine learning).</p>
+
+        <p>Además de SageMaker, AWS ofrece servicios más específicos enfocados en aplicaciones concretas como visión artificial (reconocimiento de imágenes), bots conversacionales (chatbots que pueden hablar con usuarios) y analítica avanzada (análisis profundo de datos). En las siguientes secciones vamos a analizar con más detalle tres módulos importantes:</p>
+        
+        <ul><li>Rekognition: para reconocimiento de imágenes</li>
+        <li>Comprehend: para análisis de texto</li>
+        <li>SageMaker: como entorno de trabajo completo con modelos de aprendizaje automático</li></ul>
+
+         <h2>2.1.- SageMaker: El entorno completo para Machine Learning</h2>
+        <p>Dentro de todas las opciones que ofrece AWS en el ámbito de la inteligencia artificial, SageMaker es el entorno integrado principal para crear, entrenar y poner en funcionamiento modelos de machine learning. Piensa en SageMaker como un taller completo donde tienes todas las herramientas que necesitas en un solo lugar.</p>
+        
+        <p>SageMaker contiene varios servicios que se gestionan a través de:</p>
+        <ul><li>Un panel de control: donde puedes ver y administrar todos tus proyectos</li>
+        <li>SageMaker Studio: un IDE (Entorno de Desarrollo Integrado) personalizado, que es como un editor de código especializado para machine learning</li>
+        <li>Canvas: una interfaz visual que permite crear modelos sin programar, usando una presentación más gráfica e intuitiva</li></ul>
+        
+        <p>La mayor parte del trabajo de un MLOps (profesional que gestiona modelos de machine learning en producción) se desarrolla dentro de SageMaker Studio. Este entorno ofrece la experiencia de programación en formato "notebook" (cuadernos digitales interactivos donde puedes escribir código, ejecutarlo y ver los resultados inmediatamente) con herramientas de apoyo adicionales.</p>
+        
+        <p>Una funcionalidad muy interesante de SageMaker es "Autopilot", que automatiza gran parte del proceso de creación de modelos, haciéndolo más accesible incluso para personas con menos experiencia técnica.</p>
+
+        <figure>
+            <img src="img02-10.png" alt="Imagen didáctica 2">
+            <figcaption>Esta estructura jerárquica de tres niveles es un concepto abstracto fundamental que necesita visualización para entender cómo se relacionan los diferentes componentes del stack de ML de AWS. Un diagrama ayuda a comprender la organización y dependencias entre los servicios.</figcaption>
+        </figure>
+
+        <h3>Panel de Control de SageMaker Studio</h3>
+        <p>El panel de control es la pantalla principal desde donde puedes lanzar y gestionar todos tus proyectos. En este panel puedes ver información importante como:</p>
+        
+        <ul><li>Los usuarios que están colaborando en el proyecto</li>
+        <li>Las políticas de acceso (quién puede hacer qué)</li>
+        <li>El estado de cada componente</li>
+        <li>Los recursos que se están utilizando</li>
+        <li>El historial de modificaciones (cuándo se hizo el último cambio, cuándo se creó)</li></ul>
+        
+        <p>Desde el panel puedes:</p>
+        <ul><li>Abrir SageMaker Studio haciendo clic en "Open Studio"</li>
+        <li>Añadir nuevos usuarios al proyecto</li>
+        <li>Gestionar imágenes personalizadas (puedes tener hasta 30 imágenes personalizadas)</li>
+        <li>Ver el ID del dominio y el rol de ejecución (permisos que tiene el sistema)</li></ul>
+        
+        <p>El panel muestra claramente que el estado que ves es del servicio de SageMaker Studio en general, no del estado específico de los recursos de cómputo (como las máquinas que ejecutan tus notebooks).</p>
+
+        <h3>Organización del trabajo en SageMaker</h3>
+        <p>Para cada fase del proceso de machine learning, hay una sección específica en el panel con los servicios más utilizados.</p>
+
+        <figure>
+            <img src="img02-11.png" alt="Imagen didáctica 3">
+            <figcaption>El ciclo de vida completo de un proyecto en SageMaker involucra múltiples fases interconectadas. Un diagrama circular ayuda a visualizar el flujo de trabajo cíclico y la relación entre las diferentes etapas del proceso de ML.</figcaption>
+        </figure>
+
+        <p>Aquí puedes ir creando y lanzando cada componente:</p>
+
+        <h4>1. INFORMACIÓN GENERAL:</h4>
+        <p>- Studio: Abre el entorno principal de trabajo</p>
+        <p>- Abrir dominio de SageMaker: acceso al dominio completo</p>
+
+        <h4>2. PREPARACIÓN DE DATOS:</h4>
+        <p>- Data Wrangler: prepara y transforma datos visualmente</p>
+        <p>- Procesamiento: procesa grandes cantidades de datos</p>
+        <p>- Almacén de características: guarda características reutilizables</p>
+        <p>- Clarify: detecta sesgos en los datos</p>
+        <p>- Ground Truth: etiqueta datos con ayuda humana</p>
+        <p>- AWS Marketplace: encuentra datasets y algoritmos externos</p>
+
+        <h4>3. COMPILACIÓN Y CONSTRUCCIÓN:</h4>
+        <p>- Blocs de notas de Studio: programa en notebooks interactivos</p>
+        <p>- Algoritmos integrados: usa algoritmos predefinidos o crea los tuyos propios</p>
+        <p>- Piloto automático (Autopilot): crea modelos automáticamente</p>
+        <p>- JumpStart: comienza rápido con soluciones predefinidas</p>
+
+        <h4>4. ENTRENAMIENTO Y AJUSTE:</h4>
+        <p>- Entrenamiento con un solo clic: entrena modelos fácilmente</p>
+        <p>- Experimentos: organiza y compara diferentes versiones</p>
+        <p>- Ajuste de modelo automático: optimiza parámetros automáticamente</p>
+        <p>- Depurador: identifica problemas durante el entrenamiento</p>
+        <p>- Entrenamiento de spot administrado: usa recursos más económicos</p>
+
+        <h4>5. IMPLEMENTAR Y ADMINISTRAR:</h4>
+        <p>- Implementación con un clic: despliega modelos fácilmente</p>
+        <p>- Puntos de enlace de varios modelos: sirve múltiples modelos desde un mismo punto</p>
+        <p>- Monitor de modelos: vigila el rendimiento en producción</p>
+        <p>- Canalizaciones (Pipelines): automatiza flujos de trabajo completos</p>
+        <p>- Trabajo de posprocesamiento: procesa resultados después de las predicciones</p>
+        <p>- SageMaker Edge Manager: gestiona modelos en dispositivos edge (como cámaras o sensores)</p>
+
+        <h4>6. INFERENCIA:</h4>
+        <p>- Consola: gestiona las predicciones en tiempo real</p>
+
+        <h3>Autopilot: Automatización inteligente del Machine Learning</h3>
+        <p>Como hemos comentado anteriormente, SageMaker cuenta con una utilidad muy poderosa llamada Autopilot que automatiza la parte más técnica y compleja del proceso de creación y entrenamiento de un modelo de aprendizaje automático.</p>
+
+        <h4>¿Cómo funciona Autopilot?</h4>
+        <p>Autopilot analiza tu conjunto de datos (dataset) y estudia la estructura y características de los datos que quieres predecir (datos objetivo). Luego, de forma automática:</p>
+        
+        <p>1. Selecciona el tipo de modelo más apropiado para tu problema</p>
+        <p>2. Elige los mejores parámetros para entrenar ese modelo</p>
+        <p>3. Prueba diferentes combinaciones y te muestra los resultados</p>
+        <p>4. Te permite comparar las opciones y elegir la que mejor funcione</p>
+        
+        <p>Esto es especialmente útil si estás empezando en machine learning o si quieres ahorrar tiempo en la fase inicial de exploración.</p>
+
+        <div class="importante">
+            <h4>Consideración importante sobre costos:</h4>
+            <p>Autopilot tiene un coste económico mayor que crear y entrenar un modelo manualmente. Esto es porque utiliza más recursos computacionales al probar múltiples opciones automáticamente. Por eso, es importante considerar:</p>
+            
+            <p>- Si estás aprendiendo o haciendo pruebas pequeñas, puede ser mejor crear modelos manualmente para controlar los costos</p>
+            <p>- Si trabajas en un proyecto empresarial donde el tiempo es más valioso que el costo computacional, Autopilot puede ser una excelente inversión</p>
+            <p>- Siempre revisa los costos estimados antes de lanzar un proceso con Autopilot</p>
+            
+            <p>En 2025, AWS ha mejorado significativamente la eficiencia de Autopilot, reduciendo costos y mejorando la calidad de los modelos generados automáticamente, pero sigue siendo un servicio premium dentro de SageMaker.</p>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
