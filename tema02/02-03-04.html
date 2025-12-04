@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto de Reconocimiento Facial con AWS Rekognition</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Reconocimiento Facial con AWS Rekognition</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>PARTE 1: CREAR CUENTA DE AWS</h1>
+
+        <h2>1. Acceder al sitio web de AWS</h2>
+        <p>Visita <a href="https://aws.amazon.com">https://aws.amazon.com</a> y haz clic en el botón <strong>"Crear una cuenta de AWS"</strong> ubicado en la esquina superior derecha.</p>
+
+        <h2>2. Completar información de la cuenta</h2>
+        <p>Proporciona la siguiente información:</p>
+        <dl>
+            <dt>Dirección de correo electrónico</dt>
+            <dd>Usa tu correo institucional si eres estudiante o profesor</dd>
+            
+            <dt>Nombre de la cuenta AWS</dt>
+            <dd>Puede ser tu nombre o el de tu proyecto</dd>
+            
+            <dt>Contraseña</dt>
+            <dd>Crea una contraseña segura (mínimo 8 caracteres, con mayúsculas, minúsculas y números)</dd>
+        </dl>
+
+        <h2>3. Información de contacto</h2>
+        <p>Selecciona el tipo de cuenta:</p>
+        <dl>
+            <dt>Personal</dt>
+            <dd>Para uso individual y proyectos personales</dd>
+            
+            <dt>Profesional</dt>
+            <dd>Para empresas u organizaciones</dd>
+        </dl>
+        <p>Completa tus datos personales: nombre completo, número de teléfono y dirección postal.</p>
+
+        <h2>4. Información de pago</h2>
+        <p>Ingresa los datos de tu tarjeta de crédito o débito. AWS realizará un cargo temporal de $1 USD para verificar la tarjeta, que será reembolsado automáticamente.</p>
+        <p><mark>Importante: Aunque AWS ofrece una capa gratuita generosa, se requiere una tarjeta de crédito para verificar tu identidad. Asegúrate de configurar alertas de facturación para evitar cargos inesperados.</mark></p>
+
+        <h2>5. Verificación de identidad</h2>
+        <p>Selecciona el método de verificación (mensaje de texto o llamada telefónica). AWS te enviará un código de 4 dígitos que deberás ingresar para confirmar tu identidad.</p>
+
+        <h2>6. Seleccionar plan de soporte</h2>
+        <p>Elige el plan de soporte:</p>
+        <dl>
+            <dt>Básico</dt>
+            <dd>Gratuito, incluye acceso a documentación y foros de la comunidad (recomendado para comenzar)</dd>
+            
+            <dt>Developer, Business, Enterprise</dt>
+            <dd>Planes de pago con diferentes niveles de soporte</dd>
+        </dl>
+
+        <h2>7. Confirmación y acceso</h2>
+        <p>Recibirás un correo electrónico de confirmación. Haz clic en el enlace para activar tu cuenta. Una vez activada, podrás acceder a la <strong>Consola de administración de AWS</strong>.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>Estimación de Costos para el Proyecto</h1>
+
+        <h2>Dentro de la capa gratuita (primeros 12 meses)</h2>
+        <ul>
+            <li><strong>5,000 análisis faciales/mes:</strong> $0.00</li>
+            <li><strong>Almacenamiento de hasta 1,000 rostros:</strong> $0.00</li>
+            <li><strong>Búsquedas faciales (hasta cierto límite):</strong> $0.00</li>
+        </ul>
+
+        <h2>Después de la capa gratuita</h2>
+        <ul>
+            <li><strong>Análisis facial:</strong> $0.001 por imagen (primeras 1M de imágenes/mes)</li>
+            <li><strong>Almacenamiento de rostros:</strong> $0.01 por 1,000 rostros/mes</li>
+            <li><strong>Búsqueda facial:</strong> $0.001 por búsqueda (primeras 1M búsquedas/mes)</li>
+        </ul>
+
+        <p><strong>Ejemplo:</strong> Analizar 100 imágenes al mes costaría aproximadamente <mark>$0.10 USD</mark> después de la capa gratuita.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>PARTE 3: CONFIGURACIÓN INICIAL DE AWS</h1>
+
+        <h2>1. Activar autenticación de dos factores (MFA)</h2>
+        <p>Por seguridad, es altamente recomendable activar MFA:</p>
+        <ol>
+            <li>Inicia sesión en la Consola de AWS</li>
+            <li>Haz clic en tu nombre de usuario (esquina superior derecha)</li>
+            <li>Selecciona "Security Credentials" (Credenciales de seguridad)</li>
+            <li>En la sección "Multi-factor authentication (MFA)", haz clic en "Assign MFA device"</li>
+            <li>Sigue las instrucciones para configurar MFA con una aplicación como Google Authenticator o Authy</li>
+        </ol>
+
+        <h2>2. Configurar alertas de facturación</h2>
+        <p>Para evitar sorpresas en tu factura:</p>
+        <ol>
+            <li>Ve a "Billing and Cost Management" en la consola de AWS</li>
+            <li>Selecciona "Billing preferences" en el menú izquierdo</li>
+            <li>Activa "Receive Free Tier Usage Alerts"</li>
+            <li>Ingresa tu dirección de correo electrónico</li>
+            <li>Ve a "Budgets" y crea un presupuesto (por ejemplo, $5 USD/mes)</li>
+            <li>Configura alertas cuando alcances el 80% y 100% del presupuesto</li>
+        </ol>
+        <p><mark>Crucial: Esta configuración te avisará antes de que se generen cargos significativos.</mark></p>
+
+        <h2>3. Crear un usuario IAM (Identity and Access Management)</h2>
+        <p>Por seguridad, no uses la cuenta raíz para tareas diarias. Crea un usuario IAM:</p>
+        <ol>
+            <li>En la consola de AWS, busca "IAM" en el buscador de servicios</li>
+            <li>En el menú izquierdo, selecciona "Users" (Usuarios)</li>
+            <li>Haz clic en "Add users" (Agregar usuarios)</li>
+            <li><strong>Nombre de usuario:</strong> <code>mi-usuario-rekognition</code></li>
+            <li>Selecciona "Access key - Programmatic access" (para usar AWS CLI y SDK)</li>
+            <li>Selecciona también "Password - AWS Management Console access" (para acceder a la consola)</li>
+            <li>Haz clic en "Next: Permissions"</li>
+            <li>Selecciona "Attach existing policies directly"</li>
+            <li>Busca y selecciona las siguientes políticas:
+                <ul>
+                    <li><code>AmazonRekognitionFullAccess</code></li>
+                    <li><code>AmazonS3FullAccess</code> (si vas a usar S3 para las imágenes)</li>
+                </ul>
+            </li>
+            <li>Haz clic en "Next: Tags" (opcional, puedes omitir)</li>
+            <li>Haz clic en "Next: Review"</li>
+            <li>Revisa la configuración y haz clic en "Create user"</li>
+        </ol>
+        <p><mark>IMPORTANTE: Descarga las credenciales (Access Key ID y Secret Access Key) o cópialas en un lugar seguro. No podrás verlas de nuevo.</mark></p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>PARTE 4: INSTALAR Y CONFIGURAR AWS CLI</h1>
+
+        <h2>1. Instalar AWS CLI</h2>
+
+        <h3>En Windows:</h3>
+        <ol>
+            <li>Descarga el instalador desde: <a href="https://aws.amazon.com/cli/">https://aws.amazon.com/cli/</a></li>
+            <li>Ejecuta el archivo MSI descargado</li>
+            <li>Sigue el asistente de instalación</li>
+        </ol>
+
+        <h3>En macOS:</h3>
+<pre><code class="language-bash">curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /</code></pre>
+
+        <h3>En Linux:</h3>
+<pre><code class="language-bash">curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install</code></pre>
+
+        <h3>Verificar la instalación:</h3>
+<pre><code class="language-bash">aws --version</code></pre>
+
+        <h2>2. Configurar AWS CLI</h2>
+        <p>Ejecuta el siguiente comando en tu terminal o símbolo del sistema:</p>
+<pre><code class="language-bash">aws configure</code></pre>
+
+        <p>Se te pedirá la siguiente información (usa las credenciales del usuario IAM que creaste):</p>
+        <dl>
+            <dt>AWS Access Key ID</dt>
+            <dd>[Tu Access Key ID]</dd>
+            
+            <dt>AWS Secret Access Key</dt>
+            <dd>[Tu Secret Access Key]</dd>
+            
+            <dt>Default region name</dt>
+            <dd><code>us-east-1</code> (o tu región preferida)</dd>
+            
+            <dt>Default output format</dt>
+            <dd><code>json</code></dd>
+        </dl>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>PARTE 5: CREAR COLECCIÓN DE ROSTROS EN AWS REKOGNITION</h1>
+
+        <h2>1. Crear la colección usando AWS CLI</h2>
+        <p>Abre tu terminal y ejecuta el siguiente comando:</p>
+<pre><code class="language-bash">aws rekognition create-collection --collection-id mi-coleccion-rostros --region us-east-1</code></pre>
+
+        <p>Deberías recibir una respuesta similar a:</p>
+<pre><code class="language-json">{
+    "StatusCode": 200,
+    "CollectionArn": "aws:rekognition:us-east-1:123456789012:collection/mi-coleccion-rostros",
+    "FaceModelVersion": "7.0"
+}</code></pre>
+
+        <h2>2. Verificar que la colección fue creada</h2>
+<pre><code class="language-bash">aws rekognition list-collections --region us-east-1</code></pre>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>PARTE 6: INSTALAR LIBRERÍAS DE PYTHON</h1>
+
+        <h2>1. Instalar boto3 (SDK de AWS para Python)</h2>
+        <p>Abre tu terminal y ejecuta:</p>
+<pre><code class="language-bash">pip install boto3</code></pre>
+
+        <p>O si usas Python 3 específicamente:</p>
+<pre><code class="language-bash">pip3 install boto3</code></pre>
+
+        <h2>2. Verificar la instalación</h2>
+<pre><code class="language-bash">python -c "import boto3; print(boto3.__version__)"</code></pre>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>PARTE 7: CREAR EL PROYECTO DE RECONOCIMIENTO FACIAL</h1>
+
+        <h2>1. Crear directorio del proyecto</h2>
+        <p>Crea una carpeta para tu proyecto y navega a ella:</p>
+<pre><code class="language-bash">mkdir proyecto-rekognition
+cd proyecto-rekognition</code></pre>
+
+        <h2>2. Preparar una imagen de prueba</h2>
+        <p>Coloca una imagen con un rostro visible en la carpeta del proyecto. Nómbrala <code>imagen3.jpg</code> o modifica el nombre en el código según tu archivo.</p>
+
+        <p><strong>Requisitos de la imagen:</strong></p>
+        <ul>
+            <li>Formato: JPG o PNG</li>
+            <li>Tamaño máximo: 15 MB</li>
+            <li>Resolución mínima recomendada: 640x480 píxeles</li>
+            <li>El rostro debe ser claramente visible y no estar muy inclinado</li>
+        </ul>
+
+        <h2>3. Crear el archivo Python</h2>
+        <p>Crea un archivo llamado <code>index_face.py</code> y copia el siguiente código:</p>
+<pre><code class="language-python">import boto3
+import json
+
+def format_confidence(confidence):
+    return f"{confidence:.2f}%"
+
+def print_face_analysis(response):
+    print("\n=== ANÁLISIS FACIAL ===\n")
+    
+    for face_record in response['FaceRecords']:
+        face = face_record['Face']
+        detail = face_record['FaceDetail']
+        
+        print("🆔 INFORMACIÓN BÁSICA")
+        print(f"├── ID del Rostro: {face['FaceId']}")
+        print(f"├── ID Externo: {face['ExternalImageId']}")
+        print(f"└── Confianza de detección: {format_confidence(face['Confidence'])}\n")
+        
+        print("👤 CARACTERÍSTICAS DEMOGRÁFICAS")
+        print(f"├── Rango de edad: {detail['AgeRange']['Low']} - {detail['AgeRange']['High']} años")
+        print(f"└── Género: {('Masculino' if detail['Gender']['Value'] == 'Male' else 'Femenino')} "
+              f"({format_confidence(detail['Gender']['Confidence'])})\n")
+        
+        print("😀 EXPRESIONES Y CARACTERÍSTICAS")
+        print(f"├── Sonriendo: {'Sí' if detail['Smile']['Value'] else 'No'} "
+              f"({format_confidence(detail['Smile']['Confidence'])})")
+        print(f"├── Ojos abiertos: {'Sí' if detail['EyesOpen']['Value'] else 'No'} "
+              f"({format_confidence(detail['EyesOpen']['Confidence'])})")
+        print(f"├── Boca abierta: {'Sí' if detail['MouthOpen']['Value'] else 'No'} "
+              f"({format_confidence(detail['MouthOpen']['Confidence'])})")
+        print(f"├── Barba: {'Sí' if detail['Beard']['Value'] else 'No'} "
+              f"({format_confidence(detail['Beard']['Confidence'])})")
+        print(f"└── Bigote: {'Sí' if detail['Mustache']['Value'] else 'No'} "
+              f"({format_confidence(detail['Mustache']['Confidence'])})\n")
+        
+        print("👓 ACCESORIOS")
+        print(f"├── Lentes: {'Sí' if detail['Eyeglasses']['Value'] else 'No'} "
+              f"({format_confidence(detail['Eyeglasses']['Confidence'])})")
+        print(f"└── Lentes de sol: {'Sí' if detail['Sunglasses']['Value'] else 'No'} "
+              f"({format_confidence(detail['Sunglasses']['Confidence'])})\n")
+        
+        print("😊 EMOCIONES DETECTADAS")
+        emotions = sorted(detail['Emotions'], key=lambda x: x['Confidence'], reverse=True)
+        emotion_translate = {
+            'HAPPY': 'Feliz',
+            'SAD': 'Triste',
+            'ANGRY': 'Enojado',
+            'CONFUSED': 'Confundido',
+            'DISGUSTED': 'Disgustado',
+            'SURPRISED': 'Sorprendido',
+            'CALM': 'Calmado',
+            'FEAR': 'Asustado'
+        }
+        for emotion in emotions[:3]:
+            if emotion['Confidence'] > 1:
+                print(f"├── {emotion_translate[emotion['Type']]}: {format_confidence(emotion['Confidence'])}")
+        print()
+        
+        print("📊 CALIDAD DE LA IMAGEN")
+        print(f"├── Brillo: {format_confidence(detail['Quality']['Brightness'])}")
+        print(f"└── Nitidez: {format_confidence(detail['Quality']['Sharpness'])}\n")
+        
+        print("📐 POSE DE LA CARA")
+        print(f"├── Rotación: {detail['Pose']['Roll']:.1f}°")
+        print(f"├── Giro lateral: {detail['Pose']['Yaw']:.1f}°")
+        print(f"└── Inclinación: {detail['Pose']['Pitch']:.1f}°\n")
+
+def index_face():
+    client = boto3.client('rekognition', region_name='us-east-1')
+    
+    try:
+        with open('imagen3.jpg', 'rb') as image:
+            response = client.index_faces(
+                CollectionId='mi-coleccion-rostros',
+                Image={'Bytes': image.read()},
+                ExternalImageId='persona1',
+                DetectionAttributes=['ALL']
+            )
+        
+        print_face_analysis(response)
+        
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+
+if __name__ == "__main__":
+    index_face()</code></pre>
+
+        <h2>4. Ejecutar el programa</h2>
+<pre><code class="language-bash">python index_face.py</code></pre>
+
+        <p>O si usas Python 3:</p>
+<pre><code class="language-bash">python3 index_face.py</code></pre>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>PARTE 8: EXPLICACIÓN DEL CÓDIGO</h1>
+
+        <h2>¿Qué hace el código?</h2>
+        <p>El script realiza las siguientes acciones:</p>
+
+        <dl>
+            <dt>Importa boto3</dt>
+            <dd>Librería SDK de AWS para Python que permite interactuar con servicios de AWS</dd>
+            
+            <dt>Crea un cliente de Rekognition</dt>
+            <dd>Se conecta al servicio AWS Rekognition en la región especificada</dd>
+            
+            <dt>Lee la imagen</dt>
+            <dd>Abre el archivo de imagen en modo binario</dd>
+            
+            <dt>Indexa el rostro</dt>
+            <dd>Llama al método <code>index_faces()</code> que:
+                <ul>
+                    <li>Detecta rostros en la imagen</li>
+                    <li>Extrae características faciales (vectores de características)</li>
+                    <li>Almacena el rostro en la colección especificada</li>
+                    <li>Asigna un ID externo para identificar a la persona</li>
+                    <li>Retorna análisis detallado del rostro</li>
+                </ul>
+            </dd>
+            
+            <dt>Muestra resultados</dt>
+            <dd>Formatea y presenta toda la información detectada de forma legible</dd>
+        </dl>
+
+        <h2>Datos que detecta AWS Rekognition</h2>
+        <ul>
+            <li><strong>Información demográfica:</strong> Rango de edad estimado, género probable</li>
+            <li><strong>Expresiones faciales:</strong> Sonrisa, ojos abiertos/cerrados, boca abierta/cerrada</li>
+            <li><strong>Características físicas:</strong> Presencia de barba, bigote, lentes, lentes de sol</li>
+            <li><strong>Emociones:</strong> Detecta 8 emociones diferentes con nivel de confianza</li>
+            <li><strong>Calidad de imagen:</strong> Brillo y nitidez de la foto</li>
+            <li><strong>Pose del rostro:</strong> Ángulos de rotación, giro e inclinación de la cabeza</li>
+            <li><strong>Puntos faciales:</strong> Ubicación de ojos, nariz, boca, etc.</li>
+        </ul>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>PARTE 9: FUNCIONALIDADES ADICIONALES</h1>
+
+        <h2>Buscar rostros en la colección</h2>
+        <p>Crea un nuevo archivo <code>buscar_rostro.py</code>:</p>
+<pre><code class="language-python">import boto3
+
+def search_face():
+    client = boto3.client('rekognition', region_name='us-east-1')
+    
+    try:
+        with open('persona_buscar.jpg', 'rb') as image:
+            response = client.search_faces_by_image(
+                CollectionId='mi-coleccion-rostros',
+                Image={'Bytes': image.read()},
+                MaxFaces=5,
+                FaceMatchThreshold=80
+            )
+        
+        print("\n=== RESULTADOS DE BÚSQUEDA ===\n")
+        
+        if response['FaceMatches']:
+            for match in response['FaceMatches']:
+                print(f"✓ Coincidencia encontrada!")
+                print(f"├── ID del rostro: {match['Face']['FaceId']}")
+                print(f"├── ID externo: {match['Face']['ExternalImageId']}")
+                print(f"└── Similitud: {match['Similarity']:.2f}%\n")
+        else:
+            print("✗ No se encontraron coincidencias")
+            
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+
+if __name__ == "__main__":
+    search_face()</code></pre>
+
+        <h2>Listar todos los rostros en la colección</h2>
+        <p>Crea <code>listar_rostros.py</code>:</p>
+<pre><code class="language-python">import boto3
+
+def list_faces():
+    client = boto3.client('rekognition', region_name='us-east-1')
+    
+    try:
+        response = client.list_faces(
+            CollectionId='mi-coleccion-rostros',
+            MaxResults=100
+        )
+        
+        print(f"\n=== ROSTROS EN LA COLECCIÓN ===")
+        print(f"Total de rostros: {len(response['Faces'])}\n")
+        
+        for i, face in enumerate(response['Faces'], 1):
+            print(f"{i}. ID del Rostro: {face['FaceId']}")
+            print(f"   ID Externo: {face.get('ExternalImageId', 'N/A')}")
+            print(f"   Confianza: {face['Confidence']:.2f}%\n")
+            
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+
+if __name__ == "__main__":
+    list_faces()</code></pre>
+
+        <h2>Eliminar un rostro de la colección</h2>
+        <p>Crea <code>eliminar_rostro.py</code>:</p>
+<pre><code class="language-python">import boto3
+
+def delete_face(face_id):
+    client = boto3.client('rekognition', region_name='us-east-1')
+    
+    try:
+        response = client.delete_faces(
+            CollectionId='mi-coleccion-rostros',
+            FaceIds=[face_id]
+        )
+        
+        if response['DeletedFaces']:
+            print(f"✓ Rostro eliminado exitosamente: {face_id}")
+        else:
+            print(f"✗ No se pudo eliminar el rostro")
+            
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+
+if __name__ == "__main__":
+    # Reemplaza con el ID del rostro que quieres eliminar
+    face_id = "tu-face-id-aqui"
+    delete_face(face_id)</code></pre>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>PARTE 10: MEJORES PRÁCTICAS Y CONSEJOS</h1>
+
+        <h2>Mejores Prácticas de Seguridad</h2>
+        <ul>
+            <li>Nunca compartas tus Access Keys en repositorios públicos (GitHub, GitLab, etc.)</li>
+            <li>Usa variables de entorno para almacenar credenciales en lugar de código hardcodeado</li>
+            <li>Activa MFA (autenticación de dos factores) en tu cuenta</li>
+            <li>Revisa regularmente el "Security Hub" en la consola de AWS</li>
+            <li>Rota tus Access Keys periódicamente</li>
+            <li>Usa roles de IAM con permisos mínimos necesarios</li>
+        </ul>
+
+        <h2>Consejos para Optimizar Costos</h2>
+        <ul>
+            <li>Elimina colecciones que no uses: cada colección almacenada tiene costo</li>
+            <li>Usa imágenes de resolución adecuada (no excesivamente alta)</li>
+            <li>Procesa imágenes en lotes cuando sea posible</li>
+            <li>Monitorea tu uso con AWS CloudWatch</li>
+            <li>Configura presupuestos y alertas de facturación</li>
+            <li>Aprovecha al máximo la capa gratuita antes de que expire</li>
+        </ul>
+
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>PARTE 12: RECURSOS ADICIONALES</h1>
+
+        <h2>Documentación y Aprendizaje</h2>
+        <ul>
+            <li><strong>Documentación oficial de AWS Rekognition:</strong> <a href="https://docs.aws.amazon.com/rekognition/">https://docs.aws.amazon.com/rekognition/</a></li>
+            <li><strong>AWS Training and Certification:</strong> Cursos gratuitos en <a href="https://aws.training">aws.training</a></li>
+            <li><strong>AWS Skill Builder:</strong> Plataforma de aprendizaje interactivo</li>
+            <li><strong>AWS Workshops:</strong> Tutoriales prácticos paso a paso</li>
+            <li><strong>Boto3 Documentation:</strong> Documentación completa de boto3</li>
+        </ul>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
