@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Web Services (AWS): La Nube que Transformó la Tecnología</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Amazon Web Services (AWS): La Nube que Transformó la Tecnología</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>AWS Rekognition: Visión Artificial al Alcance de Todos</h1>
+
+        <h2>¿Qué es Rekognition?</h2>
+        
+        <p>Rekognition es el servicio de reconocimiento de imagen de AWS que viene pre-entrenado y listo para usar. Esto significa que no necesitas entrenar tu propio modelo desde cero; AWS ya lo ha hecho por ti con millones de imágenes. Puedes probarlo a través de una interfaz demostrativa para ver cómo funciona, y luego integrarlo en cualquier proyecto mediante llamadas a su API (interfaz de programación de aplicaciones).</p>
+
+        <h2>Modos de Funcionamiento de Rekognition:</h2>
+
+        <h3>Reconocimiento de Etiquetas:</h3>
+        
+        <p>Este modo identifica objetos, escenas y conceptos presentes en una imagen. Por ejemplo, si subes una foto de una playa, puede detectar: agua, arena, cielo, personas, sombrillas, etc. El resultado es una lista de etiquetas con un nivel de confianza (probabilidad) para cada una.</p>
+
+        <h3>Moderación de Contenido:</h3>
+        
+        <p>Detecta el grado de probabilidad de que una imagen contenga contenido sensible o inapropiado (violencia, desnudez, contenido para adultos, etc.). Esto es muy útil para plataformas que permiten a usuarios subir imágenes, ya que pueden activar acciones automáticas como desenfocar la imagen, requerir verificación humana o bloquear el contenido.</p>
+
+        <h3>Reconocimiento Facial:</h3>
+        
+        <p>Analiza rostros en imágenes con bastante precisión, detectando rasgos demográficos aproximados (apariencia masculina o femenina), expresiones emocionales (si está sonriendo, triste, sorprendido, etc.), rango de edad estimado, accesorios (gafas, barba, etc.) y posición de la cara y puntos faciales clave.</p>
+        
+        <p>Es importante mencionar que en 2025, el uso de reconocimiento facial está regulado en muchas jurisdicciones por cuestiones de privacidad, por lo que debes asegurarte de cumplir con las normativas locales antes de implementarlo.</p>
+
+        <h2>Cómo se Usa Rekognition:</h2>
+        
+        <p>En todos los casos, puedes revisar tanto la llamada (la solicitud que haces al servicio) como la respuesta del ejemplo. La respuesta es un archivo en formato JSON (JavaScript Object Notation), que es un formato de intercambio de datos fácil de leer. Este JSON contiene los parámetros en formato "clave-valor" con los resultados del reconocimiento. Por ejemplo:</p>
+
+        <pre><code class="language-json">{
+  "Labels": [
+    {"Name": "Perro", "Confidence": 98.5},
+    {"Name": "Animal", "Confidence": 99.2},
+    {"Name": "Mascota", "Confidence": 95.7}
+  ]
+}</code></pre>
+
+        <p>Será necesario conocer y comprender estos parámetros cuando hagas la implementación en tu propio proyecto o aplicación, ya que necesitarás procesar esta información programáticamente.</p>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

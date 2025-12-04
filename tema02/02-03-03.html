@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Web Services (AWS): La Nube que Transformó la Tecnología</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Amazon Web Services (AWS): La Nube que Transformó la Tecnología</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>AWS Comprehend: Entendiendo el Lenguaje Humano</h1>
+
+        <h2>¿Qué es el Procesamiento de Lenguaje Natural (NLP)?</h2>
+        
+        <p>Antes de explicar Comprehend, es importante entender qué es el NLP (Natural Language Processing o Procesamiento de Lenguaje Natural). El NLP es el conjunto de técnicas computacionales en el ámbito del aprendizaje automático que tienen como objetivo identificar la intención del interlocutor contenida en una expresión escrita, o hablada y transformada a texto escrito. El objetivo es clasificarla o asociarla a opciones o valores de variables de salida.</p>
+        
+        <p>Un ejemplo sencillo: imagina que tienes miles de comentarios de usuarios sobre una película. Un algoritmo de NLP puede detectar, a partir de cada valoración, si el comentario refleja una actitud positiva o negativa. Es decir, si al usuario le gustó o no la película. Puede identificar frases como "me encantó" (positivo) o "fue muy aburrida" (negativo).</p>
+
+        <h2>AWS Comprehend en Acción</h2>
+        
+        <p>Comprehend es el módulo de AWS preparado para integrar procesamiento de lenguaje natural en aplicaciones. Trabaja muy bien con "tokens" (palabras clave o unidades de significado) presentes en diferentes tipos de texto, pero es necesario configurar el tipo de problema para que el modelo pueda trabajar correctamente.</p>
+
+        <h2>¿Cómo Funciona Comprehend?</h2>
+        
+        <figure>
+            <img src="img02-03-02.png" alt="Imagen didáctica 2">
+            <figcaption>Diagrama del procesamiento de lenguaje natural.</figcaption>
+        </figure>
+
+        <p>Comprehend divide el texto en unidades con sentido y las analiza. Por ejemplo, imagina que recibes el siguiente mensaje:</p>
+        
+        <p>"Necesito reservar una habitación para dos personas del 15 al 20 de marzo en Madrid, con desayuno incluido. Mi presupuesto máximo es de 500 euros."</p>
+        
+        <p>Comprehend puede identificar expresiones clave como "reservar habitación" y "desayuno incluido", fechas como "15 de marzo" y "20 de marzo", ubicaciones como "Madrid", cantidades como "dos personas" y "500 euros", y la intención de realizar una reserva de hotel.</p>
+        
+        <p>Esta información estructurada puede luego utilizarse para ejecutar tareas posteriores automáticamente, como buscar hoteles disponibles o calcular el precio por noche.</p>
+
+        <h2>Análisis de Sentimiento</h2>
+        
+        <p>Una función muy utilizada en modelos de NLP es el análisis de sentimiento, que nos da un valor aproximado del grado de positividad o negatividad presente en un texto. Comprehend puede analizar un texto y devolver puntuaciones para cuatro categorías: Positivo (el texto expresa una opinión favorable), Negativo (el texto expresa una opinión desfavorable), Neutro (el texto es objetivo o informativo) y Mixto (el texto contiene elementos tanto positivos como negativos).</p>
+        
+        <p>Por ejemplo, para el texto "El producto llegó rápido pero la calidad no es buena", Comprehend podría identificarlo como "Mixto" porque contiene un aspecto positivo (rapidez de entrega) y uno negativo (calidad).</p>
+
+        <h2>Integración en Aplicaciones</h2>
+        
+        <p>En la documentación oficial de AWS Comprehend, puedes consultar las especificaciones técnicas para el uso de la API y cómo integrarla en tu aplicación. La API te permite enviar textos y recibir resultados estructurados en formato JSON que puedes procesar programáticamente en tu código.</p>
+        
+        <p>Comprehend en 2025 ha mejorado significativamente su capacidad para entender contexto y matices en múltiples idiomas, incluyendo español, lo que lo hace especialmente útil para aplicaciones globales o en mercados hispanohablantes.</p>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
