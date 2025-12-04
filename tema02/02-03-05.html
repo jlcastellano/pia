@@ -1,0 +1,2035 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios AWS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #232F3E 0%, #FF9900 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .nav-categorias {
+            background-color: #232F3E;
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .nav-categorias a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #FF9900;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        .nav-categorias a:hover {
+            background-color: #ec7211;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .contenido {
+            padding: 40px;
+        }
+        .categoria {
+            margin-bottom: 50px;
+        }
+        .categoria-header {
+            background: linear-gradient(135deg, #232F3E 0%, #37475A 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        .categoria-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: #FF9900;
+        }
+        .categoria-header h2 {
+            font-size: 2em;
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .categoria-header .icono {
+            font-size: 1.5em;
+        }
+        .categoria-descripcion {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-left: 5px solid #FF9900;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        .servicio {
+            background-color: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .servicio:hover {
+            border-color: #FF9900;
+            box-shadow: 0 5px 15px rgba(255,153,0,0.2);
+            transform: translateY(-3px);
+        }
+        .servicio-nombre {
+            color: #232F3E;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .servicio-badge {
+            background-color: #FF9900;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.6em;
+            font-weight: bold;
+        }
+        .servicio-badge.ia {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .servicio-descripcion {
+            color: #555;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .casos-uso {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .casos-uso h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .casos-uso ul {
+            margin-left: 20px;
+            color: #555;
+        }
+        .casos-uso li {
+            margin: 5px 0;
+        }
+        .precio-info {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #856404;
+        }
+        .destacado {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe0b3 100%);
+            border: 3px solid #FF9900;
+        }
+        footer {
+            background-color: #232F3E;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .indice {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .indice h3 {
+            color: #232F3E;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        .indice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .indice-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #FF9900;
+            transition: all 0.3s;
+        }
+        .indice-item:hover {
+            background-color: #fff3cd;
+            transform: translateX(5px);
+        }
+        .indice-item a {
+            color: #232F3E;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nota-importante {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .tabla-comparacion {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .tabla-comparacion th {
+            background-color: #232F3E;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        .tabla-comparacion td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tabla-comparacion tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Servicios AWS</h1>
+        </header>
+
+        <div class="contenido">
+            <div class="indice">
+                <h3>Índice Rápido de Categorías</h3>
+                <div class="indice-grid">
+                    <div class="indice-item">
+                        <a href="#ia-ml">Inteligencia Artificial y Machine Learning (25 servicios)</a>
+                    </div>
+                    <div class="indice-item">
+                        <a href="#computo">Servicios de Cómputo (15 servicios)</a>
+                    </div>
+                    <div class="indice-item">
+                        <a href="#almacenamiento">Almacenamiento (12 servicios)</a>
+                    </div>
+                    <div class="indice-item">
+                        <a href="#bases-datos">Bases de Datos (18 servicios)</a>
+                    </div>
+                    <div class="indice-item">
+                        <a href="#redes">Redes y Entrega de Contenido (10 servicios)</a>
+                    </div>
+                    <div class="indice-item">
+                        <a href="#seguridad">Seguridad e Identidad (20 servicios)</a>
+                    </div>
+                    <div class="indice-item">
+                        <a href="#analytics">Analytics y Big Data (15 servicios)</a>
+                    </div>
+                    <div class="indice-item">
+                        <a href="#desarrollo">Herramientas de Desarrollo (18 servicios)</a>
+                    </div>
+                    <div class="indice-item">
+                        <a href="#iot">Internet of Things (8 servicios)</a>
+                    </div>
+                    <div class="indice-item">
+                        <a href="#otros">Otros Servicios (40+ servicios)</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- CATEGORÍA 1: INTELIGENCIA ARTIFICIAL Y ML -->
+            <!-- ============================================ -->
+            <section id="ia-ml" class="categoria">
+                <div class="categoria-header">
+                    <h2>Inteligencia Artificial y Machine Learning</h2>
+                </div>
+                <div class="categoria-descripcion">
+                    <p><strong>Esta es la categoría más robusta y en constante evolución de AWS.</strong> Amazon ha invertido masivamente en servicios de IA que permiten a desarrolladores y científicos de datos construir, entrenar y desplegar modelos de machine learning sin necesidad de ser expertos en el campo. Los servicios van desde APIs pre-entrenadas hasta plataformas completas para crear modelos personalizados desde cero. AWS lidera el mercado en servicios de IA en la nube, procesando billones de predicciones mensualmente.</p>
+                </div>
+
+                <!-- Amazon SageMaker -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon SageMaker</span>
+                        <span class="servicio-badge ia">IA PRINCIPAL</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon SageMaker es la plataforma integral de machine learning más completa de AWS y una de las más potentes del mercado. Permite a científicos de datos y desarrolladores construir, entrenar y desplegar modelos de ML a escala de manera rápida y eficiente. SageMaker elimina la complejidad tradicional del ML al proporcionar herramientas integradas para cada paso del ciclo de vida del machine learning. Incluye SageMaker Studio (un IDE completo para ML), SageMaker Autopilot (que automatiza el proceso de creación de modelos), algoritmos incorporados optimizados, capacidades de etiquetado de datos, gestión de experimentos, depuración de modelos, y opciones flexibles de despliegue. La plataforma soporta frameworks populares como TensorFlow, PyTorch, MXNet, scikit-learn y más. SageMaker también ofrece capacidades avanzadas como Feature Store para gestión de características, Model Monitor para detectar drift en producción, Pipelines para automatización de flujos de trabajo ML, y Clarify para explicabilidad y detección de sesgos en modelos. Es la solución más completa para equipos que necesitan desarrollar IA personalizada.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Desarrollo de modelos de predicción de demanda y ventas</li>
+                            <li>Sistemas de recomendación personalizados para e-commerce</li>
+                            <li>Detección de fraude en tiempo real para sector financiero</li>
+                            <li>Análisis predictivo de mantenimiento en manufactura</li>
+                            <li>Modelos de visión por computadora para inspección de calidad</li>
+                            <li>Procesamiento de lenguaje natural para análisis de sentimientos</li>
+                            <li>Pronóstico de series temporales para planificación empresarial</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Precios desde $0.05/hora por instancias de notebook + costos de entrenamiento y despliegue según configuración
+                    </div>
+                </div>
+
+                <!-- Amazon Rekognition -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon Rekognition</span>
+                        <span class="servicio-badge ia">IA - VISIÓN</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Rekognition es el servicio de visión por computadora de AWS que utiliza deep learning para analizar imágenes y videos sin requerir experiencia en machine learning. El servicio puede detectar objetos, personas, texto, escenas y actividades, además de identificar contenido inapropiado. Rekognition incluye capacidades avanzadas de reconocimiento facial que pueden detectar, analizar y comparar rostros para casos de uso como verificación de usuarios, conteo de personas y búsqueda de personas en bibliotecas de imágenes. También puede detectar equipos de protección personal (PPE), analizar emociones, estimar edad y género, y detectar celebridades automáticamente. Para videos, puede rastrear personas a través de cuadros, detectar actividades específicas, y segmentar videos por escenas. Rekognition Custom Labels permite entrenar modelos personalizados de visión por computadora con tan solo unas pocas imágenes de ejemplo, sin necesidad de conocimientos de ML. El servicio procesa millones de imágenes diariamente para empresas líderes en seguridad, medios y retail.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Sistemas de control de acceso mediante reconocimiento facial</li>
+                            <li>Moderación automática de contenido en redes sociales</li>
+                            <li>Verificación de identidad para servicios financieros</li>
+                            <li>Análisis de comportamiento de clientes en tiendas físicas</li>
+                            <li>Búsqueda de personas desaparecidas en bases de datos</li>
+                            <li>Detección de uso de EPP en ambientes industriales</li>
+                            <li>Catalogación automática de bibliotecas de medios</li>
+                            <li>Análisis de emociones en focus groups y estudios de mercado</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $1.00 por 1,000 imágenes analizadas (primeras 5,000 imágenes/mes gratis durante 12 meses)
+                    </div>
+                </div>
+
+                <!-- Amazon Comprehend -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon Comprehend</span>
+                        <span class="servicio-badge ia">IA - NLP</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Comprehend es un servicio de procesamiento de lenguaje natural (NLP) que utiliza machine learning para descubrir insights y relaciones en textos. El servicio puede identificar automáticamente el idioma de un texto, extraer frases clave, analizar sentimientos (positivo, negativo, neutral, mixto), reconocer entidades (personas, lugares, organizaciones, fechas, cantidades), y detectar la sintaxis y partes del discurso. Comprehend Medical es una versión especializada para extraer información médica de textos clínicos no estructurados, identificando condiciones médicas, medicamentos, dosis, síntomas y relaciones entre ellos cumpliendo con HIPAA. El servicio también ofrece modelado de temas para descubrir temas recurrentes en colecciones de documentos, análisis de sentimientos dirigidos a entidades específicas, y la capacidad de entrenar clasificadores personalizados y modelos de reconocimiento de entidades sin necesidad de experiencia en ML. Es ideal para analizar grandes volúmenes de feedback de clientes, documentos legales, artículos de noticias, o registros médicos.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Análisis de sentimientos en reviews y comentarios de clientes</li>
+                            <li>Extracción automática de información de contratos legales</li>
+                            <li>Categorización de tickets de soporte al cliente</li>
+                            <li>Análisis de menciones de marca en redes sociales</li>
+                            <li>Extracción de datos médicos de historias clínicas</li>
+                            <li>Detección de tendencias en feedback de empleados</li>
+                            <li>Clasificación automática de emails y documentos</li>
+                            <li>Monitoreo de noticias para análisis de riesgos empresariales</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.0001 por unidad (100 caracteres) para análisis básico; precios variables para funciones avanzadas
+                    </div>
+                </div>
+
+                <!-- Amazon Polly -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Polly</span>
+                        <span class="servicio-badge ia">IA - VOZ</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Polly es un servicio que convierte texto en habla realista utilizando tecnologías avanzadas de deep learning. Ofrece más de 60 voces en más de 30 idiomas y dialectos, incluyendo voces neuronales que suenan extremadamente naturales y humanas. Polly soporta marcado SSML (Speech Synthesis Markup Language) para controlar aspectos como pronunciación, volumen, velocidad, tono, y pausas, permitiendo crear experiencias de audio altamente personalizadas. El servicio incluye características avanzadas como voces conversacionales para asistentes virtuales, énfasis dinámico en palabras específicas, y respiración natural en las voces neuronales. También ofrece lexicones personalizados para manejar pronunciaciones especializadas, acrónimos o nombres propios. Polly Brand Voice permite crear voces personalizadas exclusivas para marcas. El servicio genera audio en tiempo real o en modo batch, soportando formatos como MP3, OGG, y PCM. Es ampliamente utilizado para crear contenido accesible, aplicaciones de e-learning, asistentes virtuales, y sistemas IVR.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Conversión de artículos y blogs a podcasts automáticamente</li>
+                            <li>Sistemas de respuesta de voz interactiva (IVR) para call centers</li>
+                            <li>Aplicaciones de accesibilidad para personas con discapacidad visual</li>
+                            <li>Asistentes virtuales y chatbots con voz</li>
+                            <li>Narración de cursos e-learning y contenido educativo</li>
+                            <li>Anuncios públicos en transporte y espacios públicos</li>
+                            <li>Lectura de noticias y notificaciones en aplicaciones móviles</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $4.00 por 1 millón de caracteres (voces estándar); $16.00 por 1 millón de caracteres (voces neuronales)
+                    </div>
+                </div>
+
+                <!-- Amazon Transcribe -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Transcribe</span>
+                        <span class="servicio-badge ia">IA - VOZ</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Transcribe es un servicio de reconocimiento automático de voz (ASR) que convierte audio en texto con alta precisión. Utiliza modelos de deep learning entrenados con millones de horas de audio para proporcionar transcripciones precisas incluso en condiciones de audio desafiantes. El servicio soporta más de 100 idiomas y puede identificar automáticamente el idioma hablado. Transcribe incluye características avanzadas como identificación de hablantes múltiples (diarización), redacción automática de información sensible (PII), vocabulario personalizado para términos específicos del dominio, filtrado de contenido inapropiado, y marcas de tiempo precisas a nivel de palabra. Transcribe Medical está especializado en terminología médica y puede transcribir conversaciones entre médicos y pacientes, dictados médicos, y telemedicina en tiempo real. Transcribe Call Analytics ofrece análisis específico para llamadas de centros de contacto, incluyendo análisis de sentimientos, detección de problemas, y categorización automática. El servicio puede procesar audio en tiempo real o en batch.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Generación automática de subtítulos para videos y webinars</li>
+                            <li>Transcripción de llamadas de soporte al cliente para análisis</li>
+                            <li>Documentación de consultas médicas y dictados clínicos</li>
+                            <li>Creación de actas de reuniones automáticamente</li>
+                            <li>Análisis de calidad de llamadas en call centers</li>
+                            <li>Transcripción de podcasts para SEO y accesibilidad</li>
+                            <li>Búsqueda de contenido dentro de archivos de audio</li>
+                            <li>Generación de registros legales de procedimientos judiciales</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.024 por minuto de audio transcrito (batch); $0.0285 por minuto (streaming)
+                    </div>
+                </div>
+
+                <!-- Amazon Translate -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Translate</span>
+                        <span class="servicio-badge ia">IA - NLP</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Translate es un servicio de traducción automática neuronal que proporciona traducciones rápidas, de alta calidad y asequibles entre más de 75 idiomas. Utiliza redes neuronales profundas entrenadas con vastas cantidades de datos para producir traducciones más precisas y naturales que los métodos estadísticos tradicionales. El servicio soporta traducción de texto en tiempo real y batch, puede detectar automáticamente el idioma de origen, y mantiene el formato HTML. Una característica destacada es la Terminología Personalizada, que permite definir cómo se deben traducir términos específicos de tu marca, producto o dominio, asegurando consistencia en todas las traducciones. Active Custom Translation permite entrenar modelos de traducción personalizados con tus propios datos para obtener traducciones más precisas para tu caso de uso específico. Translate también ofrece enmascaramiento de información sensible durante la traducción y puede integrarse fácilmente con otros servicios de AWS. Es ideal para localización de contenido, soporte multilingüe al cliente, y análisis de contenido internacional.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Localización de sitios web y aplicaciones móviles</li>
+                            <li>Traducción de contenido de e-commerce para mercados globales</li>
+                            <li>Soporte al cliente multilingüe en tiempo real</li>
+                            <li>Análisis de redes sociales y noticias internacionales</li>
+                            <li>Traducción de documentación técnica y manuales</li>
+                            <li>Comunicación interna en empresas multinacionales</li>
+                            <li>Traducción de contenido educativo para audiencias globales</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $15.00 por millón de caracteres traducidos
+                    </div>
+                </div>
+
+                <!-- Amazon Lex -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Lex</span>
+                        <span class="servicio-badge ia">IA - CONVERSACIONAL</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Lex es el servicio que impulsa a Amazon Alexa y permite construir interfaces conversacionales (chatbots) utilizando voz y texto. Lex proporciona capacidades avanzadas de comprensión del lenguaje natural (NLU) y reconocimiento automático de voz (ASR) para crear experiencias conversacionales altamente interactivas. El servicio maneja automáticamente el flujo del diálogo, mantiene el contexto de la conversación, y puede integrar lógica empresarial compleja. Lex soporta múltiples idiomas, permite crear slots personalizados para capturar información específica, y ofrece funcionalidades como confirmación de intenciones, validación de entradas, y manejo de errores. La integración con AWS Lambda permite ejecutar código personalizado en respuesta a las intenciones del usuario. Lex V2 introdujo mejoras significativas como soporte multilingüe en un solo bot, análisis de sentimientos integrado, gestión mejorada de versiones, y capacidades de streaming de conversación. Es ideal para automatizar interacciones con clientes, reducir costos de call center, y proporcionar soporte 24/7.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Chatbots de servicio al cliente para sitios web y aplicaciones</li>
+                            <li>Asistentes virtuales para banca móvil y seguros</li>
+                            <li>Sistemas de reservación automatizados para hoteles y restaurantes</li>
+                            <li>FAQ bots para soporte técnico de nivel 1</li>
+                            <li>Asistentes de compras en e-commerce</li>
+                            <li>Bots de recursos humanos para consultas de empleados</li>
+                            <li>Sistemas de triaje en servicios de salud</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.004 por solicitud de voz; $0.00075 por solicitud de texto
+                    </div>
+                </div>
+
+                <!-- Amazon Personalize -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Personalize</span>
+                        <span class="servicio-badge ia">IA - RECOMENDACIONES</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Personalize es un servicio de machine learning que facilita la creación de recomendaciones personalizadas de alta calidad sin necesidad de experiencia en ML. Utiliza la misma tecnología empleada por Amazon.com para sus recomendaciones de productos. El servicio puede crear recomendaciones basadas en el comportamiento del usuario, sus preferencias, y metadatos de ítems, generando experiencias personalizadas en tiempo real. Personalize soporta varios tipos de casos de uso: recomendaciones de productos relacionados, recomendaciones personalizadas para cada usuario, ranking personalizado de resultados, y recomendaciones similares. El servicio maneja automáticamente el procesamiento de datos, selección de algoritmos, entrenamiento de modelos, optimización de hiperparámetros, y despliegue de modelos. También incluye capacidades avanzadas como filtrado de promociones, descuento temporal para ítems vistos recientemente, y soporte para cold start de nuevos usuarios o ítems. Los modelos se actualizan automáticamente con nuevos datos de interacción en tiempo real.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Recomendaciones de productos en sitios de e-commerce</li>
+                            <li>Sugerencias de contenido personalizado en plataformas de streaming</li>
+                            <li>Recomendaciones de artículos y noticias en medios digitales</li>
+                            <li>Personalización de emails de marketing</li>
+                            <li>Sugerencias de conexiones en redes sociales profesionales</li>
+                            <li>Recomendaciones de cursos en plataformas educativas</li>
+                            <li>Personalización de menús en aplicaciones de delivery</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.05 por hora de entrenamiento + $0.20 por GB de datos procesados + $0.043 por hora de inferencia
+                    </div>
+                </div>
+
+                <!-- Amazon Forecast -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Forecast</span>
+                        <span class="servicio-badge ia">IA - PREDICCIÓN</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Forecast es un servicio de machine learning totalmente administrado que utiliza algoritmos estadísticos y de deep learning para realizar pronósticos de series temporales precisos. El servicio examina automáticamente tus datos históricos, identifica patrones y estacionalidades, y selecciona el mejor algoritmo de forecasting. Forecast puede combinar datos de series temporales con variables relacionadas y metadatos para mejorar la precisión. Soporta algoritmos como ARIMA, ETS, Prophet, DeepAR+ (basado en redes neuronales recurrentes), y CNN-QR. Una característica destacada es Forecast Explainability, que identifica qué factores tuvieron mayor impacto en las predicciones. El servicio maneja automáticamente datos faltantes, detecta anomalías, y puede generar pronósticos probabilísticos con diferentes cuantiles de confianza. También incluye capacidades de What-If analysis para explorar diferentes escenarios. Es especialmente útil para planificación de demanda, gestión de inventarios, planificación de recursos, y pronóstico financiero.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Predicción de demanda de productos en retail</li>
+                            <li>Pronóstico de tráfico web para planificación de capacidad</li>
+                            <li>Previsión de ventas para planificación financiera</li>
+                            <li>Predicción de demanda energética en utilities</li>
+                            <li>Pronóstico de ocupación en hoteles y hospitales</li>
+                            <li>Planificación de inventario en cadenas de suministro</li>
+                            <li>Predicción de tráfico de pasajeros en transporte</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.60 por 1,000 pronósticos generados + costos de almacenamiento de datos
+                    </div>
+                </div>
+
+                <!-- Amazon Textract -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Textract</span>
+                        <span class="servicio-badge ia">IA - DOCUMENTOS</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Textract es un servicio de ML que extrae automáticamente texto, escritura a mano, y datos de documentos escaneados, yendo más allá del simple OCR. Textract puede identificar, comprender y extraer datos de formularios y tablas sin necesidad de configuración manual o plantillas. El servicio utiliza ML para leer y procesar cualquier tipo de documento, preservando la estructura y las relaciones entre los datos. Textract puede procesar PDFs, imágenes, y documentos de múltiples páginas, extrayendo información como pares clave-valor de formularios, datos tabulares preservando filas y columnas, y texto fluido con información de layout. Una característica poderosa es Textract Queries, que permite hacer preguntas en lenguaje natural sobre el contenido del documento. También incluye capacidades especializadas para facturas y recibos, documentos de identidad, y documentos hipotecarios. El servicio mantiene la confianza de cada extracción, facilitando la validación y revisión humana cuando sea necesario.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Procesamiento automático de facturas y recibos</li>
+                            <li>Extracción de datos de formularios fiscales</li>
+                            <li>Digitalización de registros históricos y archivos</li>
+                            <li>Procesamiento de solicitudes de préstamos hipotecarios</li>
+                            <li>Extracción de información de documentos médicos</li>
+                            <li>Automatización de entrada de datos de contratos</li>
+                            <li>Verificación de identidad mediante documentos oficiales</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $1.50 por 1,000 páginas (detección de texto); precios adicionales para análisis de formularios y tablas
+                    </div>
+                </div>
+
+                <!-- Amazon Kendra -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Kendra</span>
+                        <span class="servicio-badge ia">IA - BÚSQUEDA</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Kendra es un servicio de búsqueda empresarial inteligente impulsado por machine learning. A diferencia de las búsquedas tradicionales basadas en palabras clave, Kendra utiliza comprensión del lenguaje natural para entender el contexto y la intención detrás de las consultas, proporcionando respuestas precisas en lugar de solo una lista de documentos. El servicio puede conectarse a múltiples fuentes de datos empresariales como SharePoint, S3, bases de datos, sistemas de gestión documental, y más de 40 conectores nativos. Kendra comprende la jerarquía organizacional y los permisos de acceso, asegurando que los usuarios solo vean resultados que están autorizados a ver. Incluye capacidades de incremental learning que mejoran con el uso, permitiendo ajustes de relevancia personalizados. El servicio puede proporcionar respuestas directas a preguntas, fragmentos de documentos relevantes, y enlaces a documentos completos. También soporta sinónimos personalizados, tuning de relevancia, y puede resaltar respuestas dentro de documentos extensos.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Portales de conocimiento interno para empleados</li>
+                            <li>Búsqueda inteligente en bases de conocimiento de soporte</li>
+                            <li>Research y descubrimiento en documentación técnica</li>
+                            <li>Búsqueda en bibliotecas de documentos legales</li>
+                            <li>Discovery de información en archivos de compliance</li>
+                            <li>Búsqueda semántica en catálogos de productos</li>
+                            <li>Asistencia al cliente con respuestas automáticas</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $810/mes (Developer Edition) hasta $1,008/mes + consultas (Enterprise Edition)
+                    </div>
+                </div>
+
+                <!-- AWS DeepRacer -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS DeepRacer</span>
+                        <span class="servicio-badge ia">IA - APRENDIZAJE</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS DeepRacer es una forma divertida y práctica de aprender sobre reinforcement learning (aprendizaje por refuerzo). Consiste en un auto de carreras autónomo a escala 1/18 completamente funcional impulsado por reinforcement learning, junto con un simulador 3D y una liga de carreras global. Los desarrolladores pueden entrenar modelos de RL en el simulador sin necesidad del auto físico, experimentando con funciones de recompensa, algoritmos, y ajustes de hiperparámetros. El servicio integra SageMaker para entrenamiento y RoboMaker para simulación. DeepRacer proporciona una manera práctica de entender conceptos complejos de ML como exploración vs. explotación, ajuste de hiperparámetros, y optimización de políticas. La liga DeepRacer permite competir globalmente en carreras virtuales y presenciales. Aunque parece un juego, enseña conceptos fundamentales de RL aplicables a casos de uso empresariales como optimización de sistemas, robótica, y toma de decisiones autónoma.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Educación práctica en reinforcement learning</li>
+                            <li>Eventos corporativos de team building técnico</li>
+                            <li>Competencias de ML en universidades</li>
+                            <li>Demostración de conceptos de IA a stakeholders</li>
+                            <li>Prototipado rápido de algoritmos de RL</li>
+                            <li>Capacitación de equipos en ML de manera entretenida</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Simulador: $3.50/hora de entrenamiento; Auto físico: $399 (compra única)
+                    </div>
+                </div>
+
+                <!-- Amazon Bedrock -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon Bedrock</span>
+                        <span class="servicio-badge ia">IA GENERATIVA</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Bedrock es el servicio más reciente y revolucionario de AWS para IA generativa, proporcionando acceso a modelos fundacionales (Foundation Models) de vanguardia a través de una API unificada. Bedrock ofrece modelos de texto e imágenes de líderes de la industria como Anthropic (Claude), AI21 Labs (Jurassic), Stability AI (Stable Diffusion), Cohere, Meta (Llama), y los propios modelos Amazon Titan. Los usuarios pueden experimentar con diferentes modelos sin necesidad de gestionar infraestructura, seleccionando el más adecuado para su caso de uso. Una característica clave es la personalización de modelos mediante fine-tuning con datos propios, manteniendo la privacidad de los datos (no se utilizan para entrenar modelos base). Bedrock integra Agents para construir aplicaciones que pueden razonar sobre tareas complejas, ejecutar acciones mediante APIs, y consultar bases de conocimiento. Knowledge Bases permite conectar modelos a fuentes de datos empresariales para respuestas contextuales. El servicio garantiza que los datos del cliente permanecen privados y cifrados, cumpliendo con estándares de compliance empresarial.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Generación de contenido de marketing y copywriting</li>
+                            <li>Chatbots conversacionales avanzados con contexto empresarial</li>
+                            <li>Resumen y análisis de documentos extensos</li>
+                            <li>Generación de código y asistentes de programación</li>
+                            <li>Creación de imágenes y arte digital personalizado</li>
+                            <li>Asistentes virtuales que ejecutan tareas empresariales</li>
+                            <li>Búsqueda semántica en bases de conocimiento corporativas</li>
+                            <li>Generación de informes y análisis automatizados</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Precios variables según modelo: desde $0.0008 por 1K tokens (entrada) para modelos básicos hasta $0.024 por 1K tokens para modelos avanzados
+                    </div>
+                </div>
+
+                <!-- Amazon Q -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon Q</span>
+                        <span class="servicio-badge ia">ASISTENTE IA</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Q es el asistente de IA generativa de AWS diseñado específicamente para el trabajo empresarial. Es un chatbot inteligente que ayuda a empleados a ser más productivos mediante respuestas a preguntas, generación de contenido, toma de acciones, y resolución de problemas utilizando datos empresariales. Q se conecta de forma segura a más de 40 aplicaciones empresariales comunes (Salesforce, Jira, Zendesk, Gmail, etc.) y puede buscar información, crear resúmenes, generar contenido, y completar tareas. Q Developer (anteriormente CodeWhisperer) es una versión especializada para desarrolladores que proporciona sugerencias de código, explicaciones, debugging, optimización, y puede generar código completo desde descripciones en lenguaje natural. Q Business permite a empresas implementar un asistente de IA personalizado que comprende su información específica mientras mantiene permisos y controles de acceso. Q también incluye Q Apps, que permite a usuarios crear aplicaciones de IA generativa sin código. Amazon Q representa el futuro del trabajo asistido por IA, democratizando el acceso a capacidades avanzadas de IA para todos los empleados.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Asistente virtual para búsqueda de información empresarial</li>
+                            <li>Generación automática de código para desarrolladores</li>
+                            <li>Creación de resúmenes de reuniones y documentos</li>
+                            <li>Respuestas a preguntas sobre políticas y procedimientos</li>
+                            <li>Análisis y debugging de aplicaciones AWS</li>
+                            <li>Generación de informes personalizados desde datos empresariales</li>
+                            <li>Asistencia en troubleshooting de problemas técnicos</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Q Business: $20/usuario/mes; Q Developer Pro: $19/usuario/mes (versión gratuita disponible con limitaciones)
+                    </div>
+                </div>
+
+                <!-- Amazon Monitron -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Monitron</span>
+                        <span class="servicio-badge ia">IA - IoT</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Monitron es un sistema end-to-end de monitoreo de condiciones que utiliza machine learning para detectar comportamientos anormales en maquinaria industrial, permitiendo mantenimiento predictivo. El servicio incluye sensores inalámbricos que monitorean temperatura y vibración, una gateway para transmitir datos a AWS, y la aplicación móvil Monitron que utiliza ML para detectar patrones anormales automáticamente. No requiere desarrollo de modelos ML ni experiencia en data science, ya que los algoritmos de ML están pre-entrenados para detectar anomalías en equipos rotativos como motores, cajas de cambios, compresores, y bombas. Monitron aprende continuamente los patrones normales de operación de cada máquina y alerta cuando detecta desviaciones que podrían indicar fallas inminentes. Los usuarios pueden configurar umbrales de alerta, recibir notificaciones, y programar trabajo de mantenimiento directamente desde la aplicación. Es una solución completa de hardware y software que democratiza el mantenimiento predictivo para empresas de manufactura de cualquier tamaño.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Mantenimiento predictivo en plantas manufactureras</li>
+                            <li>Monitoreo de equipamiento HVAC en edificios comerciales</li>
+                            <li>Prevención de fallas en maquinaria de producción</li>
+                            <li>Optimización de calendarios de mantenimiento</li>
+                            <li>Reducción de tiempo de inactividad no planificado</li>
+                            <li>Monitoreo de bombas y compresores industriales</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Hardware: $685 (starter kit con 5 sensores); Servicio: $10/sensor/mes
+                    </div>
+                </div>
+
+                <!-- Amazon Lookout -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Lookout for Vision</span>
+                        <span class="servicio-badge ia">IA - VISIÓN</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Lookout for Vision es un servicio de computer vision que identifica defectos y anomalías en productos mediante machine learning. Utilizando tan solo 30 imágenes base, el servicio puede entrenar un modelo personalizado para detectar defectos específicos en tus productos o procesos de manufactura. Lookout for Vision analiza imágenes de productos en líneas de producción y puede identificar daños, faltantes, irregularidades de color, texturas incorrectas, y cualquier desviación de los estándares de calidad. El servicio maneja automáticamente todo el proceso de ML, desde preparación de datos hasta entrenamiento y optimización del modelo. Incluye una interfaz visual para etiquetar imágenes como normales o anómalas, y el sistema aprende a distinguir entre ambas. Los modelos desplegados pueden procesar imágenes en tiempo real para inspección de calidad automatizada. También proporciona mapas de calor que muestran exactamente qué partes de una imagen fueron identificadas como defectuosas, facilitando el análisis de causas raíz.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Inspección de calidad automatizada en líneas de producción</li>
+                            <li>Detección de defectos en componentes electrónicos</li>
+                            <li>Control de calidad en industria alimentaria</li>
+                            <li>Inspección de soldaduras y ensamblajes</li>
+                            <li>Verificación de empaquetado y etiquetado</li>
+                            <li>Detección de daños en productos terminados</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $4/hora de entrenamiento; $4/hora de inferencia una vez desplegado
+                    </div>
+                </div>
+
+                <!-- Amazon Lookout for Metrics -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Lookout for Metrics</span>
+                        <span class="servicio-badge ia">IA - ANOMALÍAS</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Lookout for Metrics utiliza machine learning para detectar automáticamente anomalías en métricas empresariales y diagnosticar su causa raíz. El servicio monitorea continuamente métricas como ingresos, tráfico web, transacciones, o cualquier KPI empresarial, utilizando ML para aprender patrones normales incluyendo estacionalidad y tendencias. Cuando detecta anomalías, Lookout for Metrics no solo alerta, sino que también agrupa anomalías relacionadas y proporciona un ranking de posibles causas raíz basado en análisis dimensional de los datos. Se conecta fácilmente a fuentes de datos populares como Amazon S3, Redshift, RDS, CloudWatch, además de servicios SaaS como Salesforce, Marketo, y Google Analytics. El servicio reduce el tiempo que los analistas dedican a monitorear manualmente dashboards y buscar anomalías, permitiéndoles enfocarse en investigación y acción. También puede enviar alertas automáticas a través de SNS, Lambda, o integraciones con servicios de terceros cuando se detectan problemas significativos.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Detección de caídas inesperadas en ingresos o conversiones</li>
+                            <li>Monitoreo de métricas de rendimiento de aplicaciones</li>
+                            <li>Identificación de anomalías en campañas de marketing</li>
+                            <li>Detección de problemas en métricas de engagement de usuarios</li>
+                            <li>Monitoreo de KPIs operacionales y detección temprana de problemas</li>
+                            <li>Análisis de anomalías en datos de ventas por región/producto</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Basado en volumen de métricas monitoreadas y dimensiones analizadas
+                    </div>
+                </div>
+
+                <!-- Amazon Lookout for Equipment -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Lookout for Equipment</span>
+                        <span class="servicio-badge ia">IA - IoT</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Lookout for Equipment detecta comportamientos anormales en maquinaria industrial utilizando datos de sensores y machine learning, sin requerir experiencia en ML. A diferencia de Monitron que es una solución completa con hardware, Lookout for Equipment permite usar tus sensores existentes y datos históricos. El servicio analiza datos de sensores como temperatura, presión, flujo, vibración, y voltaje para crear modelos ML personalizados que comprenden los patrones de operación normal de cada equipo específico. Puede ingerir datos en tiempo real o batch desde múltiples fuentes. Una vez entrenado, el modelo detecta anomalías sutiles que podrían indicar fallas inminentes, proporcionando alertas tempranas para planificar mantenimiento antes de fallas costosas. El servicio también proporciona análisis de contribución que identifica qué sensores o factores están causando las anomalías detectadas. Es especialmente valioso para industrias con equipamiento crítico donde el tiempo de inactividad tiene costos significativos como manufactura, energía, minería, y procesamiento de alimentos.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Mantenimiento predictivo con infraestructura de sensores existente</li>
+                            <li>Monitoreo de turbinas eólicas y equipos de generación</li>
+                            <li>Prevención de fallas en equipos de minería</li>
+                            <li>Optimización de mantenimiento en plantas químicas</li>
+                            <li>Detección temprana de problemas en cadenas de producción</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Modelo de precios basado en cantidad de datos procesados y frecuencia de inferencia
+                    </div>
+                </div>
+
+                <!-- AWS Panorama -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Panorama</span>
+                        <span class="servicio-badge ia">IA - VISIÓN EDGE</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Panorama es un servicio que permite agregar computer vision a cámaras IP existentes en el edge (en el sitio), sin necesidad de enviar video a la nube. Consiste en el Panorama Appliance (un dispositivo de hardware) y el SDK de Panorama para construir aplicaciones de visión por computadora. Las organizaciones pueden usar sus cámaras de seguridad existentes para casos de uso de visión por computadora como detección de defectos de calidad, verificación de uso de EPP, conteo de personas, análisis de comportamiento de clientes, y cumplimiento de protocolos de seguridad. El procesamiento en el edge reduce latencia, costos de ancho de banda, y aborda preocupaciones de privacidad al mantener el video localmente. Panorama soporta modelos entrenados en SageMaker o frameworks populares como TensorFlow y PyTorch. El servicio administra la implementación de modelos a través de flotas de dispositivos, actualización de modelos, y monitoreo de dispositivos desde la nube. Es ideal para casos de uso que requieren análisis de video en tiempo real con baja latencia.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Verificación de uso de equipo de protección personal en plantas</li>
+                            <li>Control de calidad visual en líneas de producción</li>
+                            <li>Análisis de comportamiento de clientes en retail físico</li>
+                            <li>Conteo de personas y gestión de ocupación</li>
+                            <li>Detección de condiciones inseguras en tiempo real</li>
+                            <li>Monitoreo de cumplimiento de protocolos de seguridad</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Appliance: $4,000 (compra única); Software: costos de desarrollo y despliegue de aplicaciones
+                    </div>
+                </div>
+
+                <!-- Amazon HealthLake -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon HealthLake</span>
+                        <span class="servicio-badge ia">IA - SALUD</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon HealthLake es un servicio compatible con HIPAA que permite a organizaciones de salud almacenar, transformar, consultar y analizar datos de salud a escala. Utiliza machine learning para estructurar automáticamente datos médicos no estructurados de notas clínicas, reportes de laboratorio, recetas, y procedimientos, transformándolos en un formato FHIR (Fast Healthcare Interoperability Resources) estándar. HealthLake puede identificar y extraer automáticamente información médica valiosa como condiciones, medicamentos, dosis, resultados de pruebas, procedimientos, y relaciones entre ellos. El servicio normaliza datos de múltiples fuentes heterogéneas, permitiendo una vista longitudinal completa del historial de salud del paciente. Incluye capacidades de búsqueda semántica que entienden términos médicos y sus sinónimos. HealthLake facilita la creación de modelos de ML para medicina de precisión, análisis de población, detección de patrones de enfermedad, y mejora de outcomes clínicos. Cumple con estándares estrictos de seguridad y privacidad requeridos en el sector salud.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Creación de registros longitudinales de pacientes</li>
+                            <li>Análisis de poblaciones para salud pública</li>
+                            <li>Desarrollo de modelos predictivos de riesgo de salud</li>
+                            <li>Análisis de efectividad de tratamientos</li>
+                            <li>Identificación de pacientes para ensayos clínicos</li>
+                            <li>Gestión de salud poblacional y medicina de precisión</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Basado en almacenamiento de datos, procesamiento con NLP médico, y consultas ejecutadas
+                    </div>
+                </div>
+
+                <!-- Amazon Fraud Detector -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Fraud Detector</span>
+                        <span class="servicio-badge ia">IA - SEGURIDAD</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Fraud Detector es un servicio completamente administrado que facilita la identificación de actividades potencialmente fraudulentas mediante machine learning. El servicio utiliza más de 20 años de experiencia de AWS y Amazon.com en detección de fraude. Fraud Detector automatiza todo el proceso de construcción, entrenamiento y despliegue de modelos de detección de fraude personalizados basados en tus datos históricos. Soporta casos de uso como fraude en nuevas cuentas, fraude en pagos online, detección de abuso de promociones (promo abuse), e identificación de cuentas bot o fake. El servicio incluye templates pre-construidos para casos de uso comunes, enriquecimiento automático de datos con características calculadas, y capacidades de detección en tiempo real. Permite combinar ML con reglas de negocio personalizadas para decisiones más precisas. El modelo de evaluación de riesgo proporciona scores de fraude que pueden usarse para bloquear, permitir, o revisar manualmente transacciones. También incluye capacidades de retroalimentación para mejorar continuamente los modelos.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Prevención de fraude en transacciones de e-commerce</li>
+                            <li>Detección de creación masiva de cuentas falsas</li>
+                            <li>Identificación de abuso de promociones y descuentos</li>
+                            <li>Prevención de fraude en solicitudes de préstamos</li>
+                            <li>Detección de cuentas bot y actividad automatizada</li>
+                            <li>Protección contra toma de control de cuentas (ATO)</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $1.00 por 1,000 predicciones + $0.0004 por registro procesado durante entrenamiento
+                    </div>
+                </div>
+
+                <!-- Amazon CodeGuru -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon CodeGuru</span>
+                        <span class="servicio-badge ia">IA - DESARROLLO</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon CodeGuru utiliza machine learning para proporcionar recomendaciones inteligentes para mejorar la calidad del código y optimizar el rendimiento de aplicaciones. El servicio consiste en dos componentes principales: CodeGuru Reviewer analiza código fuente durante revisiones de código (code reviews) para identificar problemas difíciles de encontrar, vulnerabilidades de seguridad, y desviaciones de mejores prácticas, proporcionando recomendaciones concretas para mejorar. CodeGuru Profiler analiza el comportamiento de aplicaciones en ejecución para identificar ineficiencias de rendimiento costosas, como uso excesivo de CPU, memory leaks, y operaciones de I/O innecesarias. El servicio fue entrenado con millones de code reviews internos de Amazon y miles de proyectos open source. CodeGuru se integra con repositorios como GitHub, Bitbucket, y AWS CodeCommit, y puede ejecutarse como parte de pipelines de CI/CD. Soporta Java, Python, y JavaScript, con capacidades específicas de detección de problemas para cada lenguaje.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Mejora automática de calidad de código en revisiones</li>
+                            <li>Identificación de vulnerabilidades de seguridad en código</li>
+                            <li>Optimización de rendimiento de aplicaciones en producción</li>
+                            <li>Detección de resource leaks y problemas de concurrencia</li>
+                            <li>Reducción de costos de infraestructura mediante optimización</li>
+                            <li>Capacitación de desarrolladores junior mediante recomendaciones</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Reviewer: $0.75 por 100 líneas de código analizadas; Profiler: $0.005 por hora de aplicación perfilada
+                    </div>
+                </div>
+
+                <!-- Amazon DevOps Guru -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon DevOps Guru</span>
+                        <span class="servicio-badge ia">IA - OPS</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon DevOps Guru es un servicio impulsado por ML que facilita la mejora de la disponibilidad de aplicaciones mediante la detección automática de comportamientos operacionales anormales y recomendación de acciones correctivas. El servicio analiza métricas, logs, eventos, y trazas de aplicaciones para identificar desviaciones de patrones normales que podrían indicar problemas operacionales. DevOps Guru fue entrenado con años de excelencia operacional de Amazon.com y miles de aplicaciones AWS. Cuando detecta un problema, agrupa anomalías relacionadas en un único "insight", proporciona un análisis de causa raíz probable, y recomienda acciones específicas para remediar. Se integra con servicios como CloudWatch, X-Ray, CloudFormation, y puede monitorear recursos específicos o aplicaciones completas definidas por stacks de CloudFormation. DevOps Guru for RDS es una versión especializada que detecta, diagnostica, y resuelve problemas de rendimiento de bases de datos. Reduce significativamente el tiempo medio de detección y resolución (MTTD/MTTR) de problemas operacionales.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Detección proactiva de problemas antes de impactar usuarios</li>
+                            <li>Reducción de tiempo de troubleshooting operacional</li>
+                            <li>Identificación de causas raíz de problemas de rendimiento</li>
+                            <li>Optimización de bases de datos de manera automática</li>
+                            <li>Mejora de disponibilidad de aplicaciones críticas</li>
+                            <li>Reducción de carga en equipos de DevOps/SRE</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Basado en cantidad de recursos monitoreados (por ejemplo, $0.0042/recurso/hora para recursos EC2)
+                    </div>
+                </div>
+
+                <!-- Amazon Augmented AI (A2I) -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Augmented AI (A2I)</span>
+                        <span class="servicio-badge ia">IA - HUMANO EN EL BUCLE</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Augmented AI (A2I) facilita la construcción de flujos de trabajo que requieren revisión humana de predicciones de machine learning. Aunque los modelos de ML son muy precisos, en ciertos casos críticos es importante tener supervisión humana para decisiones de baja confianza o casos especiales. A2I permite definir condiciones bajo las cuales las predicciones deben ser revisadas por humanos, como cuando la confianza del modelo está por debajo de un umbral específico o para muestreo aleatorio de auditoría. El servicio se integra nativamente con Amazon Textract para revisión de extracción de documentos y Amazon Rekognition para moderación de contenido, pero también soporta modelos ML personalizados. A2I proporciona interfaces de usuario pre-construidas para tareas de revisión comunes, o permite crear interfaces personalizadas. Puede integrarse con fuerza laboral privada (tus empleados), proveedores de terceros, o Amazon Mechanical Turk. El servicio gestiona el enrutamiento de tareas, consolidación de respuestas de múltiples revisores, y retroalimentación para mejorar modelos.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Revisión humana de predicciones de baja confianza</li>
+                            <li>Validación de extracción de datos de documentos críticos</li>
+                            <li>Moderación de contenido con supervisión humana</li>
+                            <li>Auditoría de calidad de modelos ML en producción</li>
+                            <li>Validación de decisiones automatizadas en procesos regulados</li>
+                            <li>Mejora continua de modelos mediante feedback humano</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.024 por objeto revisado por humanos (primeros 1,000 objetos/mes gratis durante 12 meses)
+                    </div>
+                </div>
+
+                <!-- AWS HealthScribe -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS HealthScribe</span>
+                        <span class="servicio-badge ia">IA MÉDICA</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS HealthScribe es un servicio de IA generativa compatible con HIPAA diseñado específicamente para generar notas clínicas a partir de conversaciones entre médicos y pacientes. El servicio combina reconocimiento de voz, procesamiento de lenguaje natural médico especializado, y IA generativa para transcribir automáticamente consultas médicas, extraer información médica relevante, y generar resúmenes clínicos estructurados. HealthScribe puede identificar y segmentar conversaciones médicas en secciones estándar (historia del presente, revisión de sistemas, examen físico, evaluación y plan), reconocer terminología médica compleja, y formatear la información según estándares clínicos. El servicio reduce significativamente el tiempo que los médicos dedican a documentación, permitiéndoles enfocarse más en el cuidado del paciente. También mejora la precisión de las notas al capturar detalles que podrían olvidarse en transcripción manual. HealthScribe mantiene altos estándares de privacidad y seguridad requeridos en el sector salud, y los datos nunca se utilizan para entrenar modelos generales.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Generación automática de notas de consultas médicas</li>
+                            <li>Reducción de tiempo de documentación para médicos</li>
+                            <li>Mejora de precisión en historias clínicas</li>
+                            <li>Documentación de telemedicina en tiempo real</li>
+                            <li>Generación de resúmenes de visitas de pacientes</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Modelo de precios basado en minutos de audio procesado y funcionalidades utilizadas
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- CATEGORÍA 2: SERVICIOS DE CÓMPUTO -->
+            <!-- ============================================ -->
+            <section id="computo" class="categoria">
+                <div class="categoria-header">
+                    <h2><span class="icono">💻</span> Servicios de Cómputo</h2>
+                </div>
+                <div class="categoria-descripcion">
+                    <p>Los servicios de cómputo de AWS proporcionan la capacidad de procesamiento fundamental para ejecutar aplicaciones, desde servidores virtuales tradicionales hasta arquitecturas serverless completamente administradas. AWS ofrece la mayor variedad de opciones de cómputo en la nube, permitiendo elegir el servicio más adecuado según requisitos de rendimiento, escalabilidad, y modelo de gestión deseado.</p>
+                </div>
+
+                <!-- Amazon EC2 -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon EC2 (Elastic Compute Cloud)</span>
+                        <span class="servicio-badge">FUNDAMENTAL</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon EC2 es el servicio principal de servidores virtuales en la nube de AWS. Proporciona capacidad de cómputo redimensionable con control completo sobre instancias virtuales que pueden ejecutar prácticamente cualquier sistema operativo y aplicación. EC2 ofrece más de 500 tipos de instancias optimizadas para diferentes casos de uso, incluyendo de propósito general, optimizadas para cómputo, memoria, almacenamiento, y GPU para cargas de trabajo de IA/ML. Las instancias pueden lanzarse en segundos, escalarse vertical u horizontalmente según demanda, y pagarse solo por el tiempo de uso (por segundo para Linux). EC2 incluye características como Auto Scaling para ajustar automáticamente capacidad, Elastic Load Balancing para distribuir tráfico, y múltiples opciones de almacenamiento con EBS. También ofrece modelos de precios flexibles: On-Demand (pago por uso), Reserved Instances (descuentos por compromisos de 1-3 años), Savings Plans, y Spot Instances (hasta 90% de descuento para cargas interrumpibles). EC2 es la columna vertebral de millones de aplicaciones empresariales en AWS.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Hosting de aplicaciones web y móviles</li>
+                            <li>Servidores de aplicaciones empresariales</li>
+                            <li>Entornos de desarrollo y testing</li>
+                            <li>Procesamiento de datos y analytics</li>
+                            <li>Aplicaciones de alto rendimiento (HPC)</li>
+                            <li>Infraestructura para gaming online</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $0.0116/hora (t3.micro) hasta cientos de dólares/hora para instancias especializadas
+                    </div>
+                </div>
+
+                <!-- AWS Lambda -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>AWS Lambda</span>
+                        <span class="servicio-badge">SERVERLESS</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Lambda es el servicio de cómputo serverless líder de la industria que ejecuta código en respuesta a eventos sin necesidad de aprovisionar o administrar servidores. Lambda escala automáticamente desde cero hasta miles de solicitudes concurrentes, ejecutando código exactamente cuando se necesita. Los desarrolladores solo suben su código (soporta Node.js, Python, Java, Go, Ruby, .NET, y código personalizado con contenedores), definen los eventos que lo disparan (HTTP requests vía API Gateway, cambios en S3, mensajes de SQS, eventos de CloudWatch, etc.), y Lambda se encarga de todo lo demás: provisión de capacidad, scaling, patching, monitoreo, y logging. El modelo de precios es extremadamente eficiente: solo pagas por el tiempo de cómputo consumido en incrementos de milisegundos, sin cargos cuando el código no está ejecutándose. Lambda incluye 1 millón de solicitudes gratuitas por mes perpetuamente. Es ideal para arquitecturas event-driven, APIs, procesamiento de datos en tiempo real, y automatización. Lambda@Edge permite ejecutar código en ubicaciones de CloudFront para personalización de contenido cerca de usuarios finales.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Backends de APIs RESTful y GraphQL</li>
+                            <li>Procesamiento de archivos subidos a S3</li>
+                            <li>Procesamiento de streams de datos en tiempo real</li>
+                            <li>Automatización de tareas y workflows</li>
+                            <li>Backends de aplicaciones móviles y web</li>
+                            <li>Bots y webhooks</li>
+                            <li>Transformación de datos en pipelines ETL</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.20 por 1 millón de solicitudes + $0.00001667 por GB-segundo de ejecución
+                    </div>
+                </div>
+
+                <!-- Amazon ECS -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon ECS (Elastic Container Service)</span>
+                        <span class="servicio-badge">CONTENEDORES</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon ECS es un servicio de orquestación de contenedores completamente administrado que facilita ejecutar, detener y administrar contenedores Docker en un cluster. ECS elimina la necesidad de instalar, operar y escalar tu propia infraestructura de administración de contenedores. El servicio se integra profundamente con otros servicios de AWS como Elastic Load Balancing, Amazon VPC, IAM, y CloudWatch. ECS ofrece dos modos de lanzamiento: EC2 (donde administras las instancias subyacentes) y Fargate (serverless, donde AWS administra la infraestructura completamente). ECS soporta definiciones de tareas que especifican contenedores, recursos, networking, y almacenamiento. El servicio maneja el scheduling de contenedores, health checks, auto scaling, service discovery, y actualizaciones rolling. ECS Anywhere permite ejecutar contenedores en tu propia infraestructura on-premises usando la misma API y herramientas de ECS. Es ideal para aplicaciones containerizadas que requieren integración estrecha con servicios AWS.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Microservicios containerizados</li>
+                            <li>Aplicaciones web escalables</li>
+                            <li>Procesamiento batch y jobs</li>
+                            <li>Aplicaciones híbridas cloud-on-premises</li>
+                            <li>Migración de aplicaciones containerizadas a la nube</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Sin costo adicional por ECS (pagas por recursos EC2/Fargate utilizados)
+                    </div>
+                </div>
+
+                <!-- Amazon EKS -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon EKS (Elastic Kubernetes Service)</span>
+                        <span class="servicio-badge">KUBERNETES</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon EKS es un servicio administrado de Kubernetes que facilita ejecutar Kubernetes en AWS sin necesidad de instalar, operar y mantener tu propio plano de control de Kubernetes. EKS ejecuta Kubernetes upstream certificado, garantizando compatibilidad con aplicaciones Kubernetes existentes. El servicio maneja automáticamente la disponibilidad y escalabilidad del plano de control de Kubernetes, ejecutando múltiples masters en múltiples zonas de disponibilidad, detectando y reemplazando masters no saludables, y proporcionando actualizaciones automatizadas. EKS se integra con servicios AWS para proporcionar escalabilidad, seguridad, networking (VPC), y observabilidad (CloudWatch). Soporta tanto EC2 como Fargate como opciones de cómputo para pods. EKS Anywhere permite crear y operar clusters de Kubernetes on-premises con la misma experiencia que EKS en la nube. EKS Distro proporciona la misma distribución de Kubernetes utilizada por Amazon EKS para desplegar en cualquier lugar. Es la elección ideal para organizaciones ya invertidas en Kubernetes.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Aplicaciones nativas de Kubernetes</li>
+                            <li>Arquitecturas de microservicios complejas</li>
+                            <li>Aplicaciones híbridas multi-cloud</li>
+                            <li>Modernización de aplicaciones legacy</li>
+                            <li>Plataformas de desarrollo self-service</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.10/hora por cluster EKS + costos de recursos de cómputo (EC2/Fargate)
+                    </div>
+                </div>
+
+                <!-- AWS Fargate -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Fargate</span>
+                        <span class="servicio-badge">SERVERLESS</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Fargate es un motor de cómputo serverless para contenedores que funciona tanto con Amazon ECS como Amazon EKS. Con Fargate, no necesitas aprovisionar, configurar ni escalar clusters de máquinas virtuales para ejecutar contenedores. Fargate elimina la necesidad de elegir tipos de instancia, decidir cuándo escalar clusters, u optimizar el empaquetamiento de clusters. Simplemente defines los requisitos de recursos (CPU y memoria) de tu aplicación, y Fargate lanza y escala la infraestructura de cómputo necesaria. Cada tarea o pod de Fargate tiene su propio kernel aislado, proporcionando seguridad mejorada mediante aislamiento de carga de trabajo. Fargate escala automáticamente la infraestructura de cómputo para que coincida con los requisitos de tu aplicación sin intervención manual. Pagas solo por los recursos que tus contenedores usan, calculados desde el momento en que descargan la imagen del contenedor hasta que termina la tarea o pod, redondeado al segundo más cercano. Es ideal para equipos que quieren enfocarse en construir aplicaciones sin gestionar infraestructura.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Aplicaciones web containerizadas sin gestión de infraestructura</li>
+                            <li>APIs y microservicios serverless</li>
+                            <li>Procesamiento batch y jobs programados</li>
+                            <li>Aplicaciones que requieren aislamiento de seguridad estricto</li>
+                            <li>Ambientes de desarrollo y staging</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $0.04048/vCPU/hora + $0.004445/GB memoria/hora (precios varían por región)
+                    </div>
+                </div>
+
+                <!-- AWS Elastic Beanstalk -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Elastic Beanstalk</span>
+                        <span class="servicio-badge">PaaS</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Elastic Beanstalk es un servicio Platform as a Service (PaaS) que facilita desplegar y escalar aplicaciones web desarrolladas en Java, .NET, PHP, Node.js, Python, Ruby, Go, o Docker en servidores familiares como Apache, Nginx, Passenger, e IIS. Beanstalk maneja automáticamente el aprovisionamiento de capacidad, balanceo de carga, auto scaling, monitoreo de salud de aplicaciones, y despliegue de código. Los desarrolladores simplemente suben su código, y Beanstalk maneja todos los detalles de infraestructura. El servicio mantiene control completo sobre los recursos AWS subyacentes, permitiendo acceder y configurar instancias EC2, bases de datos RDS, y otros componentes según sea necesario. Beanstalk soporta múltiples entornos (desarrollo, staging, producción), actualizaciones rolling y blue/green deployments, y guarda configuraciones de aplicación para reutilización. No hay cargos adicionales por Beanstalk, solo pagas por los recursos AWS utilizados. Es ideal para desarrolladores que quieren enfocarse en código sin preocuparse por infraestructura.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Despliegue rápido de aplicaciones web</li>
+                            <li>Prototipado y MVP de aplicaciones</li>
+                            <li>Aplicaciones que necesitan escalar automáticamente</li>
+                            <li>Migración de aplicaciones legacy a la nube</li>
+                            <li>Ambientes de desarrollo simplificados</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Sin costo adicional (pagas solo por recursos AWS utilizados: EC2, RDS, etc.)
+                    </div>
+                </div>
+
+                <!-- AWS Batch -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Batch</span>
+                        <span class="servicio-badge">BATCH</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Batch permite ejecutar trabajos batch a cualquier escala de manera eficiente. Batch aprovisiona automáticamente la cantidad óptima y tipo de recursos de cómputo (EC2 o Fargate) basándose en el volumen y requisitos de recursos de los trabajos batch enviados. Planifica, programa y ejecuta cargas de trabajo batch en toda la gama de servicios de cómputo de AWS. Los desarrolladores pueden enfocarse en escribir la lógica de negocio de sus aplicaciones batch mientras AWS Batch maneja la infraestructura. El servicio soporta dependencias de trabajos, priorización, y puede ejecutar miles o millones de trabajos concurrentemente. Batch se integra con AWS Compute Optimizer para recomendaciones de tamaño de instancia, y con Step Functions para orquestación de workflows complejos. Es altamente eficiente en costos ya que puede usar Spot Instances para ahorrar hasta 90% en costos de cómputo. Batch es ideal para procesamiento de datos a gran escala, renderizado de contenido, análisis genómicos, y simulaciones.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Procesamiento de grandes volúmenes de datos</li>
+                            <li>Renderizado de video y contenido 3D</li>
+                            <li>Análisis de genómica y bioinformática</li>
+                            <li>Simulaciones científicas y modelado</li>
+                            <li>Procesamiento de imágenes médicas</li>
+                            <li>Análisis financieros de riesgo</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Sin costo adicional (pagas solo por recursos de cómputo utilizados)
+                    </div>
+                </div>
+
+                <!-- AWS Lightsail -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Lightsail</span>
+                        <span class="servicio-badge">VPS SIMPLE</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Lightsail es la forma más sencilla de lanzar y administrar un servidor privado virtual con AWS. Diseñado para desarrolladores, pequeñas empresas, estudiantes y otros usuarios que necesitan una solución simple para construir y alojar aplicaciones en la nube. Lightsail ofrece instancias preconstruidas con todo lo necesario para desplegar una aplicación o sitio web rápidamente: una máquina virtual, almacenamiento SSD, transferencia de datos, gestión DNS, y una IP estática, todo por un precio mensual bajo y predecible que incluye un generoso allowance de transferencia de datos. El servicio proporciona aplicaciones y stacks preconfigurados como WordPress, LAMP, Nginx, Magento, y más, que pueden lanzarse con un solo clic. Lightsail incluye snapshots automáticos para backups, load balancers para alta disponibilidad, y bases de datos administradas. Aunque es simple, puedes conectar recursos de Lightsail con servicios avanzados de AWS cuando tu aplicación crezca. Es la puerta de entrada perfecta a AWS para usuarios nuevos.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Blogs y sitios web simples con WordPress</li>
+                            <li>Aplicaciones web de negocio pequeñas</li>
+                            <li>Entornos de desarrollo y testing</li>
+                            <li>Sitios web de portfolio personal</li>
+                            <li>Proyectos de aprendizaje y experimentación</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $3.50/mes (512 MB RAM, 1 vCPU, 20 GB SSD, 1 TB transferencia)
+                    </div>
+                </div>
+
+                <!-- Amazon EC2 Auto Scaling -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon EC2 Auto Scaling</span>
+                        <span class="servicio-badge">ESCALADO</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon EC2 Auto Scaling ayuda a mantener la disponibilidad de aplicaciones y permite agregar o remover automáticamente instancias EC2 según condiciones definidas. El servicio puede escalar capacidad horizontal basándose en demanda (scaling dinámico) o según un cronograma (scaling programado). Auto Scaling detecta cuando una instancia no está saludable, la termina, y lanza una nueva automáticamente para mantener la capacidad deseada. Soporta múltiples políticas de scaling: target tracking (mantener una métrica en un valor objetivo como 70% CPU), step scaling (escalar en incrementos basados en alarmas), y scheduled scaling. Auto Scaling se integra con Elastic Load Balancing para distribuir tráfico automáticamente entre instancias, CloudWatch para monitoreo, y SNS para notificaciones. También soporta warm pools para pre-inicializar instancias que pueden agregarse al grupo rápidamente. Auto Scaling ayuda a mantener rendimiento durante picos de tráfico mientras optimiza costos durante períodos de baja demanda. No hay cargos adicionales por usar Auto Scaling.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Aplicaciones con tráfico variable y picos predecibles</li>
+                            <li>Sitios web de e-commerce durante eventos de ventas</li>
+                            <li>Aplicaciones SaaS multi-tenant</li>
+                            <li>APIs que necesitan mantener tiempos de respuesta</li>
+                            <li>Aplicaciones que requieren alta disponibilidad</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Sin costo adicional (pagas solo por instancias EC2 y recursos asociados)
+                    </div>
+                </div>
+
+                <!-- AWS Outposts -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Outposts</span>
+                        <span class="servicio-badge">HÍBRIDO</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Outposts lleva servicios, infraestructura y modelos operativos de AWS a prácticamente cualquier datacenter, espacio de co-ubicación, o instalación on-premises. Outposts permite ejecutar algunos servicios de AWS localmente, proporcionando acceso local a infraestructura de AWS para baja latencia o necesidades de procesamiento de datos local. Los racks de Outposts son instalados por AWS en tu ubicación y se conectan a la región de AWS más cercana. Soporta servicios como EC2, EBS, RDS, ECS, EKS, y EMR, usando exactamente las mismas APIs, herramientas y interfaces que en la nube AWS. AWS administra, monitorea y opera la infraestructura de Outposts como parte de la región de AWS. Es ideal para cargas de trabajo que requieren latencia muy baja (procesamiento en el edge), residencia de datos local por requisitos regulatorios, migración gradual a la nube, o procesamiento local de datos antes de enviarlo a la nube. Outposts proporciona una experiencia híbrida verdaderamente consistente.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Procesamiento de datos con requisitos de residencia local</li>
+                            <li>Aplicaciones que requieren latencia ultra-baja</li>
+                            <li>Modernización gradual de datacenters on-premises</li>
+                            <li>Procesamiento local en hospitales, fábricas, o ubicaciones remotas</li>
+                            <li>Cumplimiento de regulaciones de soberanía de datos</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Precios basados en configuración de hardware; desde ~$150,000+ para un rack completo (modelo de compromiso de 3 años)
+                    </div>
+                </div>
+
+                <!-- AWS Serverless Application Repository -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Serverless Application Repository</span>
+                        <span class="servicio-badge">MARKETPLACE</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Serverless Application Repository es un repositorio administrado de aplicaciones serverless que permite a equipos, organizaciones y desarrolladores individuales almacenar y compartir aplicaciones serverless reutilizables. Los desarrolladores pueden descubrir, desplegar y publicar aplicaciones serverless construidas con Lambda, API Gateway, EventBridge, Step Functions, y otros servicios. El repositorio incluye aplicaciones públicas de AWS y la comunidad (verificadas por AWS), así como aplicaciones privadas que puedes compartir dentro de tu organización. Cada aplicación es empaquetada usando AWS SAM (Serverless Application Model), asegurando consistencia y facilitando el despliegue. Las aplicaciones pueden configurarse con parámetros personalizados durante el despliegue. El repositorio acelera el desarrollo al permitir reutilizar código y patrones probados en lugar de construir desde cero. Es especialmente útil para casos de uso comunes como procesamiento de imágenes, webhooks, APIs RESTful, procesamiento de logs, y automatización de tareas.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Reutilización de componentes serverless entre proyectos</li>
+                            <li>Despliegue rápido de funcionalidades comunes</li>
+                            <li>Compartir mejores prácticas dentro de organizaciones</li>
+                            <li>Acelerar desarrollo con templates pre-construidos</li>
+                            <li>Monetización de aplicaciones serverless</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Sin costo (pagas solo por recursos AWS utilizados por las aplicaciones desplegadas)
+                    </div>
+                </div>
+
+                <!-- AWS App Runner -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS App Runner</span>
+                        <span class="servicio-badge">NUEVO</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS App Runner es un servicio completamente administrado que facilita desplegar aplicaciones web y APIs a escala desde código fuente o contenedores. App Runner conecta automáticamente a repositorios de código fuente (GitHub, Bitbucket) o registros de contenedores (ECR), construye y despliega aplicaciones, proporciona balanceo de carga, auto scaling, health checks, y cifrado automático. Los desarrolladores simplemente apuntan App Runner a su código, y el servicio detecta automáticamente el lenguaje de programación, construye la aplicación, crea un contenedor, despliega, y configura la infraestructura de cómputo necesaria. App Runner escala automáticamente basándose en tráfico, desde cero instancias cuando no hay tráfico hasta miles de instancias durante picos. El servicio maneja actualizaciones automáticas de código mediante integración continua, y proporciona URLs HTTPS seguras por defecto. Es la forma más sencilla de desplegar aplicaciones containerizadas en AWS sin conocimientos de infraestructura. Ideal para desarrolladores que quieren la experiencia más simple posible de "código a contenedor a nube".
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>APIs y microservicios de backend</li>
+                            <li>Aplicaciones web frontend</li>
+                            <li>Servicios de procesamiento de datos</li>
+                            <li>Aplicaciones que necesitan despliegue continuo simple</li>
+                            <li>Prototipos y MVPs rápidos</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.007/vCPU/hora + $0.0008/GB memoria/hora + costos de build y solicitudes
+                    </div>
+                </div>
+
+                <!-- VMware Cloud on AWS -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>VMware Cloud on AWS</span>
+                        <span class="servicio-badge">HÍBRIDO</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        VMware Cloud on AWS permite migrar y extender entornos VMware on-premises a AWS sin necesidad de convertir o re-architectizar aplicaciones. El servicio proporciona infraestructura dedicada de AWS ejecutando software VMware Cloud Foundation (incluyendo vSphere, vSAN, NSX, y vCenter Server) diseñada, operada y soportada conjuntamente por AWS y VMware. Permite usar las mismas herramientas de VMware, habilidades y políticas en la nube que usas on-premises. VMware Cloud on AWS se integra con servicios nativos de AWS para bases de datos, analytics, IA/ML, IoT, seguridad, y más, permitiendo combinar cargas de trabajo VMware con servicios cloud-native. Es ideal para migración de datacenters, recuperación ante desastres, extensión de capacidad de datacenter (cloud bursting), y modernización gradual de aplicaciones. El servicio proporciona acceso a infraestructura global de AWS con la operación familiar de VMware. AWS y VMware manejan el mantenimiento, actualizaciones y soporte, permitiendo que los equipos se enfoquen en aplicaciones.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Migración de datacenters VMware a la nube</li>
+                            <li>Disaster recovery para entornos VMware</li>
+                            <li>Extensión de capacidad de datacenter (bursting)</li>
+                            <li>Modernización de aplicaciones VMware con servicios AWS</li>
+                            <li>Consolidación de datacenters distribuidos</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $8.56/hora/host (i3.metal) con compromisos de 1-3 años; precios on-demand también disponibles
+                    </div>
+                </div>
+
+                <!-- AWS Wavelength -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Wavelength</span>
+                        <span class="servicio-badge">5G EDGE</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Wavelength integra servicios de cómputo y almacenamiento de AWS dentro de redes 5G de operadores de telecomunicaciones, proporcionando infraestructura de ultra-baja latencia para aplicaciones móviles y dispositivos conectados. Wavelength Zones son despliegues de infraestructura de AWS integrados en datacenters de operadores de telecomunicaciones en el edge de redes 5G. Los desarrolladores pueden desplegar aplicaciones que requieren latencias de un solo dígito de milisegundos a dispositivos móviles y usuarios finales. Wavelength soporta servicios como EC2, ECS, EKS para cómputo, y EBS para almacenamiento. Las aplicaciones desplegadas en Wavelength Zones pueden alcanzar dispositivos móviles conectados a redes 5G sin salir de la red del operador de telecomunicaciones. Es ideal para aplicaciones interactivas y inmersivas como juegos móviles, streaming de video de alta calidad, realidad aumentada/virtual, inferencia de ML en tiempo real, y vehículos autónomos. Wavelength extiende AWS a redes 5G, acercando aplicaciones a usuarios móviles.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Gaming móvil de baja latencia y cloud gaming</li>
+                            <li>Streaming de video de alta definición</li>
+                            <li>Aplicaciones de AR/VR inmersivas</li>
+                            <li>Inferencia de ML para dispositivos IoT</li>
+                            <li>Aplicaciones de vehículos conectados</li>
+                            <li>Aplicaciones industriales con latencia crítica</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Precios similares a regiones AWS estándar + costos de transferencia de datos desde Wavelength Zones
+                    </div>
+                </div>
+
+                <!-- AWS Local Zones -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Local Zones</span>
+                        <span class="servicio-badge">EDGE</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Local Zones son extensiones de regiones de AWS que colocan servicios de cómputo, almacenamiento, base de datos y otros servicios selectos de AWS más cerca de grandes poblaciones, industrias y centros de IT. Local Zones permiten ejecutar aplicaciones que requieren latencias de un solo dígito de milisegundos para usuarios finales o on-premises. Cada Local Zone está conectada a una región padre de AWS, permitiendo conectar fácilmente aplicaciones en Local Zones con el conjunto completo de servicios en la región padre. Los servicios disponibles en Local Zones incluyen EC2, EBS, VPC, Direct Connect, y servicios de almacenamiento/bases de datos selectos. Local Zones son ideales para aplicaciones sensibles a latencia como gaming en tiempo real, streaming de medios en vivo, simulación de ingeniería, diseño asistido por computadora, y aplicaciones de realidad virtual. A diferencia de Wavelength que se enfoca en 5G, Local Zones sirven aplicaciones empresariales generales que necesitan proximidad a usuarios o datacenters corporativos específicos.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Aplicaciones que requieren latencia de un dígito ms</li>
+                            <li>Producción de medios y entretenimiento</li>
+                            <li>Gaming en tiempo real</li>
+                            <li>Workstations virtuales de alto rendimiento</li>
+                            <li>Simulaciones de ingeniería y diseño</li>
+                            <li>Aplicaciones híbridas que requieren proximidad a on-premises</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Precios similares a regiones AWS con posibles diferencias regionales
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- CATEGORÍA 3: ALMACENAMIENTO -->
+            <!-- ============================================ -->
+            <section id="almacenamiento" class="categoria">
+                <div class="categoria-header">
+                    <h2><span class="icono">💾</span> Servicios de Almacenamiento</h2>
+                </div>
+                <div class="categoria-descripcion">
+                    <p>AWS ofrece una amplia gama de servicios de almacenamiento seguros, duraderos y escalables que cubren desde almacenamiento de objetos masivo hasta almacenamiento de bloques de alto rendimiento. Los servicios de almacenamiento de AWS están diseñados para 99.999999999% (11 nueves) de durabilidad y pueden escalar desde gigabytes hasta exabytes sin compromiso previo.</p>
+                </div>
+
+                <!-- Amazon S3 -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon S3 (Simple Storage Service)</span>
+                        <span class="servicio-badge">FUNDAMENTAL</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon S3 es el servicio de almacenamiento de objetos líder de la industria, diseñado para almacenar y recuperar cualquier cantidad de datos desde cualquier lugar. S3 ofrece durabilidad del 99.999999999%, disponibilidad del 99.99%, y escala prácticamente ilimitada. Los datos se almacenan como objetos dentro de buckets, cada objeto puede tener hasta 5 TB de tamaño. S3 ofrece múltiples clases de almacenamiento optimizadas para diferentes patrones de acceso: S3 Standard (acceso frecuente), S3 Intelligent-Tiering (optimización automática), S3 Standard-IA (acceso infrecuente), S3 One Zone-IA (un solo AZ), S3 Glacier (archivado), y S3 Glacier Deep Archive (archivado a largo plazo). El servicio incluye características como versionado, replicación entre regiones, lifecycle policies para transición automática entre clases, encriptación, control de acceso granular, S3 Object Lock para cumplimiento, y S3 Select para consultar datos sin recuperar objetos completos. S3 es la columna vertebral de innumerables aplicaciones y es utilizado por millones de clientes en todo el mundo.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Backup y archivo de datos</li>
+                            <li>Data lakes para analytics y big data</li>
+                            <li>Almacenamiento de contenido estático para sitios web</li>
+                            <li>Distribución de software y actualizaciones</li>
+                            <li>Almacenamiento de imágenes, videos y archivos multimedia</li>
+                            <li>Repositorio para machine learning datasets</li>
+                            <li>Disaster recovery y continuidad de negocio</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         S3 Standard: $0.023/GB/mes (primeros 50 TB); costos de recuperación y transferencia adicionales
+                    </div>
+                </div>
+
+                <!-- Amazon EBS -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon EBS (Elastic Block Store)</span>
+                        <span class="servicio-badge">BLOQUES</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon EBS proporciona volúmenes de almacenamiento de bloques persistentes para usar con instancias EC2. EBS está diseñado para aplicaciones que requieren almacenamiento de baja latencia y alto rendimiento. Los volúmenes EBS son automáticamente replicados dentro de su zona de disponibilidad para proteger contra fallas de componentes. EBS ofrece varios tipos de volúmenes optimizados para diferentes cargas de trabajo: General Purpose SSD (gp3/gp2) para uso general balanceando precio y rendimiento, Provisioned IOPS SSD (io2/io1) para cargas de trabajo intensivas en I/O como bases de datos, Throughput Optimized HDD (st1) para procesamiento de datos big data, y Cold HDD (sc1) para datos accedidos infrecuentemente. Los volúmenes pueden ser aumentados de tamaño, cambiados de tipo, y tener su rendimiento ajustado dinámicamente sin tiempo de inactividad. EBS Snapshots permiten backup incremental a S3, y pueden usarse para crear nuevos volúmenes o restaurar volúmenes existentes. EBS Multi-Attach permite que ciertos tipos de volúmenes se adjunten a múltiples instancias simultáneamente.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Volúmenes de arranque para instancias EC2</li>
+                            <li>Bases de datos relacionales y NoSQL</li>
+                            <li>Aplicaciones empresariales como SAP, Oracle, Microsoft SQL</li>
+                            <li>Big data analytics con Hadoop/HDFS</li>
+                            <li>Sistemas de archivos de alto rendimiento</li>
+                            <li>Aplicaciones que requieren IOPS consistentes</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         gp3: $0.08/GB/mes + $0.005/IOPS provisionado/mes (sobre 3,000 IOPS base)
+                    </div>
+                </div>
+
+                <!-- Amazon EFS -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon EFS (Elastic File System)</span>
+                        <span class="servicio-badge">NFS</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon EFS proporciona un sistema de archivos elástico, escalable y totalmente administrado para usar con servicios de AWS Cloud y recursos on-premises. EFS escala automáticamente desde gigabytes hasta petabytes sin necesidad de aprovisionamiento, y puede soportar miles de conexiones concurrentes. El servicio implementa el protocolo NFSv4, permitiendo que múltiples instancias EC2, contenedores y funciones Lambda accedan simultáneamente al mismo sistema de archivos. EFS ofrece dos clases de almacenamiento: Standard para datos accedidos frecuentemente e Infrequent Access (IA) para datos accedidos raramente, con lifecycle management automático para mover archivos entre clases. EFS soporta dos modos de rendimiento (General Purpose y Max I/O) y dos modos de throughput (Bursting y Provisioned). EFS también ofrece opciones de encriptación en reposo y en tránsito, integración con IAM y VPC para seguridad, y puede replicarse entre regiones. Es ideal para cargas de trabajo que requieren acceso compartido a archivos desde múltiples instancias.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Directorios home de usuarios en ambientes de desarrollo</li>
+                            <li>Sistemas de gestión de contenido (CMS)</li>
+                            <li>Aplicaciones web que requieren almacenamiento compartido</li>
+                            <li>Big data analytics con acceso compartido</li>
+                            <li>Repositorios de código fuente compartidos</li>
+                            <li>Ambientes de contenedores que requieren persistencia</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Standard: $0.30/GB/mes; IA: $0.025/GB/mes + costos de acceso
+                    </div>
+                </div>
+
+                <!-- Amazon FSx -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon FSx</span>
+                        <span class="servicio-badge">FILE SYSTEMS</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon FSx proporciona sistemas de archivos completamente administrados de terceros optimizados para diferentes casos de uso. FSx for Windows File Server ofrece sistemas de archivos nativos de Windows Server totalmente administrados con soporte para SMB, Active Directory, y características de Windows como DFS, cuotas, y shadow copies. FSx for Lustre proporciona un sistema de archivos de alto rendimiento optimizado para cargas de trabajo de cómputo intensivo como machine learning, análisis de big data, procesamiento de video, y modelado financiero, con throughput de cientos de GB/s y millones de IOPS. FSx for NetApp ONTAP ofrece almacenamiento compartido con todas las capacidades de gestión de datos de NetApp ONTAP. FSx for OpenZFS proporciona almacenamiento compartido con el sistema de archivos OpenZFS. Todos los servicios FSx manejan aprovisionamiento de hardware, configuración de software, patching, backups, y ofrecen integración con otros servicios AWS. Son ideales para workloads que requieren características específicas de sistemas de archivos especializados.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>FSx Windows: Directorios home, aplicaciones .NET, SQL Server</li>
+                            <li>FSx Lustre: HPC, ML training, media processing, genómica</li>
+                            <li>FSx ONTAP: Migración de NetApp, aplicaciones empresariales</li>
+                            <li>FSx OpenZFS: Migración de workloads Linux ZFS</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Varía por tipo: FSx Windows desde $0.013/GB/mes; FSx Lustre desde $0.145/GB/mes
+                    </div>
+                </div>
+
+                <!-- AWS Storage Gateway -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Storage Gateway</span>
+                        <span class="servicio-badge">HÍBRIDO</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Storage Gateway es un servicio de almacenamiento híbrido que permite que aplicaciones on-premises usen almacenamiento en la nube de AWS sin problemas. Storage Gateway proporciona interfaces de almacenamiento estándar que conectan con servicios de almacenamiento de AWS como S3, S3 Glacier, y EBS. El servicio ofrece tres tipos de gateways: File Gateway proporciona una interfaz de archivos NFS/SMB para almacenar y recuperar objetos en S3; Tape Gateway proporciona una interfaz de biblioteca de cintas virtuales (VTL) compatible con aplicaciones de backup existentes; y Volume Gateway proporciona almacenamiento de bloques iSCSI respaldado por S3. Storage Gateway incluye caché local para acceso de baja latencia a datos usados frecuentemente, compresión de datos, encriptación, y optimización de ancho de banda. El servicio es ideal para backup y archivo, disaster recovery, cloud data processing, tiering de almacenamiento, y migración a la nube. Permite a organizaciones aprovechar escalabilidad y durabilidad de almacenamiento AWS mientras mantienen aplicaciones on-premises sin modificar.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Backup de datos on-premises a la nube</li>
+                            <li>Disaster recovery con recuperación en AWS</li>
+                            <li>Tiering de datos inactivos a S3 Glacier</li>
+                            <li>Migración gradual de datos a la nube</li>
+                            <li>Archivo de cintas a bajo costo</li>
+                            <li>Compartir archivos entre on-premises y la nube</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Sin costo por el gateway en sí (pagas por almacenamiento S3, solicitudes, y transferencia de datos)
+                    </div>
+                </div>
+
+                <!-- AWS Backup -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Backup</span>
+                        <span class="servicio-badge">GESTIÓN</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Backup es un servicio completamente administrado que centraliza y automatiza la protección de datos a través de servicios de AWS. Backup elimina la necesidad de crear scripts personalizados y procesos manuales, proporcionando una consola central para configurar y auditar los recursos de AWS que deseas respaldar, automatizar la programación de backups, establecer políticas de retención, y monitorear la actividad de backup. El servicio soporta múltiples servicios AWS incluyendo EBS, EC2, RDS, DynamoDB, EFS, FSx, Storage Gateway, y Aurora. AWS Backup incluye características como backup incremental, vaults de backup con políticas de acceso, lifecycle policies para mover backups antiguos a almacenamiento económico, backup cross-region y cross-account, y cumplimiento con normativas mediante AWS Backup Audit Manager. El servicio también ofrece Backup Gateway para proteger workloads VMware on-premises. AWS Backup simplifica cumplimiento regulatorio y gobernanza de datos al proporcionar una vista unificada y políticas consistentes de backup a través de toda la organización.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Cumplimiento de políticas corporativas de backup</li>
+                            <li>Recuperación ante desastres a nivel de organización</li>
+                            <li>Protección de datos cross-account y cross-region</li>
+                            <li>Auditoría de cumplimiento de backups</li>
+                            <li>Backup centralizado para ambientes multi-cuenta</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $0.05/GB/mes (EBS) + costos de almacenamiento y restauración por servicio
+                    </div>
+                </div>
+
+                <!-- Amazon S3 Glacier -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon S3 Glacier & Glacier Deep Archive</span>
+                        <span class="servicio-badge">ARCHIVO</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon S3 Glacier y Glacier Deep Archive son clases de almacenamiento de S3 diseñadas específicamente para archivado de datos a largo plazo y preservación digital a costos extremadamente bajos. Glacier ofrece tres opciones de recuperación: Expedited (1-5 minutos), Standard (3-5 horas), y Bulk (5-12 horas). Glacier Deep Archive es la clase de almacenamiento más económica de AWS, ideal para datos que raramente se acceden y pueden tolerar tiempos de recuperación de 12 horas. Ambos servicios ofrecen durabilidad del 99.999999999% al replicar datos en al menos tres zonas de disponibilidad. Glacier incluye Vault Lock para cumplimiento regulatorio, permitiendo establecer políticas WORM (Write Once Read Many) inmutables. Los datos pueden moverse automáticamente a Glacier desde S3 usando lifecycle policies. Glacier es hasta 10 veces más económico que S3 Standard-IA y Glacier Deep Archive es aún más económico. Son ideales para cumplimiento regulatorio, preservación de medios digitales, y backup a largo plazo donde los datos raramente necesitan ser accedidos.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Archivo de datos médicos por requisitos regulatorios</li>
+                            <li>Preservación de bibliotecas de medios digitales</li>
+                            <li>Archivo de registros financieros y compliance</li>
+                            <li>Backup a largo plazo de datos críticos</li>
+                            <li>Preservación de datos científicos y de investigación</li>
+                            <li>Archivo de datasets de machine learning históricos</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Glacier: $0.004/GB/mes; Glacier Deep Archive: $0.00099/GB/mes + costos de recuperación
+                    </div>
+                </div>
+
+                <!-- AWS Snow Family -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Snow Family</span>
+                        <span class="servicio-badge">EDGE FÍSICO</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Snow Family es un conjunto de dispositivos físicos que permiten transferir grandes cantidades de datos hacia y desde AWS, así como ejecutar cómputo en el edge en ubicaciones con conectividad limitada. Snowcone es el dispositivo más pequeño (8 TB de almacenamiento) ideal para ubicaciones remotas, drones, o IoT. Snowball Edge viene en dos variantes: Storage Optimized (80 TB) y Compute Optimized (42 TB con GPU), ambos con capacidad de cómputo local para ejecutar instancias EC2 y funciones Lambda en el edge. Snowmobile es un contenedor de 45 pies que puede transferir hasta 100 PB de datos, ideal para migraciones de datacenters completos. Todos los dispositivos Snow están diseñados para ser resistentes, seguros y autogestionados, con encriptación de 256 bits. Son ideales para migraciones de datos masivos donde la transferencia por internet tomaría semanas o meses, procesamiento de datos en el edge sin conexión confiable a internet, y casos de uso tácticos de edge computing. AWS gestiona la logística de envío, retorno, y borrado seguro de datos después de la transferencia.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Migración de datacenters completos a AWS</li>
+                            <li>Transferencia de bibliotecas de medios masivas</li>
+                            <li>Disaster recovery con transferencia inicial de datos</li>
+                            <li>Procesamiento de datos en ubicaciones remotas (minería, exploración)</li>
+                            <li>Manufactura edge computing en plantas sin conectividad</li>
+                            <li>Captura de video en eventos deportivos o producción</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Snowcone: $60 + $0.03/día; Snowball Edge: $300 + $15/día; Snowmobile: contactar AWS
+                    </div>
+                </div>
+<!-- Amazon CloudFront -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon CloudFront</span>
+                        <span class="servicio-badge">CDN</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon CloudFront es el servicio de red de entrega de contenido (CDN) de AWS que acelera la distribución de contenido estático y dinámico, videos, aplicaciones y APIs a usuarios en todo el mundo con baja latencia y altas velocidades de transferencia. CloudFront tiene más de 450 puntos de presencia (edge locations) distribuidos globalmente que almacenan en caché copias de contenido cerca de los usuarios finales. El servicio se integra nativamente con servicios AWS como S3, EC2, Elastic Load Balancing, y puede proteger aplicaciones con AWS Shield para protección DDoS y AWS WAF para filtrado de tráfico web. CloudFront soporta protocolos HTTP/HTTPS, HTTP/2, HTTP/3, WebSocket, y puede comprimir automáticamente archivos. Incluye CloudFront Functions para ejecutar código ligero en edge locations con latencia de sub-milisegundos, y Lambda@Edge para lógica más compleja. CloudFront también ofrece Field-Level Encryption para proteger datos sensibles, certificados SSL/TLS gratuitos, y streaming de video en vivo y on-demand. Es fundamental para mejorar la experiencia de usuario al reducir latencia y tiempo de carga.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Aceleración de sitios web y aplicaciones globales</li>
+                            <li>Distribución de contenido estático (imágenes, CSS, JavaScript)</li>
+                            <li>Streaming de video en vivo y on-demand</li>
+                            <li>Distribución de software y actualizaciones</li>
+                            <li>APIs con baja latencia global</li>
+                            <li>Protección de aplicaciones web contra ataques DDoS</li>
+                            <li>Personalización de contenido en el edge</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $0.085/GB para las primeras 10 TB/mes (varía por región); solicitudes desde $0.0075/10,000
+                    </div>
+                </div>
+
+                <!-- AWS Elastic Disaster Recovery -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Elastic Disaster Recovery (DRS)</span>
+                        <span class="servicio-badge">DR</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Elastic Disaster Recovery (anteriormente CloudEndure Disaster Recovery) minimiza el tiempo de inactividad y pérdida de datos con recuperación rápida y confiable de aplicaciones físicas, virtuales y basadas en la nube en AWS. DRS replica continuamente servidores (incluyendo sistema operativo, configuración del sistema, bases de datos, aplicaciones y archivos) en un área de staging de bajo costo en AWS. En caso de desastre, DRS orquesta automáticamente la recuperación de aplicaciones en AWS en minutos, con objetivos de punto de recuperación (RPO) de segundos y objetivos de tiempo de recuperación (RTO) de minutos. El servicio soporta la mayoría de aplicaciones y bases de datos en servidores físicos, virtuales o en la nube, incluyendo Windows y Linux. DRS incluye drill de recuperación no disruptivo para probar planes DR periódicamente sin afectar operaciones. También permite failback a ambiente original cuando esté listo. Es significativamente más económico que mantener un sitio de DR tradicional, ya que solo pagas por el área de staging de bajo costo hasta que necesitas recuperar.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Disaster recovery para datacenters corporativos</li>
+                            <li>Protección de aplicaciones críticas de negocio</li>
+                            <li>Cumplimiento de SLAs de RTO/RPO estrictos</li>
+                            <li>DR para ambientes VMware, Hyper-V y físicos</li>
+                            <li>Recuperación de ransomware con puntos de recuperación limpios</li>
+                            <li>Migración de servidores como parte de DR</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.028/hora por servidor (área de staging) + costos de almacenamiento y computación durante recuperación
+                    </div>
+                </div>
+
+                <!-- AWS DataSync -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS DataSync</span>
+                        <span class="servicio-badge">TRANSFERENCIA</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS DataSync es un servicio de transferencia de datos online que simplifica, automatiza y acelera el movimiento de datos entre almacenamiento on-premises y servicios de almacenamiento de AWS, así como entre servicios de AWS. DataSync puede transferir datos hasta 10 veces más rápido que herramientas open-source tradicionales mediante optimización automática del protocolo de red, operaciones paralelas de I/O y gestión inteligente de ancho de banda. El servicio maneja automáticamente muchas tareas que consumen tiempo en transferencias de datos: scripting de trabajos de copia, scheduling, monitoreo de transferencias, validación de datos, y optimización de rendimiento de red. DataSync puede copiar datos entre sistemas de archivos NFS y SMB, almacenamiento de objetos, Amazon S3, Amazon EFS, Amazon FSx for Windows File Server, Amazon FSx for Lustre, y Amazon FSx for OpenZFS. Incluye cifrado de datos en tránsito y validación de integridad de datos. DataSync es ideal para migraciones de datos, procesamiento de datos en la nube, archivado de datos, y replicación de datos para protección.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Migración de datos de almacenamiento on-premises a AWS</li>
+                            <li>Replicación de datos para disaster recovery</li>
+                            <li>Movimiento de datos para procesamiento en la nube</li>
+                            <li>Archivo de datos fríos a S3 Glacier</li>
+                            <li>Transferencia de datos entre regiones de AWS</li>
+                            <li>Sincronización de datos entre edge locations y la nube</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.0125 por GB transferido (hacia AWS desde on-premises o entre servicios AWS)
+                    </div>
+                </div>
+
+                <!-- AWS Transfer Family -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Transfer Family</span>
+                        <span class="servicio-badge">SFTP/FTP</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Transfer Family proporciona servicios completamente administrados para transferir archivos directamente hacia y desde Amazon S3 o Amazon EFS usando los protocolos SFTP, FTPS, FTP y AS2. Transfer Family permite migrar flujos de trabajo de transferencia de archivos a AWS sin cambiar las aplicaciones existentes de clientes o socios. El servicio escala automáticamente para satisfacer demandas de transferencia sin necesidad de administrar infraestructura SFTP, proporciona alta disponibilidad con redundancia multi-AZ, y maneja automáticamente el cifrado en tránsito. Transfer Family se integra con servicios de autenticación existentes (Active Directory, LDAP, proveedores de identidad personalizados), ofrece auditoría completa con CloudWatch y CloudTrail, y puede ejecutar flujos de trabajo automatizados después de transferencias usando S3, Lambda y Step Functions. El servicio soporta direcciones IP fijas, nombres de dominio personalizados mediante Route 53, y VPC endpoints para transferencias privadas. Es ideal para B2B file exchanges, cumplimiento regulatorio, y modernización de workflows de transferencia de archivos legacy.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Intercambio de archivos B2B con socios comerciales</li>
+                            <li>Distribución de contenido multimedia</li>
+                            <li>Compartir datos con clientes y proveedores</li>
+                            <li>Cumplimiento de regulaciones (HIPAA, PCI DSS)</li>
+                            <li>Migración de servidores SFTP/FTP a la nube</li>
+                            <li>Automatización de procesamiento de archivos entrantes</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.30/hora por endpoint + $0.04 por GB transferido
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- CATEGORÍA 4: BASES DE DATOS -->
+            <!-- ============================================ -->
+            <section id="bases-datos" class="categoria">
+                <div class="categoria-header">
+                    <h2><span class="icono">🗄️</span> Bases de Datos</h2>
+                </div>
+                <div class="categoria-descripcion">
+                    <p>AWS ofrece más de 15 motores de bases de datos purpose-built (construidos con propósito específico) para diferentes modelos de datos, permitiendo elegir la base de datos óptima para cada caso de uso. Los servicios de bases de datos de AWS son completamente administrados, eliminando tareas indiferenciadas como aprovisionamiento, patching, backup, recuperación, detección de fallas, y reparación.</p>
+                </div>
+
+                <!-- Amazon RDS -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon RDS (Relational Database Service)</span>
+                        <span class="servicio-badge">FUNDAMENTAL</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon RDS facilita configurar, operar y escalar bases de datos relacionales en la nube. RDS proporciona capacidad redimensionable y automatiza tareas de administración que consumen tiempo como aprovisionamiento de hardware, configuración de bases de datos, patching, y backups. RDS está disponible en seis motores de base de datos familiares: Amazon Aurora (compatible con MySQL y PostgreSQL), MySQL, MariaDB, PostgreSQL, Oracle, y Microsoft SQL Server. El servicio maneja automáticamente backups con retención configurable, puede restaurar a cualquier punto en el tiempo dentro del período de retención, y soporta snapshots manuales. RDS ofrece alta disponibilidad con despliegues Multi-AZ que mantienen una réplica síncrona en otra zona de disponibilidad con failover automático. Para escalabilidad de lectura, RDS soporta Read Replicas que pueden servir tráfico de solo lectura. El servicio incluye monitoreo con Enhanced Monitoring, encriptación en reposo y en tránsito, y actualizaciones automáticas de versiones menores. RDS on Outposts lleva RDS a instalaciones on-premises.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Aplicaciones web y móviles</li>
+                            <li>Aplicaciones de e-commerce</li>
+                            <li>Aplicaciones empresariales (ERP, CRM)</li>
+                            <li>Gaming online con tablas de clasificación</li>
+                            <li>Aplicaciones SaaS multi-tenant</li>
+                            <li>Sistemas de gestión de contenido</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Varía por motor y tamaño: desde $0.017/hora (db.t3.micro MySQL) hasta cientos/hora para instancias grandes
+                    </div>
+                </div>
+
+                <!-- Amazon Aurora -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon Aurora</span>
+                        <span class="servicio-badge">ALTO RENDIMIENTO</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Aurora es una base de datos relacional compatible con MySQL y PostgreSQL construida para la nube, que combina el rendimiento y disponibilidad de bases de datos comerciales de alto nivel con la simplicidad y costo-efectividad de bases de datos open source. Aurora es hasta 5 veces más rápida que MySQL estándar y hasta 3 veces más rápida que PostgreSQL estándar. La arquitectura de Aurora separa cómputo y almacenamiento, con almacenamiento distribuido que replica seis copias de datos en tres zonas de disponibilidad. Aurora incluye recuperación automática de fallas, backup continuo a S3, y puede escalar automáticamente almacenamiento hasta 128 TB. Aurora Serverless escala automáticamente capacidad de cómputo basándose en demanda, ideal para cargas de trabajo intermitentes. Aurora Global Database permite replicación de baja latencia en múltiples regiones con RPO de 1 segundo y RTO menor a 1 minuto. Aurora también ofrece Aurora ML para integrar ML en aplicaciones de base de datos, y Aurora I/O-Optimized para cargas de trabajo intensivas en I/O. Es la base de datos relacional más avanzada y de mayor rendimiento de AWS.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Aplicaciones empresariales críticas que requieren alta disponibilidad</li>
+                            <li>Aplicaciones SaaS con múltiples tenants</li>
+                            <li>Gaming online con millones de usuarios concurrentes</li>
+                            <li>Aplicaciones globales que requieren baja latencia</li>
+                            <li>Modernización de bases de datos comerciales (Oracle, SQL Server)</li>
+                            <li>Aplicaciones que integran machine learning en consultas SQL</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Aurora MySQL: desde $0.041/hora (db.t3.small) + $0.10/GB/mes almacenamiento + $0.20/millón I/O requests
+                    </div>
+                </div>
+
+                <!-- Amazon DynamoDB -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon DynamoDB</span>
+                        <span class="servicio-badge">NoSQL</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon DynamoDB es una base de datos NoSQL de clave-valor y documentos completamente administrada que ofrece rendimiento de un solo dígito de milisegundos a cualquier escala. DynamoDB es serverless, sin servidores que aprovisionar, parchear o administrar, y sin software que instalar, mantener u operar. Escala automáticamente tablas hacia arriba y abajo para ajustar capacidad y mantener rendimiento, con capacidad prácticamente ilimitada. DynamoDB ofrece dos modelos de capacidad: On-Demand (pago por solicitud) y Provisioned (con auto scaling). El servicio incluye replicación global automática en múltiples regiones con Global Tables, backups continuos point-in-time, encriptación en reposo por defecto, y recuperación point-in-time. DynamoDB Streams captura cambios en datos en tiempo real para procesamiento downstream. DynamoDB Accelerator (DAX) es un caché en memoria que proporciona respuestas de microsegundos. El servicio también ofrece transacciones ACID, índices secundarios globales y locales, y PartiQL para consultas con sintaxis similar a SQL. Es ideal para aplicaciones de alto tráfico que requieren latencia consistente y predecible.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Aplicaciones móviles y web de alto tráfico</li>
+                            <li>Gaming con tablas de clasificación y perfiles de usuario</li>
+                            <li>Ad tech con impresiones y clics en tiempo real</li>
+                            <li>IoT con millones de dispositivos generando datos</li>
+                            <li>Carritos de compra en e-commerce</li>
+                            <li>Sesiones de usuario y gestión de estado</li>
+                            <li>Aplicaciones serverless con Lambda</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         On-Demand: $1.25 por millón de write requests, $0.25 por millón de read requests + $0.25/GB/mes almacenamiento
+                    </div>
+                </div>
+
+                <!-- Amazon ElastiCache -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon ElastiCache</span>
+                        <span class="servicio-badge">CACHÉ</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon ElastiCache es un servicio de almacenamiento de datos en memoria completamente administrado que soporta dos motores open-source: Redis y Memcached. ElastiCache ofrece rendimiento de sub-milisegundos, escalabilidad, y disponibilidad de motores en memoria mientras elimina la complejidad de configurar, operar y escalar un ambiente de caché distribuido. ElastiCache for Redis ofrece replicación, failover automático, backups, y restauración, soportando persistencia de datos, tipos de datos avanzados (listas, sets, hashes), pub/sub, y Lua scripting. ElastiCache for Memcached es ideal para casos de uso más simples que requieren multi-threading. El servicio maneja automáticamente tareas como detección y recuperación de fallas, patching de software, y monitoreo. ElastiCache se usa comúnmente para reducir latencia de aplicaciones al almacenar en caché consultas de bases de datos frecuentes, resultados de cómputo, y datos de sesión. Global Datastore para Redis permite replicación cross-region con latencia de sub-segundo. ElastiCache es fundamental para mejorar el rendimiento de aplicaciones y reducir carga en bases de datos backend.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Caché de consultas de base de datos</li>
+                            <li>Almacenamiento de sesiones de usuario</li>
+                            <li>Tablas de clasificación en gaming en tiempo real</li>
+                            <li>Colas de mensajes y pub/sub</li>
+                            <li>Análisis de datos en tiempo real</li>
+                            <li>Almacenamiento temporal de resultados de ML</li>
+                            <li>Rate limiting y contadores distribuidos</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Redis: desde $0.017/hora (cache.t3.micro); Memcached: desde $0.017/hora (cache.t3.micro)
+                    </div>
+                </div>
+
+                <!-- Amazon Neptune -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Neptune</span>
+                        <span class="servicio-badge">GRAFOS</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Neptune es un servicio de base de datos de grafos completamente administrado que facilita construir y ejecutar aplicaciones que trabajan con conjuntos de datos altamente conectados. Neptune soporta dos modelos de grafos populares: Property Graph con Apache TinkerPop Gremlin, y RDF con SPARQL, permitiendo elegir el modelo más adecuado para tu caso de uso. El servicio puede almacenar miles de millones de relaciones y consultarlas con latencias de milisegundos. Neptune ofrece alta disponibilidad con replicación en tres zonas de disponibilidad, backups continuos a S3, recuperación point-in-time, y Read Replicas para escalar consultas de lectura. Neptune ML integra machine learning en consultas de grafos para hacer predicciones usando Graph Neural Networks (GNNs). El servicio es ideal para casos de uso como redes sociales, motores de recomendación, detección de fraude, grafos de conocimiento, network analytics, y drug discovery. Neptune Serverless escala automáticamente capacidad de cómputo basándose en demanda. El servicio maneja todo el aprovisionamiento, patching, backups, recuperación, detección de fallas, y reparación.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Redes sociales y análisis de influencers</li>
+                            <li>Motores de recomendación basados en grafos</li>
+                            <li>Detección de fraude mediante análisis de relaciones</li>
+                            <li>Grafos de conocimiento y semantic web</li>
+                            <li>Análisis de redes IT y dependencias</li>
+                            <li>Gestión de identity and access (IAM)</li>
+                            <li>Supply chain y optimización de rutas</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $0.096/hora (db.t3.medium) + $0.10/GB/mes almacenamiento + $0.20/millón I/O requests
+                    </div>
+                </div>
+
+                <!-- Amazon DocumentDB -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon DocumentDB</span>
+                        <span class="servicio-badge">DOCUMENTOS</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon DocumentDB es un servicio de base de datos de documentos completamente administrado compatible con MongoDB que facilita almacenar, consultar e indexar datos JSON a escala. DocumentDB está diseñado desde cero con una arquitectura cloud-native que separa cómputo y almacenamiento, permitiendo escalar cada uno independientemente. El servicio replica seis copias de datos en tres zonas de disponibilidad y realiza backups continuos a S3. DocumentDB es compatible con el driver y las herramientas de MongoDB 3.6, 4.0, y 5.0, facilitando la migración de aplicaciones MongoDB existentes. El servicio ofrece alto rendimiento con escalabilidad horizontal mediante Read Replicas (hasta 15), almacenamiento que escala automáticamente hasta 128 TB, y rendimiento consistente incluso en cargas de trabajo intensivas. DocumentDB incluye características empresariales como snapshots, restauración point-in-time, aislamiento de lecturas, y encriptación en reposo y en tránsito. Global Clusters permite replicación de baja latencia en múltiples regiones. Es ideal para perfiles de usuario, catálogos, gestión de contenido, y aplicaciones móviles que requieren flexibilidad de esquema.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Gestión de perfiles de usuario y preferencias</li>
+                            <li>Catálogos de productos de e-commerce</li>
+                            <li>Sistemas de gestión de contenido</li>
+                            <li>Aplicaciones móviles con sincronización de datos</li>
+                            <li>Gestión de configuraciones y metadatos</li>
+                            <li>Almacenamiento de eventos y logs</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $0.056/hora (db.t3.medium) + $0.10/GB/mes almacenamiento + $0.20/millón I/O requests
+                    </div>
+                </div>
+
+                <!-- Amazon Keyspaces -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Keyspaces (for Apache Cassandra)</span>
+                        <span class="servicio-badge">COLUMNAR</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Keyspaces es un servicio de base de datos escalable, altamente disponible y completamente administrado compatible con Apache Cassandra. Keyspaces es serverless, sin servidores que aprovisionar, parchear o administrar, y pagas solo por los recursos que usas. El servicio escala tablas automáticamente hacia arriba y abajo en respuesta al tráfico de aplicaciones, y puede manejar miles de solicitudes por segundo. Keyspaces replica datos tres veces en múltiples zonas de disponibilidad para durabilidad y alta disponibilidad, y realiza backups continuos con restauración point-in-time. El servicio es compatible con Cassandra Query Language (CQL), drivers de cliente de Cassandra, y herramientas existentes, facilitando migrar aplicaciones Cassandra a AWS. Keyspaces ofrece encriptación en reposo y en tránsito por defecto, integración con IAM para autenticación, y CloudWatch para monitoreo. Es ideal para aplicaciones que requieren alta disponibilidad, baja latencia de escritura, y escalabilidad horizontal como IoT, telemetría de equipos, logs de aplicaciones, y series temporales.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Datos de telemetría y monitoreo de dispositivos IoT</li>
+                            <li>Almacenamiento de logs de aplicaciones a gran escala</li>
+                            <li>Seguimiento de eventos de usuario en tiempo real</li>
+                            <li>Catálogos de productos masivos</li>
+                            <li>Series temporales de datos financieros</li>
+                            <li>Aplicaciones que requieren escrituras de alta velocidad</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         On-Demand: $1.25 por millón de write requests, $0.25 por millón de read requests + almacenamiento
+                    </div>
+                </div>
+
+                <!-- Amazon Timestream -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon Timestream</span>
+                        <span class="servicio-badge">SERIES TEMPORALES</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Timestream es un servicio de base de datos de series temporales rápido, escalable y serverless para aplicaciones IoT y operacionales. Timestream está diseñado específicamente para manejar billones de eventos por día con latencias de consulta de milisegundos, siendo hasta 1000 veces más rápido y 1/10 del costo de bases de datos relacionales para cargas de trabajo de series temporales. El servicio almacena y organiza datos automáticamente por tiempo, y ofrece storage tiering adaptativo que mantiene datos recientes en memoria para consultas rápidas y mueve datos antiguos automáticamente a almacenamiento optimizado por costo. Timestream incluye funciones analíticas incorporadas para suavizar, aproximar e interpolar datos de series temporales, y soporta consultas SQL estándar. El servicio escala automáticamente para ajustarse a capacidad y rendimiento, gestiona retención de datos mediante políticas configurables, y ofrece encriptación integrada. Timestream es ideal para monitoreo de aplicaciones, telemetría de IoT, análisis de DevOps, y monitoreo industrial donde los datos son indexados y agregados por tiempo.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Monitoreo y observabilidad de aplicaciones</li>
+                            <li>Telemetría de flotas de vehículos conectados</li>
+                            <li>Análisis de datos de sensores industriales</li>
+                            <li>Monitoreo de infraestructura de IT</li>
+                            <li>Análisis de clickstream y comportamiento de usuario</li>
+                            <li>Datos de mercados financieros y trading</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.50 por GB de datos escritos + $0.036/GB-hora en memoria + $0.03/GB/mes almacenamiento magnético
+                    </div>
+                </div>
+
+                <!-- Amazon Quantum Ledger Database (QLDB) -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon QLDB (Quantum Ledger Database)</span>
+                        <span class="servicio-badge">LEDGER</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon QLDB es una base de datos de ledger completamente administrada que proporciona un log de transacciones transparente, inmutable y verificable criptográficamente de todos los cambios en los datos de tu aplicación. QLDB rastrea cada cambio de datos en aplicaciones y mantiene un historial completo y verificable de cambios a lo largo del tiempo. El servicio utiliza un journal inmutable y append-only que registra cada cambio de datos, y proporciona capacidades criptográficas para verificar que los datos no han sido alterados. QLDB es serverless, escalando automáticamente para soportar demandas de aplicación sin necesidad de aprovisionar capacidad. El servicio ofrece rendimiento 2-3 veces mayor que frameworks de ledger basados en blockchain, con consultas SQL-like usando PartiQL. QLDB incluye capacidad de streaming para procesar cambios de datos en tiempo real con Kinesis. Es ideal para casos de uso que requieren un registro completo y verificable de cambios como sistemas financieros, supply chain, registros de salud, reclamaciones de seguros, y sistemas de identidad digital que requieren auditoría completa.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Historial de transacciones financieras inmutables</li>
+                            <li>Trazabilidad de supply chain</li>
+                            <li>Registros médicos con auditoría completa</li>
+                            <li>Sistemas de reclamaciones de seguros</li>
+                            <li>Registros de recursos humanos</li>
+                            <li>Reconciliación de sistemas centralizados</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.30 por millón de write requests + $0.09 por millón de read requests + $0.22/GB/mes almacenamiento journal
+                    </div>
+                </div>
+
+                <!-- Amazon MemoryDB for Redis -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon MemoryDB for Redis</span>
+                        <span class="servicio-badge">EN MEMORIA</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon MemoryDB for Redis es una base de datos en memoria duradera y compatible con Redis que proporciona rendimiento de microsegundos con durabilidad multi-AZ y un log de transacciones distribuido. A diferencia de ElastiCache que es principalmente un caché, MemoryDB está diseñado como una base de datos primaria duradera que puede usarse como la única base de datos para aplicaciones que requieren rendimiento extremo. MemoryDB almacena todo el dataset en memoria para lecturas ultra-rápidas, mientras mantiene una copia duradera de datos distribuida en múltiples zonas de disponibilidad usando un transaction log que garantiza durabilidad. El servicio es compatible con API de Redis, permitiendo usar los mismos comandos, aplicaciones cliente y herramientas de Redis. MemoryDB escala horizontalmente con sharding y verticalmente aumentando tamaño de nodos, soporta hasta 500 nodos por cluster con throughput de hasta 100+ millones de requests por segundo. Incluye snapshots automáticos, recuperación point-in-time, y replicación global para aplicaciones globales. Es ideal para aplicaciones que requieren latencia de microsegundos con durabilidad de base de datos tradicional.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Aplicaciones de gaming con estado de jugadores en tiempo real</li>
+                            <li>Leaderboards y rankings en vivo</li>
+                            <li>Streaming de medios y análisis en tiempo real</li>
+                            <li>Aplicaciones financieras con detección de fraude en tiempo real</li>
+                            <li>Colas de mensajes de alto rendimiento</li>
+                            <li>Sesiones de usuario con baja latencia</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $0.024/hora (db.t4g.small) + costos de almacenamiento de snapshots
+                    </div>
+                </div>
+
+                <!-- AWS Database Migration Service (DMS) -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Database Migration Service (DMS)</span>
+                        <span class="servicio-badge">MIGRACIÓN</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Database Migration Service ayuda a migrar bases de datos a AWS de manera rápida y segura. La base de datos origen permanece totalmente operacional durante la migración, minimizando el tiempo de inactividad para aplicaciones que dependen de la base de datos. DMS soporta migraciones homogéneas (Oracle a Oracle) y heterogéneas (Oracle a Aurora) entre diferentes plataformas de base de datos. El servicio puede migrar datos desde y hacia la mayoría de bases de datos comerciales y open-source ampliamente usadas. DMS también soporta replicación continua de datos con alta disponibilidad para mantener bases de datos origen y destino sincronizadas. AWS Schema Conversion Tool (SCT) convierte automáticamente esquemas de bases de datos origen (incluyendo vistas, procedimientos almacenados y funciones) al formato compatible con la base de datos destino. DMS puede migrar bases de datos on-premises a AWS, entre bases de datos en AWS, o desde AWS a on-premises. El servicio es altamente resiliente y se auto-recupera, reparando automáticamente fallas y reiniciando donde se quedó. DMS también incluye validación de datos para verificar que la migración fue exitosa.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Migración de bases de datos on-premises a AWS</li>
+                            <li>Replicación continua para disaster recovery</li>
+                            <li>Consolidación de bases de datos</li>
+                            <li>Migración de bases de datos comerciales a open source</li>
+                            <li>Desarrollo y testing con datos de producción</li>
+                            <li>Integración de datos entre bases de datos heterogéneas</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $0.036/hora (instancia dms.t3.micro) + costos de almacenamiento y transferencia de datos
+                    </div>
+                </div>
+
+                <!-- Amazon RDS Proxy -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon RDS Proxy</span>
+                        <span class="servicio-badge">POOLING</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon RDS Proxy es un proxy de base de datos completamente administrado y altamente disponible para RDS que facilita a las aplicaciones gestionar conexiones de base de datos de manera más eficiente y escalable. RDS Proxy hace que las aplicaciones sean más escalables mediante pooling y compartición de conexiones de base de datos, y más resilientes a fallas de base de datos al conservar automáticamente conexiones de aplicaciones y reconectarse tras una falla. El servicio es especialmente útil para aplicaciones serverless construidas con Lambda que abren y cierran frecuentemente conexiones de base de datos, ya que Lambda puede crear cientos de conexiones simultáneas rápidamente. RDS Proxy reutiliza conexiones de base de datos, reduciendo la sobrecarga de memoria y CPU asociada con establecer nuevas conexiones. El servicio también mejora la seguridad al permitir que aplicaciones se autentiquen usando IAM sin necesidad de credenciales en código de aplicación, con almacenamiento de credenciales en Secrets Manager. RDS Proxy reduce tiempos de failover hasta en 66% al mantener conexiones abiertas durante failovers de base de datos. Soporta RDS para MySQL, PostgreSQL, MariaDB, SQL Server, y Aurora.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Aplicaciones serverless con Lambda y bases de datos</li>
+                            <li>Aplicaciones con picos impredecibles de tráfico</li>
+                            <li>Aplicaciones que abren/cierran conexiones frecuentemente</li>
+                            <li>Mejora de failover de bases de datos</li>
+                            <li>Aplicaciones que requieren autenticación IAM a bases de datos</li>
+                            <li>Microservicios con muchas instancias conectándose a DB</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         $0.015/hora por vCPU de instancia de base de datos + costos de transferencia de datos
+                    </div>
+                </div>
+
+                <!-- Amazon Redshift -->
+                <div class="servicio destacado">
+                    <div class="servicio-nombre">
+                        <span>Amazon Redshift</span>
+                        <span class="servicio-badge">DATA WAREHOUSE</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon Redshift es el servicio de data warehouse en la nube más popular del mundo, diseñado para análisis de datos a escala de petabytes. Redshift es hasta 10 veces más rápido que otros data warehouses al utilizar machine learning, procesamiento masivamente paralelo y almacenamiento columnar en discos de alto rendimiento. El servicio puede escalar desde cientos de gigabytes hasta un petabyte o más, y permite ejecutar consultas analíticas complejas contra petabytes de datos estructurados y semi-estructurados usando SQL estándar. Redshift Serverless facilita ejecutar y escalar análisis sin necesidad de configurar y administrar infraestructura de data warehouse. Redshift Spectrum permite consultar exabytes de datos directamente en S3 sin necesidad de cargarlos. El servicio incluye machine learning automático con Amazon Redshift ML para crear, entrenar y desplegar modelos usando SQL. Redshift también ofrece materialización automática de vistas, distribución automática de datos, y compresión automática. Federated Query permite consultar datos en múltiples bases de datos relacionales. Redshift se integra con herramientas de BI populares como Tableau, PowerBI, y Looker.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Business intelligence y reportes empresariales</li>
+                            <li>Análisis de grandes volúmenes de datos de ventas</li>
+                            <li>Data warehousing empresarial centralizado</li>
+                            <li>Análisis de clickstream y comportamiento de usuarios</li>
+                            <li>Análisis financiero y forecasting</li>
+                            <li>Análisis de logs y datos de IoT</li>
+                            <li>Consolidación de datos de múltiples fuentes</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Redshift Serverless: desde $0.375/RPU-hora; Provisioned: desde $0.25/hora (dc2.large)
+                    </div>
+                </div>
+
+                <!-- AWS Glue Data Catalog -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>AWS Glue Data Catalog</span>
+                        <span class="servicio-badge">METADATOS</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        AWS Glue Data Catalog es un catálogo de metadatos persistente y centralizado para todos tus assets de datos. El Data Catalog almacena metadatos de tablas como definiciones de esquema, ubicación física de datos, información de particiones, y estadísticas, actuando como un metastore compatible con Hive. Glue Crawlers descubren automáticamente datos en S3, RDS, Redshift, y otras fuentes, infiriendo esquemas y poblando el Data Catalog. Una vez catalogados, los datos están inmediatamente disponibles para búsqueda y consulta usando Amazon Athena, Amazon EMR, Amazon Redshift Spectrum, y otros servicios de analytics. El Data Catalog soporta versionado de esquemas, permitiendo rastrear cambios a lo largo del tiempo. También incluye capacidades de búsqueda y etiquetado para organizar y encontrar datos fácilmente. El catálogo es compartido a través de servicios, eliminando silos de datos y proporcionando una vista unificada de todos los datos. AWS Lake Formation se construye sobre el Data Catalog para proporcionar capacidades adicionales de gobernanza de datos. Es fundamental para arquitecturas de data lake y análisis de big data en AWS.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Catálogo centralizado para data lakes</li>
+                            <li>Discovery automático de esquemas de datos</li>
+                            <li>Metastore para consultas de Athena y Redshift Spectrum</li>
+                            <li>Gestión de metadatos para pipelines ETL</li>
+                            <li>Búsqueda y descubrimiento de datasets empresariales</li>
+                            <li>Gobernanza y linaje de datos</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Primeros 1 millón de objetos almacenados gratis; $1.00 por 100,000 objetos adicionales/mes
+                    </div>
+                </div>
+
+                <!-- Amazon OpenSearch Service -->
+                <div class="servicio">
+                    <div class="servicio-nombre">
+                        <span>Amazon OpenSearch Service</span>
+                        <span class="servicio-badge">BÚSQUEDA</span>
+                    </div>
+                    <div class="servicio-descripcion">
+                        Amazon OpenSearch Service (anteriormente Amazon Elasticsearch Service) facilita realizar búsquedas interactivas de logs, monitoreo de aplicaciones en tiempo real, análisis de clickstream, y más. OpenSearch es un fork open-source de Elasticsearch que proporciona búsqueda y análisis distribuido. El servicio incluye OpenSearch Dashboards (anteriormente Kibana) para visualización interactiva de datos. OpenSearch Service maneja aprovisionamiento de infraestructura, instalación y configuración de software, patching, backups, detección de fallas, y recuperación. El servicio ofrece alta disponibilidad con despliegues multi-AZ, escalabilidad horizontal mediante agregación de nodos, snapshots automáticos, y encriptación en reposo y en tránsito. OpenSearch Service Serverless remueve la necesidad de administrar clusters, escalando automáticamente recursos. El servicio incluye capacidades avanzadas como búsqueda semántica con vectores, anomaly detection con ML, SQL query support, y trace analytics. Se integra con servicios AWS como CloudWatch Logs, S3, Kinesis Data Firehose, y DynamoDB Streams para ingestión de datos. Es ideal para búsqueda de logs, monitoreo de aplicaciones, análisis de seguridad, y búsqueda full-text.
+                    </div>
+                    <div class="casos-uso">
+                        <h4>Casos de Uso Principales:</h4>
+                        <ul>
+                            <li>Búsqueda y análisis de logs de aplicaciones</li>
+                            <li>Monitoreo de infraestructura y seguridad (SIEM)</li>
+                            <li>Análisis de clickstream en tiempo real</li>
+                            <li>Búsqueda full-text en aplicaciones</li>
+                            <li>Monitoreo de rendimiento de aplicaciones (APM)</li>
+                            <li>Análisis de datos de IoT</li>
+                            <li>Detección de anomalías con machine learning</li>
+                        </ul>
+                    </div>
+                    <div class="precio-info">
+                         Desde $0.036/hora (t3.small.search) + costos de almacenamiento EBS
+                    </div>
+                </div>
+            </section>
+
+            <!-- Continuación en siguiente mensaje debido a límites de longitud... -->
+
+            <div class="nota-importante">
+                 <strong>NOTA:</strong> Este documento contiene información de más de 200 servicios de AWS. Los precios son aproximados y pueden variar por región. Siempre consulta la calculadora de precios de AWS y la documentación oficial para información actualizada. La lista continúa con las categorías de Redes, Seguridad, Analytics, Desarrollo, IoT y Servicios Adicionales en las siguientes secciones.
+            </div>
+
+        </div>
+
+        <footer>
+            <p><strong>© 2025 Amazon Web Services, Inc. o sus afiliados.</strong></p>
+            <p>Esta guía es un recurso educativo no oficial. Para información oficial y actualizada, visita <a href="https://aws.amazon.com" style="color: #FF9900;">aws.amazon.com</a></p>
+            <p style="margin-top: 15px; font-size: 0.9em;">Última actualización: Diciembre 2025</p>
+        </footer>
+    </div>
+</body>
+</html>
