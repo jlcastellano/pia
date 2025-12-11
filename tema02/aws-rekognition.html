@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto de Reconocimiento Facial con AWS Rekognition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        header h1 {
+            color: #fff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        header p {
+            color: #a0a0a0;
+            font-size: 1.1em;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .nav-tab:hover {
+            background: rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: #1a1a2e;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #00d4ff;
+        }
+
+        .section h3 {
+            color: #16213e;
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section h4 {
+            color: #0099cc;
+            font-size: 1.1em;
+            margin: 20px 0 10px 0;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #00d4ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: attr(data-language);
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.75em;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .code-block code {
+            white-space: pre;
+        }
+
+        .code-inline {
+            background: #e8e8e8;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .warning-box strong {
+            color: #856404;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+            border-left: 4px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .info-box strong {
+            color: #0c5460;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .success-box strong {
+            color: #155724;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .card h4 {
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin: 5px 5px 5px 0;
+        }
+
+        .badge-free {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-paid {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-recommended {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .file-structure {
+            background: #2d2d2d;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 15px 0;
+        }
+
+        .file-structure .folder {
+            color: #f9ca24;
+        }
+
+        .file-structure .file {
+            color: #a29bfe;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #00d4ff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: background 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #0099cc;
+        }
+
+        .accordion {
+            margin: 15px 0;
+        }
+
+        .accordion-item {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: #e9ecef;
+        }
+
+        .accordion-header.active {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: white;
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 20px;
+            background: white;
+        }
+
+        .accordion-content.active {
+            display: block;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #a0a0a0;
+            margin-top: 30px;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .nav-tab {
+                padding: 10px 16px;
+                font-size: 0.85em;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .code-block {
+                font-size: 0.8em;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 Reconocimiento Facial con AWS Rekognition</h1>
+            <p>Guía completa para implementar un sistema de reconocimiento facial usando Python y AWS</p>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-section="parte1">1. Crear Cuenta AWS</button>
+            <button class="nav-tab" data-section="parte2">2. Costos</button>
+            <button class="nav-tab" data-section="parte3">3. Configuración Inicial</button>
+            <button class="nav-tab" data-section="parte4">4. AWS CLI</button>
+            <button class="nav-tab" data-section="parte5">5. Crear Colección</button>
+            <button class="nav-tab" data-section="parte6">6. Librerías Python</button>
+            <button class="nav-tab" data-section="parte7">7. Proyecto</button>
+            <button class="nav-tab" data-section="parte8">8. Explicación</button>
+            <button class="nav-tab" data-section="parte9">9. Backend Flask</button>
+            <button class="nav-tab" data-section="parte10">10. Funcionalidades</button>
+            <button class="nav-tab" data-section="parte11">11. Mejores Prácticas</button>
+            <button class="nav-tab" data-section="parte12">12. Recursos</button>
+        </nav>
+
+        <!-- PARTE 1: CREAR CUENTA AWS -->
+        <section id="parte1" class="section active">
+            <h2>PARTE 1: CREAR CUENTA DE AWS</h2>
+            
+            <div class="step">
+                <h3><span class="step-number">1</span>Acceder al sitio web de AWS</h3>
+                <p>Visita <a href="https://aws.amazon.com" target="_blank">https://aws.amazon.com</a> y haz clic en el botón <strong>"Crear una cuenta de AWS"</strong> ubicado en la esquina superior derecha.</p>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">2</span>Completar información de la cuenta</h3>
+                <p>Proporciona la siguiente información:</p>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>📧 Dirección de correo electrónico</h4>
+                        <p>Usa tu correo institucional si eres estudiante o profesor</p>
+                    </div>
+                    <div class="card">
+                        <h4>📝 Nombre de la cuenta AWS</h4>
+                        <p>Puede ser tu nombre o el de tu proyecto</p>
+                    </div>
+                    <div class="card">
+                        <h4>🔐 Contraseña</h4>
+                        <p>Crea una contraseña segura (mínimo 8 caracteres, con mayúsculas, minúsculas y números)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">3</span>Información de contacto</h3>
+                <p>Selecciona el tipo de cuenta:</p>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>👤 Personal <span class="badge badge-recommended">Recomendado</span></h4>
+                        <p>Para uso individual y proyectos personales</p>
+                    </div>
+                    <div class="card">
+                        <h4>🏢 Profesional</h4>
+                        <p>Para empresas u organizaciones</p>
+                    </div>
+                </div>
+                <p>Completa tus datos personales: nombre completo, número de teléfono y dirección postal.</p>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">4</span>Información de pago</h3>
+                <p>Ingresa los datos de tu tarjeta de crédito o débito. AWS realizará un cargo temporal de <strong>$1 USD</strong> para verificar la tarjeta, que será reembolsado automáticamente.</p>
+                <div class="warning-box">
+                    <strong>⚠️ Importante:</strong> Aunque AWS ofrece una capa gratuita generosa, se requiere una tarjeta de crédito para verificar tu identidad. Asegúrate de configurar alertas de facturación para evitar cargos inesperados.
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">5</span>Verificación de identidad</h3>
+                <p>Selecciona el método de verificación (mensaje de texto o llamada telefónica). AWS te enviará un código de 4 dígitos que deberás ingresar para confirmar tu identidad.</p>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">6</span>Seleccionar plan de soporte</h3>
+                <p>Elige el plan de soporte:</p>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>🆓 Básico <span class="badge badge-free">Gratuito</span></h4>
+                        <p>Incluye acceso a documentación y foros de la comunidad (recomendado para comenzar)</p>
+                    </div>
+                    <div class="card">
+                        <h4>💼 Developer, Business, Enterprise <span class="badge badge-paid">Pago</span></h4>
+                        <p>Planes de pago con diferentes niveles de soporte técnico</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">7</span>Confirmación y acceso</h3>
+                <p>Recibirás un correo electrónico de confirmación. Haz clic en el enlace para activar tu cuenta. Una vez activada, podrás acceder a la <strong>Consola de administración de AWS</strong>.</p>
+            </div>
+        </section>
+
+        <!-- PARTE 2: COSTOS -->
+        <section id="parte2" class="section">
+            <h2>PARTE 2: Estimación de Costos para el Proyecto</h2>
+            
+            <h3>✅ Dentro de la capa gratuita (primeros 12 meses)</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Servicio</th>
+                            <th>Límite gratuito</th>
+                            <th>Costo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Análisis facial</td>
+                            <td>5,000 imágenes/mes</td>
+                            <td><span class="badge badge-free">$0.00</span></td>
+                        </tr>
+                        <tr>
+                            <td>Almacenamiento de rostros</td>
+                            <td>Hasta 1,000 rostros</td>
+                            <td><span class="badge badge-free">$0.00</span></td>
+                        </tr>
+                        <tr>
+                            <td>Búsquedas faciales</td>
+                            <td>Hasta cierto límite</td>
+                            <td><span class="badge badge-free">$0.00</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>💰 Después de la capa gratuita</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Operación</th>
+                            <th>Precio (USD)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Análisis facial</td>
+                            <td>$0.001 por imagen (primeras 1M de imágenes/mes)</td>
+                        </tr>
+                        <tr>
+                            <td>Almacenamiento de rostros</td>
+                            <td>$0.01 por 1,000 rostros/mes</td>
+                        </tr>
+                        <tr>
+                            <td>Búsqueda facial</td>
+                            <td>$0.001 por búsqueda (primeras 1M búsquedas/mes)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="info-box">
+                <strong>📊 Ejemplo:</strong> Analizar 100 imágenes al mes costaría aproximadamente <strong>$0.10 USD</strong> después de la capa gratuita.
+            </div>
+        </section>
+
+        <!-- PARTE 3: CONFIGURACIÓN INICIAL -->
+        <section id="parte3" class="section">
+            <h2>PARTE 3: CONFIGURACIÓN INICIAL DE AWS</h2>
+            
+            <div class="step">
+                <h3><span class="step-number">1</span>Activar autenticación de dos factores (MFA)</h3>
+                <p>Por seguridad, es altamente recomendable activar MFA:</p>
+                <ol style="margin-left: 20px; margin-top: 10px;">
+                    <li>Inicia sesión en la Consola de AWS</li>
+                    <li>Haz clic en tu nombre de usuario (esquina superior derecha)</li>
+                    <li>Selecciona "Security Credentials" (Credenciales de seguridad)</li>
+                    <li>En la sección "Multi-factor authentication (MFA)", haz clic en "Assign MFA device"</li>
+                    <li>Sigue las instrucciones para configurar MFA con una aplicación como Google Authenticator o Authy</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">2</span>Configurar alertas de facturación</h3>
+                <p>Para evitar sorpresas en tu factura:</p>
+                <ol style="margin-left: 20px; margin-top: 10px;">
+                    <li>Ve a "Billing and Cost Management" en la consola de AWS</li>
+                    <li>Selecciona "Billing preferences" en el menú izquierdo</li>
+                    <li>Activa "Receive Free Tier Usage Alerts"</li>
+                    <li>Ingresa tu dirección de correo electrónico</li>
+                    <li>Ve a "Budgets" y crea un presupuesto (por ejemplo, $5 USD/mes)</li>
+                    <li>Configura alertas cuando alcances el 80% y 100% del presupuesto</li>
+                </ol>
+                <div class="warning-box">
+                    <strong>🚨 Crucial:</strong> Esta configuración te avisará antes de que se generen cargos significativos.
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">3</span>Crear un usuario IAM (Identity and Access Management)</h3>
+                <p>Por seguridad, no uses la cuenta raíz para tareas diarias. Crea un usuario IAM:</p>
+                <ol style="margin-left: 20px; margin-top: 10px;">
+                    <li>En la consola de AWS, busca "IAM" en el buscador de servicios</li>
+                    <li>En el menú izquierdo, selecciona "Users" (Usuarios)</li>
+                    <li>Haz clic en "Add users" (Agregar usuarios)</li>
+                    <li>Nombre de usuario: <code class="code-inline">mi-usuario-rekognition</code></li>
+                    <li>Selecciona "Access key - Programmatic access" (para usar AWS CLI y SDK)</li>
+                    <li>Selecciona también "Password - AWS Management Console access" (para acceder a la consola)</li>
+                    <li>Haz clic en "Next: Permissions"</li>
+                    <li>Selecciona "Attach existing policies directly"</li>
+                    <li>Busca y selecciona las siguientes políticas:
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li><code class="code-inline">AmazonRekognitionFullAccess</code></li>
+                            <li><code class="code-inline">AmazonS3FullAccess</code> (si vas a usar S3 para las imágenes)</li>
+                        </ul>
+                    </li>
+                    <li>Haz clic en "Next: Tags" (opcional, puedes omitir)</li>
+                    <li>Haz clic en "Next: Review"</li>
+                    <li>Revisa la configuración y haz clic en "Create user"</li>
+                </ol>
+                <div class="warning-box">
+                    <strong>⚠️ IMPORTANTE:</strong> Descarga las credenciales (Access Key ID y Secret Access Key) o cópialas en un lugar seguro. <strong>No podrás verlas de nuevo.</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARTE 4: AWS CLI -->
+        <section id="parte4" class="section">
+            <h2>PARTE 4: INSTALAR Y CONFIGURAR AWS CLI</h2>
+            
+            <div class="step">
+                <h3><span class="step-number">1</span>Instalar AWS CLI</h3>
+                
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>🪟 En Windows</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Descarga el instalador desde: <a href="https://aws.amazon.com/cli/" target="_blank">https://aws.amazon.com/cli/</a></p>
+                            <p>Ejecuta el archivo MSI descargado y sigue el asistente de instalación.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>🍎 En macOS</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="code-block" data-language="bash">
+                                <code>curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /</code>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>🐧 En Linux</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="code-block" data-language="bash">
+                                <code>curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Verificar la instalación:</h4>
+                <div class="code-block" data-language="bash">
+                    <code>aws --version</code>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">2</span>Configurar AWS CLI</h3>
+                <p>Ejecuta el siguiente comando en tu terminal o símbolo del sistema:</p>
+                <div class="code-block" data-language="bash">
+                    <code>aws configure</code>
+                </div>
+                <p>Se te pedirá la siguiente información (usa las credenciales del usuario IAM que creaste):</p>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Campo</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>AWS Access Key ID</td>
+                                <td>[Tu Access Key ID]</td>
+                            </tr>
+                            <tr>
+                                <td>AWS Secret Access Key</td>
+                                <td>[Tu Secret Access Key]</td>
+                            </tr>
+                            <tr>
+                                <td>Default region name</td>
+                                <td><code class="code-inline">us-east-1</code> (o tu región preferida)</td>
+                            </tr>
+                            <tr>
+                                <td>Default output format</td>
+                                <td><code class="code-inline">json</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARTE 5: CREAR COLECCIÓN -->
+        <section id="parte5" class="section">
+            <h2>PARTE 5: CREAR COLECCIÓN DE ROSTROS EN AWS REKOGNITION</h2>
+            
+            <div class="step">
+                <h3><span class="step-number">1</span>Crear la colección usando AWS CLI</h3>
+                <p>Abre tu terminal y ejecuta el siguiente comando:</p>
+                <div class="code-block" data-language="bash">
+                    <code>aws rekognition create-collection --collection-id mi-coleccion-rostros --region us-east-1</code>
+                </div>
+                <p>Deberías recibir una respuesta similar a:</p>
+                <div class="code-block" data-language="json">
+                    <code>{
+    "StatusCode": 200,
+    "CollectionArn": "aws:rekognition:us-east-1:123456789012:collection/mi-coleccion-rostros",
+    "FaceModelVersion": "7.0"
+}</code>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">2</span>Verificar que la colección fue creada</h3>
+                <div class="code-block" data-language="bash">
+                    <code>aws rekognition list-collections --region us-east-1</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARTE 6: LIBRERÍAS PYTHON -->
+        <section id="parte6" class="section">
+            <h2>PARTE 6: INSTALAR LIBRERÍAS DE PYTHON</h2>
+            
+            <div class="step">
+                <h3><span class="step-number">1</span>Instalar boto3 (SDK de AWS para Python)</h3>
+                <p>Abre tu terminal y ejecuta:</p>
+                <div class="code-block" data-language="bash">
+                    <code>pip install boto3</code>
+                </div>
+                <p>O si usas Python 3 específicamente:</p>
+                <div class="code-block" data-language="bash">
+                    <code>pip3 install boto3</code>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">2</span>Verificar la instalación</h3>
+                <div class="code-block" data-language="bash">
+                    <code>python -c "import boto3; print(boto3.__version__)"</code>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">3</span>Instalar dependencias adicionales para el backend</h3>
+                <p>Si vas a usar el backend con Flask:</p>
+                <div class="code-block" data-language="bash">
+                    <code>pip install flask boto3 python-dotenv</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARTE 7: PROYECTO -->
+        <section id="parte7" class="section">
+            <h2>PARTE 7: CREAR EL PROYECTO DE RECONOCIMIENTO FACIAL</h2>
+            
+            <div class="step">
+                <h3><span class="step-number">1</span>Crear directorio del proyecto</h3>
+                <p>Crea una carpeta para tu proyecto y navega a ella:</p>
+                <div class="code-block" data-language="bash">
+                    <code>mkdir proyecto-rekognition
+cd proyecto-rekognition</code>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">2</span>Estructura del proyecto</h3>
+                <div class="file-structure">
+                    <span class="folder">📁 proyecto-rekognition/</span><br>
+                    ├── <span class="file">📄 .env</span> (variables de entorno)<br>
+                    ├── <span class="file">📄 app.py</span> (backend Flask)<br>
+                    ├── <span class="file">📄 index.html</span> (interfaz web)<br>
+                    ├── <span class="file">📄 index_face.py</span> (script para indexar)<br>
+                    ├── <span class="file">📄 buscar_rostro.py</span> (script para buscar)<br>
+                    ├── <span class="file">📄 listar_rostros.py</span> (script para listar)<br>
+                    ├── <span class="file">📄 eliminar_rostro.py</span> (script para eliminar)<br>
+                    └── <span class="file">🖼️ imagen3.jpg</span> (imagen de prueba)
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">3</span>Crear archivo de configuración (.env)</h3>
+                <p>Crea un archivo llamado <code class="code-inline">.env</code> en la raíz del proyecto:</p>
+                <div class="code-block" data-language="env">
+                    <code>AWS_ACCESS_KEY_ID=tu_access_key_aqui
+AWS_SECRET_ACCESS_KEY=tu_secret_key_aqui
+AWS_REGION=us-east-1
+COLLECTION_ID=mi-coleccion-rostros</code>
+                </div>
+                <div class="warning-box">
+                    <strong>⚠️ IMPORTANTE:</strong> Nunca subas el archivo <code class="code-inline">.env</code> a repositorios públicos. Añádelo a tu <code class="code-inline">.gitignore</code>.
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">4</span>Preparar una imagen de prueba</h3>
+                <p>Coloca una imagen con un rostro visible en la carpeta del proyecto. Nómbrala <code class="code-inline">imagen3.jpg</code> o modifica el nombre en el código según tu archivo.</p>
+                <div class="info-box">
+                    <strong>📋 Requisitos de la imagen:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Formato: JPG o PNG</li>
+                        <li>Tamaño máximo: 15 MB</li>
+                        <li>Resolución mínima recomendada: 640x480 píxeles</li>
+                        <li>El rostro debe ser claramente visible y no estar muy inclinado</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">5</span>Crear el archivo Python (index_face.py)</h3>
+                <p>Crea un archivo llamado <code class="code-inline">index_face.py</code> y copia el siguiente código:</p>
+                <div class="code-block" data-language="python">
+                    <code>import boto3
+import json
+
+def format_confidence(confidence):
+    return f"{confidence:.2f}%"
+
+def print_face_analysis(response):
+    print("\n=== ANÁLISIS FACIAL ===\n")
+    
+    for face_record in response['FaceRecords']:
+        face = face_record['Face']
+        detail = face_record['FaceDetail']
+        
+        print("🆔 INFORMACIÓN BÁSICA")
+        print(f"├── ID del Rostro: {face['FaceId']}")
+        print(f"├── ID Externo: {face['ExternalImageId']}")
+        print(f"└── Confianza de detección: {format_confidence(face['Confidence'])}\n")
+        
+        print("👤 CARACTERÍSTICAS DEMOGRÁFICAS")
+        print(f"├── Rango de edad: {detail['AgeRange']['Low']} - {detail['AgeRange']['High']} años")
+        gender = 'Masculino' if detail['Gender']['Value'] == 'Male' else 'Femenino'
+        print(f"└── Género: {gender} ({format_confidence(detail['Gender']['Confidence'])})\n")
+        
+        print("😀 EXPRESIONES Y CARACTERÍSTICAS")
+        print(f"├── Sonriendo: {'Sí' if detail['Smile']['Value'] else 'No'} "
+              f"({format_confidence(detail['Smile']['Confidence'])})")
+        print(f"├── Ojos abiertos: {'Sí' if detail['EyesOpen']['Value'] else 'No'} "
+              f"({format_confidence(detail['EyesOpen']['Confidence'])})")
+        print(f"├── Boca abierta: {'Sí' if detail['MouthOpen']['Value'] else 'No'} "
+              f"({format_confidence(detail['MouthOpen']['Confidence'])})")
+        print(f"├── Barba: {'Sí' if detail['Beard']['Value'] else 'No'} "
+              f"({format_confidence(detail['Beard']['Confidence'])})")
+        print(f"└── Bigote: {'Sí' if detail['Mustache']['Value'] else 'No'} "
+              f"({format_confidence(detail['Mustache']['Confidence'])})\n")
+        
+        print("👓 ACCESORIOS")
+        print(f"├── Lentes: {'Sí' if detail['Eyeglasses']['Value'] else 'No'} "
+              f"({format_confidence(detail['Eyeglasses']['Confidence'])})")
+        print(f"└── Lentes de sol: {'Sí' if detail['Sunglasses']['Value'] else 'No'} "
+              f"({format_confidence(detail['Sunglasses']['Confidence'])})\n")
+        
+        print("😊 EMOCIONES DETECTADAS")
+        emotions = sorted(detail['Emotions'], key=lambda x: x['Confidence'], reverse=True)
+        emotion_translate = {
+            'HAPPY': 'Feliz', 'SAD': 'Triste', 'ANGRY': 'Enojado',
+            'CONFUSED': 'Confundido', 'DISGUSTED': 'Disgustado',
+            'SURPRISED': 'Sorprendido', 'CALM': 'Calmado', 'FEAR': 'Asustado'
+        }
+        for emotion in emotions[:3]:
+            if emotion['Confidence'] > 1:
+                print(f"├── {emotion_translate.get(emotion['Type'], emotion['Type'])}: "
+                      f"{format_confidence(emotion['Confidence'])}")
+        print()
+        
+        print("📊 CALIDAD DE LA IMAGEN")
+        print(f"├── Brillo: {format_confidence(detail['Quality']['Brightness'])}")
+        print(f"└── Nitidez: {format_confidence(detail['Quality']['Sharpness'])}\n")
+        
+        print("📐 POSE DE LA CARA")
+        print(f"├── Rotación: {detail['Pose']['Roll']:.1f}°")
+        print(f"├── Giro lateral: {detail['Pose']['Yaw']:.1f}°")
+        print(f"└── Inclinación: {detail['Pose']['Pitch']:.1f}°\n")
+
+def index_face():
+    client = boto3.client('rekognition', region_name='us-east-1')
+    
+    try:
+        with open('imagen3.jpg', 'rb') as image:
+            response = client.index_faces(
+                CollectionId='mi-coleccion-rostros',
+                Image={'Bytes': image.read()},
+                ExternalImageId='persona1',
+                DetectionAttributes=['ALL']
+            )
+        
+        print_face_analysis(response)
+        
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+
+if __name__ == "__main__":
+    index_face()</code>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">6</span>Ejecutar el programa</h3>
+                <div class="code-block" data-language="bash">
+                    <code>python index_face.py</code>
+                </div>
+                <p>O si usas Python 3:</p>
+                <div class="code-block" data-language="bash">
+                    <code>python3 index_face.py</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARTE 8: EXPLICACIÓN -->
+        <section id="parte8" class="section">
+            <h2>PARTE 8: EXPLICACIÓN DEL CÓDIGO</h2>
+            
+            <h3>¿Qué hace el código?</h3>
+            <p>El script realiza las siguientes acciones:</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h4>1️⃣ Importa boto3</h4>
+                    <p>Librería SDK de AWS para Python que permite interactuar con servicios de AWS</p>
+                </div>
+                <div class="card">
+                    <h4>2️⃣ Crea un cliente de Rekognition</h4>
+                    <p>Se conecta al servicio AWS Rekognition en la región especificada</p>
+                </div>
+                <div class="card">
+                    <h4>3️⃣ Lee la imagen</h4>
+                    <p>Abre el archivo de imagen en modo binario</p>
+                </div>
+                <div class="card">
+                    <h4>4️⃣ Indexa el rostro</h4>
+                    <p>Llama al método <code class="code-inline">index_faces()</code> que detecta rostros, extrae características, almacena en la colección y retorna análisis detallado</p>
+                </div>
+                <div class="card">
+                    <h4>5️⃣ Muestra resultados</h4>
+                    <p>Formatea y presenta toda la información detectada de forma legible</p>
+                </div>
+            </div>
+
+            <h3>Datos que detecta AWS Rekognition</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Datos detectados</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Información demográfica</strong></td>
+                            <td>Rango de edad estimado, género probable</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Expresiones faciales</strong></td>
+                            <td>Sonrisa, ojos abiertos/cerrados, boca abierta/cerrada</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Características físicas</strong></td>
+                            <td>Presencia de barba, bigote, lentes, lentes de sol</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Emociones</strong></td>
+                            <td>Detecta 8 emociones diferentes con nivel de confianza</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Calidad de imagen</strong></td>
+                            <td>Brillo y nitidez de la foto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pose del rostro</strong></td>
+                            <td>Ángulos de rotación, giro e inclinación de la cabeza</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Puntos faciales</strong></td>
+                            <td>Ubicación de ojos, nariz, boca, etc.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PARTE 9: BACKEND FLASK -->
+        <section id="parte9" class="section">
+            <h2>PARTE 9: BACKEND CON FLASK</h2>
+            
+            <p>Este backend proporciona una API REST completa para interactuar con AWS Rekognition desde una aplicación web.</p>
+
+            <div class="step">
+                <h3><span class="step-number">1</span>Instalar dependencias</h3>
+                <div class="code-block" data-language="bash">
+                    <code>pip install flask boto3 python-dotenv</code>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">2</span>Crear el archivo app.py</h3>
+                <p>Crea el archivo <code class="code-inline">app.py</code> con el siguiente código:</p>
+                <div class="code-block" data-language="python">
+                    <code>import os
+import boto3
+from flask import Flask, request, jsonify, send_from_directory
+from dotenv import load_dotenv
+
+load_dotenv()
+
+app = Flask(__name__, static_folder='.')
+
+# Configurar cliente de Rekognition
+rekognition = boto3.client(
+    'rekognition',
+    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+    region_name=os.getenv('AWS_REGION', 'us-east-1')
+)
+
+COLLECTION_ID = os.getenv('COLLECTION_ID', 'mi-coleccion-rostros')
+
+
+def crear_coleccion_si_no_existe():
+    """Crea la colección si no existe."""
+    try:
+        rekognition.create_collection(CollectionId=COLLECTION_ID)
+        print(f"Colección '{COLLECTION_ID}' creada.")
+    except rekognition.exceptions.ResourceAlreadyExistsException:
+        print(f"Colección '{COLLECTION_ID}' ya existe.")
+
+
+# Crear colección al iniciar
+crear_coleccion_si_no_existe()
+
+
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
+
+
+@app.route('/index-face', methods=['POST'])
+def index_face():
+    """Indexa un rostro en la colección."""
+    try:
+        if 'image' not in request.files:
+            return jsonify({'error': 'No se envió ninguna imagen'}), 400
+        
+        image = request.files['image']
+        external_id = request.form.get('external_id', 'persona_desconocida')
+        
+        image_bytes = image.read()
+        
+        response = rekognition.index_faces(
+            CollectionId=COLLECTION_ID,
+            Image={'Bytes': image_bytes},
+            ExternalImageId=external_id,
+            DetectionAttributes=['ALL'],
+            MaxFaces=1,
+            QualityFilter='AUTO'
+        )
+        
+        if not response.get('FaceRecords'):
+            return jsonify({'error': 'No se detectó ningún rostro en la imagen'}), 400
+        
+        return jsonify(response)
+    
+    except rekognition.exceptions.InvalidParameterException:
+        return jsonify({'error': 'Imagen inválida o no se detectó un rostro claro'}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/search-face', methods=['POST'])
+def search_face():
+    """Busca un rostro en la colección."""
+    try:
+        if 'image' not in request.files:
+            return jsonify({'error': 'No se envió ninguna imagen'}), 400
+        
+        image = request.files['image']
+        image_bytes = image.read()
+        
+        response = rekognition.search_faces_by_image(
+            CollectionId=COLLECTION_ID,
+            Image={'Bytes': image_bytes},
+            MaxFaces=10,
+            FaceMatchThreshold=70
+        )
+        
+        return jsonify(response)
+    
+    except rekognition.exceptions.InvalidParameterException:
+        return jsonify({'error': 'No se detectó un rostro claro en la imagen'}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/list-faces', methods=['GET'])
+def list_faces():
+    """Lista todos los rostros en la colección."""
+    try:
+        response = rekognition.list_faces(
+            CollectionId=COLLECTION_ID,
+            MaxResults=100
+        )
+        return jsonify(response)
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/delete-face', methods=['POST'])
+def delete_face():
+    """Elimina un rostro de la colección."""
+    try:
+        data = request.get_json()
+        face_id = data.get('face_id')
+        
+        if not face_id:
+            return jsonify({'error': 'Se requiere face_id'}), 400
+        
+        response = rekognition.delete_faces(
+            CollectionId=COLLECTION_ID,
+            FaceIds=[face_id]
+        )
+        
+        return jsonify({'success': True, 'deleted': response.get('DeletedFaces', [])})
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/detect-faces', methods=['POST'])
+def detect_faces():
+    """Detecta rostros sin indexar (solo análisis)."""
+    try:
+        if 'image' not in request.files:
+            return jsonify({'error': 'No se envió ninguna imagen'}), 400
+        
+        image = request.files['image']
+        image_bytes = image.read()
+        
+        response = rekognition.detect_faces(
+            Image={'Bytes': image_bytes},
+            Attributes=['ALL']
+        )
+        
+        return jsonify(response)
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/compare-faces', methods=['POST'])
+def compare_faces():
+    """Compara dos rostros directamente."""
+    try:
+        if 'source' not in request.files or 'target' not in request.files:
+            return jsonify({'error': 'Se requieren dos imágenes: source y target'}), 400
+        
+        source_bytes = request.files['source'].read()
+        target_bytes = request.files['target'].read()
+        
+        response = rekognition.compare_faces(
+            SourceImage={'Bytes': source_bytes},
+            TargetImage={'Bytes': target_bytes},
+            SimilarityThreshold=70
+        )
+        
+        return jsonify(response)
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)</code>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">3</span>Endpoints disponibles</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Endpoint</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge badge-free">GET</span></td>
+                                <td><code class="code-inline">/</code></td>
+                                <td>Sirve el archivo index.html</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-paid">POST</span></td>
+                                <td><code class="code-inline">/index-face</code></td>
+                                <td>Indexa un rostro en la colección</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-paid">POST</span></td>
+                                <td><code class="code-inline">/search-face</code></td>
+                                <td>Busca un rostro en la colección</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-free">GET</span></td>
+                                <td><code class="code-inline">/list-faces</code></td>
+                                <td>Lista todos los rostros indexados</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-paid">POST</span></td>
+                                <td><code class="code-inline">/delete-face</code></td>
+                                <td>Elimina un rostro de la colección</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-paid">POST</span></td>
+                                <td><code class="code-inline">/detect-faces</code></td>
+                                <td>Analiza rostros sin indexar</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-paid">POST</span></td>
+                                <td><code class="code-inline">/compare-faces</code></td>
+                                <td>Compara dos rostros directamente</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">4</span>Ejecutar el servidor</h3>
+                <div class="code-block" data-language="bash">
+                    <code>python app.py</code>
+                </div>
+                <p>Luego abre <a href="http://localhost:5000" target="_blank">http://localhost:5000</a> en tu navegador.</p>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">5</span>Permisos IAM necesarios</h3>
+                <p>El usuario de AWS necesita estos permisos:</p>
+                <div class="code-block" data-language="json">
+                    <code>{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "rekognition:CreateCollection",
+                "rekognition:DeleteCollection",
+                "rekognition:IndexFaces",
+                "rekognition:SearchFacesByImage",
+                "rekognition:ListFaces",
+                "rekognition:DeleteFaces",
+                "rekognition:DetectFaces",
+                "rekognition:CompareFaces"
+            ],
+            "Resource": "*"
+        }
+    ]
+}</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARTE 10: FUNCIONALIDADES ADICIONALES -->
+        <section id="parte10" class="section">
+            <h2>PARTE 10: FUNCIONALIDADES ADICIONALES</h2>
+            
+            <div class="step">
+                <h3>🔍 Buscar rostros en la colección (buscar_rostro.py)</h3>
+                <div class="code-block" data-language="python">
+                    <code>import boto3
+
+def search_face():
+    client = boto3.client('rekognition', region_name='us-east-1')
+    
+    try:
+        with open('persona_buscar.jpg', 'rb') as image:
+            response = client.search_faces_by_image(
+                CollectionId='mi-coleccion-rostros',
+                Image={'Bytes': image.read()},
+                MaxFaces=5,
+                FaceMatchThreshold=80
+            )
+        
+        print("\n=== RESULTADOS DE BÚSQUEDA ===\n")
+        
+        if response['FaceMatches']:
+            for match in response['FaceMatches']:
+                print(f"✓ Coincidencia encontrada!")
+                print(f"├── ID del rostro: {match['Face']['FaceId']}")
+                print(f"├── ID externo: {match['Face']['ExternalImageId']}")
+                print(f"└── Similitud: {match['Similarity']:.2f}%\n")
+        else:
+            print("✗ No se encontraron coincidencias")
+            
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+
+if __name__ == "__main__":
+    search_face()</code>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📋 Listar todos los rostros (listar_rostros.py)</h3>
+                <div class="code-block" data-language="python">
+                    <code>import boto3
+
+def list_faces():
+    client = boto3.client('rekognition', region_name='us-east-1')
+    
+    try:
+        response = client.list_faces(
+            CollectionId='mi-coleccion-rostros',
+            MaxResults=100
+        )
+        
+        print(f"\n=== ROSTROS EN LA COLECCIÓN ===")
+        print(f"Total de rostros: {len(response['Faces'])}\n")
+        
+        for i, face in enumerate(response['Faces'], 1):
+            print(f"{i}. ID del Rostro: {face['FaceId']}")
+            print(f"   ID Externo: {face.get('ExternalImageId', 'N/A')}")
+            print(f"   Confianza: {face['Confidence']:.2f}%\n")
+            
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+
+if __name__ == "__main__":
+    list_faces()</code>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🗑️ Eliminar un rostro (eliminar_rostro.py)</h3>
+                <div class="code-block" data-language="python">
+                    <code>import boto3
+
+def delete_face(face_id):
+    client = boto3.client('rekognition', region_name='us-east-1')
+    
+    try:
+        response = client.delete_faces(
+            CollectionId='mi-coleccion-rostros',
+            FaceIds=[face_id]
+        )
+        
+        if response['DeletedFaces']:
+            print(f"✓ Rostro eliminado exitosamente: {face_id}")
+        else:
+            print(f"✗ No se pudo eliminar el rostro")
+            
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+
+if __name__ == "__main__":
+    # Reemplaza con el ID del rostro que quieres eliminar
+    face_id = "tu-face-id-aqui"
+    delete_face(face_id)</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARTE 11: MEJORES PRÁCTICAS -->
+        <section id="parte11" class="section">
+            <h2>PARTE 11: MEJORES PRÁCTICAS Y CONSEJOS</h2>
+            
+            <h3>🔒 Mejores Prácticas de Seguridad</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🚫 Nunca compartas tus Access Keys</h4>
+                    <p>No subas credenciales a repositorios públicos (GitHub, GitLab, etc.)</p>
+                </div>
+                <div class="card">
+                    <h4>🔐 Usa variables de entorno</h4>
+                    <p>Almacena credenciales en variables de entorno en lugar de código hardcodeado</p>
+                </div>
+                <div class="card">
+                    <h4>📱 Activa MFA</h4>
+                    <p>Autenticación de dos factores en tu cuenta AWS</p>
+                </div>
+                <div class="card">
+                    <h4>🔄 Rota tus Access Keys</h4>
+                    <p>Cambia tus credenciales periódicamente</p>
+                </div>
+                <div class="card">
+                    <h4>👤 Usa roles de IAM</h4>
+                    <p>Asigna solo los permisos mínimos necesarios</p>
+                </div>
+                <div class="card">
+                    <h4>🛡️ Revisa Security Hub</h4>
+                    <p>Monitorea regularmente la seguridad en la consola de AWS</p>
+                </div>
+            </div>
+
+            <h3>💰 Consejos para Optimizar Costos</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🗑️ Elimina colecciones sin usar</h4>
+                    <p>Cada colección almacenada tiene costo mensual</p>
+                </div>
+                <div class="card">
+                    <h4>📏 Usa resolución adecuada</h4>
+                    <p>No uses imágenes excesivamente grandes</p>
+                </div>
+                <div class="card">
+                    <h4>📦 Procesa en lotes</h4>
+                    <p>Agrupa imágenes cuando sea posible</p>
+                </div>
+                <div class="card">
+                    <h4>📊 Monitorea con CloudWatch</h4>
+                    <p>Revisa tu uso regularmente</p>
+                </div>
+                <div class="card">
+                    <h4>💵 Configura presupuestos</h4>
+                    <p>Establece alertas de facturación</p>
+                </div>
+                <div class="card">
+                    <h4>🆓 Aprovecha la capa gratuita</h4>
+                    <p>Maximiza el uso antes de que expire (12 meses)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARTE 12: RECURSOS -->
+        <section id="parte12" class="section">
+            <h2>PARTE 12: RECURSOS ADICIONALES</h2>
+            
+            <h3>📚 Documentación y Aprendizaje</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>📖 Documentación oficial de AWS Rekognition</h4>
+                    <p><a href="https://docs.aws.amazon.com/rekognition/" target="_blank">docs.aws.amazon.com/rekognition/</a></p>
+                </div>
+                <div class="card">
+                    <h4>🎓 AWS Training and Certification</h4>
+                    <p>Cursos gratuitos en <a href="https://aws.training" target="_blank">aws.training</a></p>
+                </div>
+                <div class="card">
+                    <h4>🛠️ AWS Skill Builder</h4>
+                    <p>Plataforma de aprendizaje interactivo</p>
+                </div>
+                <div class="card">
+                    <h4>🔧 AWS Workshops</h4>
+                    <p>Tutoriales prácticos paso a paso</p>
+                </div>
+                <div class="card">
+                    <h4>🐍 Boto3 Documentation</h4>
+                    <p><a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html" target="_blank">Documentación completa de boto3</a></p>
+                </div>
+                <div class="card">
+                    <h4>🌐 AWS Free Tier</h4>
+                    <p><a href="https://aws.amazon.com/free/" target="_blank">Información sobre la capa gratuita</a></p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <strong>🎉 ¡Felicitaciones!</strong> Has completado la guía completa de reconocimiento facial con AWS Rekognition. Ahora tienes las herramientas necesarias para implementar tu propio sistema de reconocimiento facial.
+            </div>
+        </section>
+
+        <footer>
+            <p>Proyecto de Reconocimiento Facial con AWS Rekognition</p>
+            <p>Desarrollado con ❤️ para aprendizaje educativo</p>
+            <p><a href="https://aws.amazon.com/rekognition/" target="_blank">Más información sobre AWS Rekognition</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Navegación por pestañas
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remover clase active de todas las pestañas
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                
+                // Agregar clase active a la pestaña seleccionada
+                tab.classList.add('active');
+                const sectionId = tab.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Acordeón
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const isActive = header.classList.contains('active');
+                
+                // Cerrar todos los acordeones del mismo grupo
+                const accordion = header.closest('.accordion');
+                accordion.querySelectorAll('.accordion-header').forEach(h => {
+                    h.classList.remove('active');
+                    h.nextElementSibling.classList.remove('active');
+                });
+                
+                // Abrir el seleccionado si no estaba activo
+                if (!isActive) {
+                    header.classList.add('active');
+                    header.nextElementSibling.classList.add('active');
+                }
+            });
+        });
+
+        // Copiar código al portapapeles
+        document.querySelectorAll('.code-block').forEach(block => {
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.textContent = 'Copiar';
+            copyBtn.addEventListener('click', () => {
+                const code = block.querySelector('code').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    copyBtn.textContent = '✓ Copiado';
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copiar';
+                    }, 2000);
+                });
+            });
+            block.style.position = 'relative';
+            block.appendChild(copyBtn);
+        });
+    </script>
+</body>
+</html>
