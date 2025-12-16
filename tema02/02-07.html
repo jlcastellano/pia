@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataformas de IA en la Nube 2025 - Resumen Completo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 50px 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+        
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+        
+        .intro-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .intro-section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .intro-section p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #555;
+        }
+        
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .platform-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .platform-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+        
+        .platform-header {
+            padding: 30px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .platform-header h3 {
+            font-size: 1.8em;
+            margin: 0;
+        }
+        
+        .platform-icon {
+            font-size: 2.5em;
+        }
+        
+        .google { background: linear-gradient(135deg, #4285f4 0%, #34a853 100%); }
+        .aws { background: linear-gradient(135deg, #232f3e 0%, #ff9900 100%); }
+        .azure { background: linear-gradient(135deg, #0078d4 0%, #00bcf2 100%); }
+        .ibm { background: linear-gradient(135deg, #054ada 0%, #0062ff 100%); }
+        .openai { background: linear-gradient(135deg, #10a37f 0%, #1a7f64 100%); }
+        .anthropic { background: linear-gradient(135deg, #d97757 0%, #c9613a 100%); }
+        .huggingface { background: linear-gradient(135deg, #ff9d00 0%, #ffb700 100%); }
+        .alibaba { background: linear-gradient(135deg, #ff6a00 0%, #ff8533 100%); }
+        
+        .platform-content {
+            padding: 30px;
+        }
+        
+        .platform-description {
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 1.05em;
+        }
+        
+        .services-list {
+            margin-bottom: 20px;
+        }
+        
+        .services-list h4 {
+            color: #1e3c72;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .service-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .highlight-box {
+            background: #f0f7ff;
+            border-left: 5px solid #4285f4;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .highlight-box strong {
+            color: #1e3c72;
+        }
+        
+        .comparison-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-section h2 {
+            color: #1e3c72;
+            margin-bottom: 25px;
+            font-size: 2em;
+            text-align: center;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .comparison-table thead {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+        
+        .comparison-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .comparison-table tbody tr:hover {
+            background: #e7f3ff;
+        }
+        
+        .footer {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .footer h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+        
+        .footer p {
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table {
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Plataformas de IA en la Nube 2025</h1>
+            <p>Guía completa de los principales proveedores de servicios de Inteligencia Artificial</p>
+        </header>
+
+        <div class="intro-section">
+            <h2>📋 Introducción</h2>
+            <p>
+                En 2025, la Inteligencia Artificial se ha consolidado como una tecnología fundamental para empresas y desarrolladores. 
+                Las plataformas en la nube permiten acceder a servicios de IA avanzados sin necesidad de infraestructura propia, 
+                democratizando el acceso a tecnologías de vanguardia.
+            </p>
+            <p>
+                Estas plataformas ofrecen desde modelos pre-entrenados listos para usar (mediante APIs) hasta entornos completos 
+                para entrenar modelos personalizados. Los servicios abarcan visión por computadora, procesamiento de lenguaje natural, 
+                reconocimiento de voz, traducción automática, y mucho más.
+            </p>
+            <div class="highlight-box">
+                <strong>💡 Ventajas principales:</strong> Escalabilidad automática, pago por uso, actualizaciones constantes, 
+                seguridad empresarial, y ecosistemas integrados que facilitan la construcción de soluciones completas.
+            </div>
+        </div>
+
+        <div class="platforms-grid">
+            <!-- Google Cloud Platform -->
+            <div class="platform-card">
+                <div class="platform-header google">
+                    <h3>Google Cloud Platform</h3>
+                    <span class="platform-icon">🔵</span>
+                </div>
+                <div class="platform-content">
+                    <p class="platform-description">
+                        GCP lidera en IA con tecnología desarrollada internamente por Google. Ofrece acceso a los mismos modelos 
+                        que impulsan Google Search, Gmail y Google Photos.
+                    </p>
+                    <div class="services-list">
+                        <h4>Servicios principales:</h4>
+                        <div class="service-tags">
+                            <span class="service-tag">Vertex AI</span>
+                            <span class="service-tag">Vision AI</span>
+                            <span class="service-tag">Natural Language AI</span>
+                            <span class="service-tag">Dialogflow</span>
+                            <span class="service-tag">Speech-to-Text</span>
+                            <span class="service-tag">Translation AI</span>
+                            <span class="service-tag">Gemini</span>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <strong>Destacado:</strong> Vertex AI unifica todo el ciclo de ML. AutoML permite crear modelos sin experiencia. 
+                        Gemini ofrece capacidades multimodales avanzadas.
+                    </div>
+                    <div class="highlight-box">
+                        <strong>💰 Precio:</strong> $300 USD gratis por 90 días. Vision AI: 1,000 imágenes/mes gratis.
+                    </div>
+                </div>
+            </div>
+
+            <!-- AWS -->
+            <div class="platform-card">
+                <div class="platform-header aws">
+                    <h3>Amazon Web Services</h3>
+                    <span class="platform-icon">🟠</span>
+                </div>
+                <div class="platform-content">
+                    <p class="platform-description">
+                        AWS es el líder en servicios en la nube con la mayor cuota de mercado. Pionero en modelo "pago por uso", 
+                        ofrece más de 25 servicios de IA/ML.
+                    </p>
+                    <div class="services-list">
+                        <h4>Servicios principales:</h4>
+                        <div class="service-tags">
+                            <span class="service-tag">SageMaker</span>
+                            <span class="service-tag">Rekognition</span>
+                            <span class="service-tag">Comprehend</span>
+                            <span class="service-tag">Bedrock</span>
+                            <span class="service-tag">Transcribe</span>
+                            <span class="service-tag">Translate</span>
+                            <span class="service-tag">Lex</span>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <strong>Destacado:</strong> SageMaker es la plataforma ML más completa. Bedrock da acceso a Claude, Llama y otros LLMs. 
+                        Rekognition procesa millones de imágenes diariamente.
+                    </div>
+                    <div class="highlight-box">
+                        <strong>💰 Precio:</strong> Capa gratuita permanente. Rekognition: 5,000 imágenes/mes gratis (12 meses).
+                    </div>
+                </div>
+            </div>
+
+            <!-- Azure -->
+            <div class="platform-card">
+                <div class="platform-header azure">
+                    <h3>Microsoft Azure</h3>
+                    <span class="platform-icon">🔷</span>
+                </div>
+                <div class="platform-content">
+                    <p class="platform-description">
+                        Azure destaca por su integración con el ecosistema Microsoft (Office 365, Teams, Dynamics). 
+                        Asociación exclusiva con OpenAI para GPT-4 y DALL-E.
+                    </p>
+                    <div class="services-list">
+                        <h4>Servicios principales:</h4>
+                        <div class="service-tags">
+                            <span class="service-tag">Azure OpenAI</span>
+                            <span class="service-tag">Azure ML</span>
+                            <span class="service-tag">Cognitive Services</span>
+                            <span class="service-tag">Face API</span>
+                            <span class="service-tag">Document Intelligence</span>
+                            <span class="service-tag">Bot Service</span>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <strong>Destacado:</strong> Acceso exclusivo empresarial a GPT-4 y GPT-4o. Face API detecta 8 emociones. 
+                        Copilot Studio para chatbots sin código.
+                    </div>
+                    <div class="highlight-box">
+                        <strong>💰 Precio:</strong> $200 USD gratis por 30 días. Face API: 30,000 transacciones/mes gratis.
+                    </div>
+                </div>
+            </div>
+
+            <!-- IBM Watson -->
+            <div class="platform-card">
+                <div class="platform-header ibm">
+                    <h3>IBM Watson</h3>
+                    <span class="platform-icon">💙</span>
+                </div>
+                <div class="platform-content">
+                    <p class="platform-description">
+                        Watson es pionero en IA empresarial, famoso por ganar Jeopardy en 2011. 
+                        Especializado en industrias reguladas (salud, finanzas, legal).
+                    </p>
+                    <div class="services-list">
+                        <h4>Servicios principales:</h4>
+                        <div class="service-tags">
+                            <span class="service-tag">Watson Studio</span>
+                            <span class="service-tag">Watson Assistant</span>
+                            <span class="service-tag">Natural Language Understanding</span>
+                            <span class="service-tag">Speech to Text</span>
+                            <span class="service-tag">Discovery</span>
+                            <span class="service-tag">Knowledge Studio</span>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <strong>Destacado:</strong> Watson Studio ofrece interfaz visual y notebooks. NLU analiza emociones y categorías semánticas. 
+                        Fuerte enfoque en IA explicable y ética.
+                    </div>
+                    <div class="highlight-box">
+                        <strong>💰 Precio:</strong> Planes lite gratuitos disponibles. Modelo freemium con límites de uso.
+                    </div>
+                </div>
+            </div>
+
+            <!-- OpenAI -->
+            <div class="platform-card">
+                <div class="platform-header openai">
+                    <h3>OpenAI Platform</h3>
+                    <span class="platform-icon">🟢</span>
+                </div>
+                <div class="platform-content">
+                    <p class="platform-description">
+                        OpenAI revolucionó la IA con ChatGPT. Ofrece acceso directo a GPT-4, GPT-4 Turbo, GPT-4o, DALL-E 3, 
+                        Whisper y modelos de embeddings mediante APIs sencillas.
+                    </p>
+                    <div class="services-list">
+                        <h4>Servicios principales:</h4>
+                        <div class="service-tags">
+                            <span class="service-tag">GPT-4o</span>
+                            <span class="service-tag">GPT-4 Turbo</span>
+                            <span class="service-tag">DALL-E 3</span>
+                            <span class="service-tag">Whisper</span>
+                            <span class="service-tag">Embeddings</span>
+                            <span class="service-tag">Assistants API</span>
+                            <span class="service-tag">Fine-tuning</span>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <strong>Destacado:</strong> Modelos de lenguaje más avanzados del mundo. Assistants API para crear agentes con herramientas. 
+                        Fine-tuning de modelos con datos propios.
+                    </div>
+                    <div class="highlight-box">
+                        <strong>💰 Precio:</strong> $5 USD de crédito gratis. GPT-4o: desde $2.50/1M tokens input.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anthropic -->
+            <div class="platform-card">
+                <div class="platform-header anthropic">
+                    <h3>Anthropic (Claude)</h3>
+                    <span class="platform-icon">🟤</span>
+                </div>
+                <div class="platform-content">
+                    <p class="platform-description">
+                        Anthropic desarrolló Claude, enfocado en ser útil, honesto e inofensivo. 
+                        Claude 3.5 Sonnet compite con GPT-4 en razonamiento y código.
+                    </p>
+                    <div class="services-list">
+                        <h4>Servicios principales:</h4>
+                        <div class="service-tags">
+                            <span class="service-tag">Claude 3.5 Sonnet</span>
+                            <span class="service-tag">Claude 3 Opus</span>
+                            <span class="service-tag">Claude 3 Haiku</span>
+                            <span class="service-tag">Vision</span>
+                            <span class="service-tag">Ventana 200K tokens</span>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <strong>Destacado:</strong> Ventana de contexto de 200,000 tokens (mucho mayor que competidores). 
+                        Excelente para análisis de documentos largos. Disponible en AWS Bedrock y Google Vertex AI.
+                    </div>
+                    <div class="highlight-box">
+                        <strong>💰 Precio:</strong> API desde $3/1M tokens input. Claude.ai Pro: $20/mes.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hugging Face -->
+            <div class="platform-card">
+                <div class="platform-header huggingface">
+                    <h3>Hugging Face</h3>
+                    <span class="platform-icon">🤗</span>
+                </div>
+                <div class="platform-content">
+                    <p class="platform-description">
+                        Plataforma colaborativa con más de 500,000 modelos open-source. 
+                        El "GitHub de la IA" - comunidad líder en ML open-source.
+                    </p>
+                    <div class="services-list">
+                        <h4>Servicios principales:</h4>
+                        <div class="service-tags">
+                            <span class="service-tag">Model Hub</span>
+                            <span class="service-tag">Inference API</span>
+                            <span class="service-tag">Spaces</span>
+                            <span class="service-tag">Datasets</span>
+                            <span class="service-tag">Transformers</span>
+                            <span class="service-tag">AutoTrain</span>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <strong>Destacado:</strong> Acceso gratuito a miles de modelos (Llama, Mistral, Stable Diffusion). 
+                        Spaces para demos. AutoTrain para fine-tuning sin código.
+                    </div>
+                    <div class="highlight-box">
+                        <strong>💰 Precio:</strong> Hub gratuito. Inference API: desde $0.06/hora. Pro: $9/mes.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alibaba Cloud -->
+            <div class="platform-card">
+                <div class="platform-header alibaba">
+                    <h3>Alibaba Cloud</h3>
+                    <span class="platform-icon">🟠</span>
+                </div>
+                <div class="platform-content">
+                    <p class="platform-description">
+                        Líder en Asia-Pacífico, especialmente en China. 
+                        Ofrece servicios de IA optimizados para mercados asiáticos con soporte multilingüe extenso.
+                    </p>
+                    <div class="services-list">
+                        <h4>Servicios principales:</h4>
+                        <div class="service-tags">
+                            <span class="service-tag">PAI (Platform for AI)</span>
+                            <span class="service-tag">Image Search</span>
+                            <span class="service-tag">Machine Translation</span>
+                            <span class="service-tag">Qwen (LLM)</span>
+                            <span class="service-tag">Face Recognition</span>
+                            <span class="service-tag">NLP</span>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <strong>Destacado:</strong> Qwen es su LLM open-source multilingüe. 
+                        PAI ofrece AutoML y notebooks. Fuerte en comercio electrónico y fintech.
+                    </div>
+                    <div class="highlight-box">
+                        <strong>💰 Precio:</strong> Free trial con créditos. Precios competitivos en región Asia-Pacífico.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-section">
+            <h2>⚖️ Comparación de Capacidades Principales</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>Google Cloud</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>OpenAI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>LLM Propio</strong></td>
+                        <td>Gemini, PaLM 2</td>
+                        <td>Amazon Titan</td>
+                        <td>Vía Azure OpenAI</td>
+                        <td>GPT-4o, GPT-4</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Visión</strong></td>
+                        <td>Vision AI (4 emociones)</td>
+                        <td>Rekognition (7 emociones)</td>
+                        <td>Face API (8 emociones)</td>
+                        <td>GPT-4 Vision</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Plataforma ML</strong></td>
+                        <td>Vertex AI</td>
+                        <td>SageMaker</td>
+                        <td>Azure ML</td>
+                        <td>Fine-tuning</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chatbots</strong></td>
+                        <td>Dialogflow</td>
+                        <td>Lex</td>
+                        <td>Bot Service</td>
+                        <td>Assistants API</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Documentos</strong></td>
+                        <td>Document AI</td>
+                        <td>Textract</td>
+                        <td>Document Intelligence</td>
+                        <td>GPT-4 Vision</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cuota Gratuita</strong></td>
+                        <td>$300 / 90 días</td>
+                        <td>12 meses gratis</td>
+                        <td>$200 / 30 días</td>
+                        <td>$5 crédito</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ventana contexto</strong></td>
+                        <td>Hasta 2M tokens (Gemini)</td>
+                        <td>Hasta 200K (Claude en Bedrock)</td>
+                        <td>128K (GPT-4 Turbo)</td>
+                        <td>128K tokens</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="intro-section">
+            <h2>🎯 ¿Cuál elegir?</h2>
+            <div class="highlight-box">
+                <strong>Elige Google Cloud si:</strong> Priorizas innovación en IA, necesitas capacidades multimodales avanzadas (Gemini), 
+                o quieres la mejor integración con Android y Google Workspace.
+            </div>
+            <div class="highlight-box">
+                <strong>Elige AWS si:</strong> Necesitas el ecosistema más maduro y completo, ya usas AWS para infraestructura, 
+                o requieres acceso a múltiples LLMs (Bedrock).
+            </div>
+            <div class="highlight-box">
+                <strong>Elige Azure si:</strong> Tu empresa usa Microsoft 365/Teams, necesitas GPT-4 con seguridad empresarial, 
+                o trabajas en sectores regulados.
+            </div>
+            <div class="highlight-box">
+                <strong>Elige OpenAI si:</strong> Quieres los mejores LLMs directamente sin intermediarios, desarrollo ágil con APIs simples, 
+                o prototipos rápidos.
+            </div>
+            <div class="highlight-box">
+                <strong>Elige Anthropic si:</strong> Necesitas ventanas de contexto enormes (200K tokens), priorizas seguridad y alineación, 
+                o requieres análisis de documentos extensos.
+            </div>
+            <div class="highlight-box">
+                <strong>Elige Hugging Face si:</strong> Prefieres modelos open-source, quieres comunidad activa y colaboración, 
+                o necesitas flexibilidad total sin vendor lock-in.
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>📚 Conclusión</h3>
+            <p>
+                El panorama de IA en la nube en 2025 es diverso y competitivo. Cada plataforma tiene fortalezas únicas, 
+                y la mejor elección depende de tus necesidades específicas, presupuesto, y ecosistema tecnológico existente.
+            </p>
+            <p>
+                La tendencia es hacia modelos multimodales, ventanas de contexto más grandes, y democratización del acceso 
+                mediante interfaces sin código y APIs más simples.
+            </p>
+
+        </div>
+    </div>
+</body>
+</html>
