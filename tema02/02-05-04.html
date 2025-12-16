@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Face API - Análisis de Emociones</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Análisis de Emociones con Azure Face API</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Microsoft Azure para Análisis de Emociones con Face API</h1>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>1. Crear una Cuenta en Microsoft Azure</h1>
+
+        <h2>Cuenta Gratuita Estándar</h2>
+        <p>Azure ofrece un crédito gratuito de <strong>$200 USD</strong> válido por <strong>30 días</strong> para nuevos usuarios, además de servicios gratuitos durante 12 meses.</p>
+
+        <ol>
+            <li>Visita <a href="https://azure.microsoft.com/free/">azure.microsoft.com/free</a></li>
+            <li>Haz clic en "Comenzar gratis" o "Start free"</li>
+            <li>Inicia sesión con tu cuenta de Microsoft (o crea una nueva)</li>
+            <li>Completa el formulario con tu información:
+                <ul>
+                    <li>País/Región</li>
+                    <li>Nombre y apellido</li>
+                    <li>Número de teléfono (para verificación)</li>
+                    <li>Información de facturación (se requiere tarjeta de crédito/débito, pero <mark>NO se cobrará automáticamente</mark> a menos que actualices a pago)</li>
+                </ul>
+            </li>
+            <li>Acepta los términos y condiciones</li>
+        </ol>
+
+        <h2>Cuenta de Estudiante (Azure for Students)</h2>
+        <p>Si eres estudiante, puedes obtener <strong>$100 USD de crédito sin tarjeta de crédito</strong>:</p>
+        <ol>
+            <li>Visita <a href="https://azure.microsoft.com/free/students/">azure.microsoft.com/free/students</a></li>
+            <li>Verifica tu estado de estudiante con tu correo institucional (.edu)</li>
+        </ol>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>2. Crear un Recurso de Face API</h1>
+
+        <ol>
+            <li>Inicia sesión en el <a href="https://portal.azure.com">Portal de Azure</a></li>
+            <li>Haz clic en "Crear un recurso" o "Create a resource"</li>
+            <li>En el buscador, escribe "Face" y selecciona <strong>"Face"</strong> de Microsoft</li>
+            <li>Haz clic en "Crear" o "Create"</li>
+            <li>Completa la configuración:
+                <dl>
+                    <dt>Suscripción</dt>
+                    <dd>Selecciona tu suscripción gratuita</dd>
+                    
+                    <dt>Grupo de recursos</dt>
+                    <dd>Crea uno nuevo: <code>rg-analisis-emociones</code></dd>
+                    
+                    <dt>Región</dt>
+                    <dd>Selecciona la más cercana (ejemplo: <code>East US</code> o <code>West US 2</code>)</dd>
+                    
+                    <dt>Nombre</dt>
+                    <dd><code>face-api-emociones</code> (debe ser único)</dd>
+                    
+                    <dt>Plan de tarifa</dt>
+                    <dd>Selecciona <strong>Free F0</strong> (30,000 transacciones gratis por mes)</dd>
+                </dl>
+            </li>
+            <li>Haz clic en "Revisar y crear" y luego en "Crear"</li>
+            <li>Espera a que se complete la implementación (1-2 minutos)</li>
+        </ol>
+
+        <blockquote>
+            <strong>Nota importante:</strong> El plan gratuito F0 permite 30,000 llamadas por mes con un límite de 20 llamadas por minuto. Esto es más que suficiente para desarrollo y pruebas.
+        </blockquote>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>3. Obtener las Credenciales (Claves y Endpoint)</h1>
+
+        <ol>
+            <li>Una vez creado el recurso, haz clic en "Ir al recurso" o "Go to resource"</li>
+            <li>En el menú lateral izquierdo, busca <strong>"Claves y punto de conexión"</strong> o <strong>"Keys and Endpoint"</strong></li>
+            <li>Copia y guarda de forma segura:
+                <dl>
+                    <dt>KEY 1</dt>
+                    <dd>Tu clave de API principal (ejemplo: <code>a1b2c3d4e5f6g7h8i9j0...</code>)</dd>
+                    
+                    <dt>KEY 2</dt>
+                    <dd>Clave secundaria de respaldo</dd>
+                    
+                    <dt>Endpoint</dt>
+                    <dd>URL del servicio (ejemplo: <code>https://face-api-emociones.cognitiveservices.azure.com/</code>)</dd>
+                </dl>
+            </li>
+        </ol>
+
+        <p><mark>IMPORTANTE: Guarda estas credenciales en un lugar seguro. Las necesitarás para configurar tu aplicación.</mark></p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>4. Configurar el Proyecto Flask</h1>
+
+        <h2>Estructura de Carpetas</h2>
+        <p>Crea la siguiente estructura en tu computadora:</p>
+
+<pre><code class="language-plaintext">mi-proyecto-emociones-azure/
+├── app.py
+├── .env
+├── templates/
+│   └── index.html
+└── requirements.txt</code></pre>
+
+        <h2>Pasos:</h2>
+
+        <h3>1. Crea la carpeta del proyecto</h3>
+<pre><code class="language-bash">mkdir mi-proyecto-emociones-azure
+cd mi-proyecto-emociones-azure</code></pre>
+
+        <h3>2. Crea la carpeta de templates</h3>
+<pre><code class="language-bash">mkdir templates</code></pre>
+
+        <h3>3. Crea el archivo .env</h3>
+        <p>Crea un archivo llamado <code>.env</code> con tus credenciales:</p>
+<pre><code class="language-plaintext">AZURE_FACE_KEY=tu_clave_de_api_aqui
+AZURE_FACE_ENDPOINT=https://tu-recurso.cognitiveservices.azure.com/</code></pre>
+
+        <h3>4. Crea el archivo requirements.txt</h3>
+<pre><code class="language-plaintext">Flask==3.0.0
+azure-cognitiveservices-vision-face==0.6.0
+msrest==0.7.1
+python-dotenv==1.0.0</code></pre>
+
+        <h3>5. Crea un entorno virtual (recomendado)</h3>
+<pre><code class="language-bash">python -m venv venv
+
+# En Windows:
+venv\Scripts\activate
+
+# En Mac/Linux:
+source venv/bin/activate</code></pre>
+
+        <h3>6. Instala las dependencias</h3>
+<pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+
+        <h3>7. Crea el archivo app.py</h3>
+<pre><code class="language-python">from flask import Flask, request, jsonify, render_template
+import os
+import io
+from dotenv import load_dotenv
+from azure.cognitiveservices.vision.face import FaceClient
+from azure.cognitiveservices.vision.face.models import FaceAttributeType
+from msrest.authentication import CognitiveServicesCredentials
+
+load_dotenv()
+
+app = Flask(__name__)
+
+# Configurar credenciales de Azure Face API
+FACE_KEY = os.getenv('AZURE_FACE_KEY')
+FACE_ENDPOINT = os.getenv('AZURE_FACE_ENDPOINT')
+
+# Verificar que las credenciales estén configuradas
+if not FACE_KEY or not FACE_ENDPOINT:
+    raise ValueError("Las credenciales de Azure Face API no están configuradas. "
+                     "Verifica tu archivo .env")
+
+# Inicializar cliente de Face API
+face_client = FaceClient(FACE_ENDPOINT, CognitiveServicesCredentials(FACE_KEY))
+
+
+def analizar_emociones(imagen_bytes):
+    """Analiza las emociones en una imagen usando Azure Face API"""
+    
+    # Crear un stream de bytes
+    image_stream = io.BytesIO(imagen_bytes)
+    
+    # Detectar rostros con atributos de emoción
+    detected_faces = face_client.face.detect_with_stream(
+        image=image_stream,
+        return_face_attributes=[FaceAttributeType.emotion, FaceAttributeType.age, 
+                                FaceAttributeType.gender, FaceAttributeType.smile],
+        return_face_id=False,
+        detection_model='detection_01',
+        recognition_model='recognition_04'
+    )
+    
+    resultados = []
+    
+    for face in detected_faces:
+        emotions = face.face_attributes.emotion
+        
+        # Convertir emociones a porcentajes
+        emociones = {
+            'alegria': round(emotions.happiness * 100, 2),
+            'tristeza': round(emotions.sadness * 100, 2),
+            'enojo': round(emotions.anger * 100, 2),
+            'sorpresa': round(emotions.surprise * 100, 2),
+            'miedo': round(emotions.fear * 100, 2),
+            'desprecio': round(emotions.contempt * 100, 2),
+            'disgusto': round(emotions.disgust * 100, 2),
+            'neutral': round(emotions.neutral * 100, 2)
+        }
+        
+        # Determinar emoción predominante
+        emocion_predominante = max(emociones, key=emociones.get)
+        
+        # Información adicional
+        edad = face.face_attributes.age
+        genero = face.face_attributes.gender.value
+        sonrisa = round(face.face_attributes.smile * 100, 2)
+        
+        # Posición del rostro
+        rect = face.face_rectangle
+        
+        resultados.append({
+            'emociones': emociones,
+            'sentimiento_predominante': emocion_predominante.capitalize(),
+            'edad_estimada': edad,
+            'genero': 'Masculino' if genero == 'male' else 'Femenino',
+            'sonrisa': sonrisa,
+            'posicion': {
+                'top': rect.top,
+                'left': rect.left,
+                'width': rect.width,
+                'height': rect.height
+            }
+        })
+    
+    return resultados
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    try:
+        if 'image' not in request.files:
+            return jsonify({'success': False, 'error': 'No se proporcionó imagen'}), 400
+        
+        file = request.files['image']
+        
+        if file.filename == '':
+            return jsonify({'success': False, 'error': 'Archivo vacío'}), 400
+        
+        # Verificar tipo de archivo
+        allowed_extensions = {'png', 'jpg', 'jpeg', 'gif', 'bmp'}
+        file_ext = file.filename.rsplit('.', 1)[-1].lower()
+        if file_ext not in allowed_extensions:
+            return jsonify({'success': False, 
+                           'error': f'Formato no soportado. Use: {", ".join(allowed_extensions)}'}), 400
+        
+        # Leer bytes de la imagen
+        imagen_bytes = file.read()
+        
+        # Verificar tamaño (Azure tiene límite de 6MB)
+        if len(imagen_bytes) > 6 * 1024 * 1024:
+            return jsonify({'success': False, 
+                           'error': 'La imagen es demasiado grande. Máximo 6MB'}), 400
+        
+        # Analizar emociones
+        faces = analizar_emociones(imagen_bytes)
+        
+        return jsonify({
+            'success': True,
+            'faces': faces,
+            'total_rostros': len(faces)
+        })
+    
+    except Exception as e:
+        error_message = str(e)
+        
+        # Manejar errores comunes de Azure
+        if 'InvalidImageSize' in error_message:
+            error_message = 'La imagen es demasiado pequeña o grande. Use imágenes entre 36x36 y 4096x4096 píxeles.'
+        elif 'InvalidImage' in error_message:
+            error_message = 'No se pudo procesar la imagen. Asegúrese de que sea una imagen válida.'
+        elif 'RateLimitExceeded' in error_message:
+            error_message = 'Se excedió el límite de solicitudes. Espere un momento e intente de nuevo.'
+        
+        return jsonify({
+            'success': False,
+            'error': error_message
+        }), 500
+
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    """Endpoint para verificar que el servicio está funcionando"""
+    try:
+        # Intentar una operación simple para verificar la conexión
+        return jsonify({
+            'status': 'healthy',
+            'service': 'Azure Face API',
+            'endpoint': FACE_ENDPOINT
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'unhealthy',
+            'error': str(e)
+        }), 500
+
+
+if __name__ == '__main__':
+    print("=" * 50)
+    print("Servidor Flask con Azure Face API")
+    print(f"Endpoint configurado: {FACE_ENDPOINT}")
+    print("=" * 50)
+    app.run(debug=True)</code></pre>
+
+        <h3>8. Crea el archivo templates/index.html</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Análisis de Emociones - Azure Face API&lt;/title&gt;
+    &lt;style&gt;
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #0078d4;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .upload-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 40px;
+            border: 3px dashed #0078d4;
+            border-radius: 15px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        .upload-section:hover {
+            border-color: #005a9e;
+            background: #e8f4fd;
+        }
+        .upload-section.dragover {
+            border-color: #005a9e;
+            background: #d0e8f8;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .file-label {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #0078d4;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        .file-label:hover {
+            background: #005a9e;
+        }
+        .file-name {
+            margin-top: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+        button {
+            background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,120,212,0.4);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #results {
+            margin-top: 30px;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0078d4;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .face-result {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 12px;
+            border-left: 5px solid #0078d4;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .face-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .face-header h3 {
+            margin: 0;
+            color: #0078d4;
+        }
+        .face-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .info-badge {
+            background: #0078d4;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .predominant {
+            background: linear-gradient(135deg, #28a745 0%, #20963a 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .emotions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .emotion-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .emotion-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .emotion-bar {
+            background: #e0e0e0;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .emotion-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.8s ease;
+        }
+        .alegria .emotion-fill { background: linear-gradient(90deg, #ffd700, #ffed4a); }
+        .tristeza .emotion-fill { background: linear-gradient(90deg, #6c757d, #adb5bd); }
+        .enojo .emotion-fill { background: linear-gradient(90deg, #dc3545, #f86c6b); }
+        .sorpresa .emotion-fill { background: linear-gradient(90deg, #17a2b8, #4dc9e6); }
+        .miedo .emotion-fill { background: linear-gradient(90deg, #6f42c1, #9b6fd1); }
+        .desprecio .emotion-fill { background: linear-gradient(90deg, #fd7e14, #ffa94d); }
+        .disgusto .emotion-fill { background: linear-gradient(90deg, #28a745, #5dd879); }
+        .neutral .emotion-fill { background: linear-gradient(90deg, #0078d4, #4da3ff); }
+        
+        .no-faces {
+            text-align: center;
+            padding: 40px;
+            background: #fff3cd;
+            border-radius: 12px;
+            color: #856404;
+        }
+        .error-message {
+            text-align: center;
+            padding: 40px;
+            background: #f8d7da;
+            border-radius: 12px;
+            color: #721c24;
+        }
+        .summary {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .summary h2 {
+            color: #0078d4;
+            margin: 0 0 10px 0;
+        }
+        .preview-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;h1&gt;🎭 Análisis de Emociones&lt;/h1&gt;
+        &lt;p class="subtitle"&gt;Powered by Microsoft Azure Face API&lt;/p&gt;
+        
+        &lt;div class="upload-section" id="dropZone"&gt;
+            &lt;p&gt;Arrastra una imagen aquí o haz clic para seleccionar&lt;/p&gt;
+            &lt;label class="file-label" for="imageInput"&gt;
+                📁 Seleccionar imagen
+            &lt;/label&gt;
+            &lt;input type="file" id="imageInput" accept="image/*"&gt;
+            &lt;p class="file-name" id="fileName"&gt;&lt;/p&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="preview-container" id="previewContainer" style="display: none;"&gt;
+            &lt;img id="previewImage" class="preview-image" alt="Vista previa"&gt;
+        &lt;/div&gt;
+        
+        &lt;div style="text-align: center;"&gt;
+            &lt;button onclick="analyzeImage()" id="analyzeBtn" disabled&gt;
+                🔍 Analizar Emociones
+            &lt;/button&gt;
+        &lt;/div&gt;
+        
+        &lt;div id="results"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('imageInput');
+        const fileName = document.getElementById('fileName');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const previewContainer = document.getElementById('previewContainer');
+        const previewImage = document.getElementById('previewImage');
+
+        // Drag and drop
+        dropZone.addEventListener('dragover', (e) =&gt; {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () =&gt; {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) =&gt; {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect();
+            }
+        });
+
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect() {
+            if (fileInput.files.length) {
+                const file = fileInput.files[0];
+                fileName.textContent = `📄 ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+                analyzeBtn.disabled = false;
+                
+                // Mostrar vista previa
+                const reader = new FileReader();
+                reader.onload = (e) =&gt; {
+                    previewImage.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function analyzeImage() {
+            const resultsDiv = document.getElementById('results');
+            
+            if (!fileInput.files.length) {
+                alert('Por favor selecciona una imagen');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+
+            analyzeBtn.disabled = true;
+            resultsDiv.innerHTML = `
+                &lt;div class="loading"&gt;
+                    &lt;div class="loading-spinner"&gt;&lt;/div&gt;
+                    &lt;p&gt;Analizando imagen con Azure Face API...&lt;/p&gt;
+                &lt;/div&gt;
+            `;
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayResults(data.faces, data.total_rostros);
+                } else {
+                    resultsDiv.innerHTML = `
+                        &lt;div class="error-message"&gt;
+                            &lt;h3&gt;❌ Error&lt;/h3&gt;
+                            &lt;p&gt;${data.error}&lt;/p&gt;
+                        &lt;/div&gt;
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    &lt;div class="error-message"&gt;
+                        &lt;h3&gt;❌ Error de conexión&lt;/h3&gt;
+                        &lt;p&gt;${error.message}&lt;/p&gt;
+                    &lt;/div&gt;
+                `;
+            } finally {
+                analyzeBtn.disabled = false;
+            }
+        }
+
+        function displayResults(faces, total) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (faces.length === 0) {
+                resultsDiv.innerHTML = `
+                    &lt;div class="no-faces"&gt;
+                        &lt;h3&gt;😕 No se detectaron rostros&lt;/h3&gt;
+                        &lt;p&gt;Intenta con una imagen donde los rostros sean más visibles.&lt;/p&gt;
+                    &lt;/div&gt;
+                `;
+                return;
+            }
+
+            const emotionNames = {
+                'alegria': '😊 Alegría',
+                'tristeza': '😢 Tristeza',
+                'enojo': '😠 Enojo',
+                'sorpresa': '😲 Sorpresa',
+                'miedo': '😨 Miedo',
+                'desprecio': '😏 Desprecio',
+                'disgusto': '🤢 Disgusto',
+                'neutral': '😐 Neutral'
+            };
+
+            let html = `
+                &lt;div class="summary"&gt;
+                    &lt;h2&gt;✅ Análisis Completado&lt;/h2&gt;
+                    &lt;p&gt;Se detectaron &lt;strong&gt;${total}&lt;/strong&gt; rostro${total &gt; 1 ? 's' : ''} en la imagen&lt;/p&gt;
+                &lt;/div&gt;
+            `;
+
+            faces.forEach((face, index) =&gt; {
+                html += `
+                    &lt;div class="face-result"&gt;
+                        &lt;div class="face-header"&gt;
+                            &lt;h3&gt;👤 Rostro ${index + 1}&lt;/h3&gt;
+                            &lt;div class="face-info"&gt;
+                                &lt;span class="info-badge"&gt;${face.genero}&lt;/span&gt;
+                                &lt;span class="info-badge"&gt;~${Math.round(face.edad_estimada)} años&lt;/span&gt;
+                                &lt;span class="info-badge"&gt;😊 ${face.sonrisa}% sonrisa&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div class="predominant"&gt;
+                            Emoción predominante: ${emotionNames[face.sentimiento_predominante.toLowerCase()] || face.sentimiento_predominante}
+                        &lt;/div&gt;
+                        
+                        &lt;h4&gt;Desglose de emociones:&lt;/h4&gt;
+                        &lt;div class="emotions-grid"&gt;
+                `;
+
+                for (const [emotion, value] of Object.entries(face.emociones)) {
+                    html += `
+                        &lt;div class="emotion-item ${emotion}"&gt;
+                            &lt;div class="emotion-label"&gt;
+                                &lt;span&gt;${emotionNames[emotion] || emotion}&lt;/span&gt;
+                                &lt;span&gt;${value}%&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div class="emotion-bar"&gt;
+                                &lt;div class="emotion-fill" style="width: ${value}%"&gt;&lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    `;
+                }
+
+                html += `
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                `;
+            });
+
+            resultsDiv.innerHTML = html;
+        }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>5. Ejecutar la Aplicación</h1>
+
+        <h3>1. Activa tu entorno virtual (si no lo has hecho)</h3>
+<pre><code class="language-bash"># Windows:
+venv\Scripts\activate
+
+# Mac/Linux:
+source venv/bin/activate</code></pre>
+
+        <h3>2. Verifica que el archivo .env esté configurado</h3>
+<pre><code class="language-bash"># Muestra el contenido (sin mostrar valores sensibles)
+cat .env</code></pre>
+
+        <h3>3. Ejecuta la aplicación</h3>
+<pre><code class="language-bash">python app.py</code></pre>
+
+        <h3>4. Abre tu navegador</h3>
+        <p>Ve a: <code>http://127.0.0.1:5000</code></p>
+
+        <h3>5. Prueba la aplicación</h3>
+        <p>Sube una imagen con rostros y observa los resultados del análisis de emociones.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>6. Comparación: Azure vs Google Cloud</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Característica</th>
+                    <th>Azure Face API</th>
+                    <th>Google Vision API</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Emociones detectadas</td>
+                    <td>8 emociones (alegría, tristeza, enojo, sorpresa, miedo, desprecio, disgusto, neutral)</td>
+                    <td>4 emociones principales (alegría, tristeza, enojo, sorpresa)</td>
+                </tr>
+                <tr>
+                    <td>Cuota gratuita mensual</td>
+                    <td>30,000 transacciones</td>
+                    <td>1,000 transacciones</td>
+                </tr>
+                <tr>
+                    <td>Datos adicionales</td>
+                    <td>Edad, género, sonrisa, posición facial, puntos de referencia</td>
+                    <td>Información básica de rostro</td>
+                </tr>
+                <tr>
+                    <td>Crédito inicial</td>
+                    <td>$200 USD (30 días)</td>
+                    <td>$300 USD (90 días)</td>
+                </tr>
+                <tr>
+                    <td>Precio después de cuota</td>
+                    <td>$1.00 por 1,000 llamadas</td>
+                    <td>$1.50 por 1,000 llamadas</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>7. Monitoreo de Costos y Cuotas</h1>
+
+        <h2>Cuota Gratuita de Azure Face API</h2>
+        <ul>
+            <li><strong>Plan F0 (Free):</strong> 30,000 transacciones por mes completamente gratis</li>
+            <li><strong>Límite de velocidad:</strong> 20 llamadas por minuto</li>
+            <li>Después de eso: $1.00 USD por cada 1,000 transacciones</li>
+        </ul>
+
+        <h2>Cómo Monitorear tu Uso</h2>
+        <ol>
+            <li>Ve al <a href="https://portal.azure.com">Portal de Azure</a></li>
+            <li>Busca tu recurso de Face API</li>
+            <li>En el menú lateral, selecciona <strong>"Métricas"</strong></li>
+            <li>Añade la métrica <strong>"Total Calls"</strong> para ver el uso</li>
+        </ol>
+
+        <h2>Configurar Alertas de Presupuesto</h2>
+        <ol>
+            <li>En el portal de Azure, ve a <strong>"Administración de costos + Facturación"</strong></li>
+            <li>Selecciona <strong>"Presupuestos"</strong></li>
+            <li>Clic en "Agregar" para crear un nuevo presupuesto</li>
+            <li>Configura:
+                <ul>
+                    <li>Nombre del presupuesto</li>
+                    <li>Monto (ejemplo: $10 USD)</li>
+                    <li>Período (mensual)</li>
+                    <li>Alertas al 50%, 80% y 100%</li>
+                </ul>
+            </li>
+        </ol>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>8. Seguridad y Buenas Prácticas</h1>
+
+        <h2>1. Nunca subas el archivo .env a GitHub</h2>
+        <p>Crea un archivo <code>.gitignore</code> con el siguiente contenido:</p>
+<pre><code class="language-plaintext">.env
+venv/
+__pycache__/
+*.pyc
+.DS_Store</code></pre>
+
+        <h2>2. Usa variables de entorno en producción</h2>
+        <p>En lugar de archivos .env, configura variables de entorno directamente en tu servidor o servicio de hosting.</p>
+
+        <h2>3. Rota las claves periódicamente</h2>
+        <ol>
+            <li>Ve a tu recurso de Face API en el portal</li>
+            <li>Selecciona "Claves y punto de conexión"</li>
+            <li>Usa "Regenerar KEY1" o "Regenerar KEY2"</li>
+            <li>Actualiza tu aplicación con la nueva clave</li>
+        </ol>
+
+        <h2>4. Usa la clave secundaria para rotación sin tiempo de inactividad</h2>
+        <ol>
+            <li>Configura tu aplicación para usar KEY2</li>
+            <li>Regenera KEY1</li>
+            <li>Actualiza tu aplicación para usar la nueva KEY1</li>
+            <li>Ahora puedes regenerar KEY2 si es necesario</li>
+        </ol>
+
+        <h2>5. Limita el acceso con restricciones de red (opcional)</h2>
+        <p>En el recurso de Face API, ve a <strong>"Redes"</strong> para configurar reglas de firewall y permitir solo IPs específicas.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>9. Solución de Problemas Comunes</h1>
+
+        <h2>Error: "Access denied due to invalid subscription key"</h2>
+        <ul>
+            <li>Verifica que la clave en tu archivo .env sea correcta</li>
+            <li>Asegúrate de no tener espacios extra</li>
+            <li>Comprueba que el endpoint corresponda a la región donde creaste el recurso</li>
+        </ul>
+
+        <h2>Error: "Rate limit exceeded"</h2>
+        <ul>
+            <li>El plan gratuito tiene límite de 20 llamadas por minuto</li>
+            <li>Espera un minuto e intenta de nuevo</li>
+            <li>Para más capacidad, actualiza al plan S0 (de pago)</li>
+        </ul>
+
+        <h2>Error: "InvalidImageSize"</h2>
+        <ul>
+            <li>La imagen debe tener entre 36x36 y 4096x4096 píxeles</li>
+            <li>El tamaño máximo del archivo es 6MB</li>
+            <li>Usa formatos soportados: JPEG, PNG, GIF, BMP</li>
+        </ul>
+
+        <h2>No se detectan rostros</h2>
+        <ul>
+            <li>Asegúrate de que los rostros sean claramente visibles</li>
+            <li>Los rostros deben estar de frente o ligeramente de perfil</li>
+            <li>La iluminación debe ser adecuada</li>
+            <li>El rostro debe ocupar al menos 36x36 píxeles</li>
+        </ul>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>10. Recursos Adicionales</h1>
+
+        <h2>Documentación Oficial</h2>
+        <ul>
+            <li><a href="https://docs.microsoft.com/azure/cognitive-services/face/">Documentación de Azure Face API</a></li>
+            <li><a href="https://docs.microsoft.com/azure/cognitive-services/face/quickstarts/client-libraries">Guías de inicio rápido</a></li>
+            <li><a href="https://azure.microsoft.com/pricing/details/cognitive-services/face-api/">Precios de Face API</a></li>
+        </ul>
+
+        <h2>Herramientas Útiles</h2>
+        <ul>
+            <li><a href="https://portal.azure.com">Portal de Azure</a></li>
+            <li><a href="https://shell.azure.com">Azure Cloud Shell</a> - Terminal en la nube</li>
+            <li><a href="https://docs.microsoft.com/cli/azure/">Azure CLI</a> - Línea de comandos</li>
+        </ul>
+
+        <h2>Cursos Gratuitos</h2>
+        <ul>
+            <li><a href="https://docs.microsoft.com/learn/paths/explore-computer-vision-microsoft-azure/">Microsoft Learn: Computer Vision en Azure</a></li>
+            <li><a href="https://docs.microsoft.com/learn/certifications/azure-ai-fundamentals/">Certificación AI-900: Azure AI Fundamentals</a></li>
+        </ul>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

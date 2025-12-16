@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios de IA en Azure</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #0078d4 0%, #00bcf2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .category {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #0078d4;
+        }
+        
+        .category-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+        
+        .category-title {
+            color: #0078d4;
+            font-size: 1.8em;
+        }
+        
+        .service {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #0078d4;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .service:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,120,212,0.2);
+        }
+        
+        .service-name {
+            color: #0078d4;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .service-name .badge {
+            background: #0078d4;
+            color: white;
+            font-size: 0.5em;
+            padding: 3px 10px;
+            border-radius: 15px;
+        }
+        
+        .service-description {
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .service-features {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .service-features h4 {
+            color: #0078d4;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #444;
+        }
+        
+        .feature-item::before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .use-cases {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e7f3ff;
+            border-radius: 8px;
+        }
+        
+        .use-cases h4 {
+            color: #0078d4;
+            margin-bottom: 10px;
+        }
+        
+        .use-case-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .use-case-tag {
+            background: #0078d4;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background: #0078d4;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .comparison-table tr:hover {
+            background: #e7f3ff;
+        }
+        
+        .pricing-note {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .pricing-note h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .azure-vs-gcp {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .cloud-column {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .cloud-column.azure {
+            border-top: 5px solid #0078d4;
+        }
+        
+        .cloud-column.gcp {
+            border-top: 5px solid #4285f4;
+        }
+        
+        .cloud-column h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .azure-vs-gcp {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Servicios de Inteligencia Artificial en Azure</h1>
+            <p>Microsoft Azure Cognitive Services y Azure AI</p>
+        </header>
+
+        <!-- Azure AI Platform -->
+        <section class="category">
+            <div class="category-header">
+                <span class="category-icon">🧠</span>
+                <h2 class="category-title">1. Plataforma de IA Unificada</h2>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Studio
+                    <span class="badge">Plataforma Principal</span>
+                </h3>
+                <p class="service-description">
+                    Azure AI Studio es la plataforma unificada de Microsoft para desarrollar, entrenar e implementar soluciones de IA. Proporciona un entorno colaborativo donde científicos de datos, desarrolladores e ingenieros de ML pueden trabajar juntos en proyectos de inteligencia artificial. Integra herramientas para todo el ciclo de vida del aprendizaje automático, desde la preparación de datos hasta el despliegue y monitoreo de modelos en producción.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Acceso a modelos fundacionales (GPT-4, DALL-E, Whisper)</span>
+                        <span class="feature-item">Entorno de desarrollo integrado</span>
+                        <span class="feature-item">Flujos de trabajo de prompt engineering</span>
+                        <span class="feature-item">Evaluación y comparación de modelos</span>
+                        <span class="feature-item">Despliegue con un clic</span>
+                        <span class="feature-item">Monitoreo de modelos en producción</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Desarrollo de chatbots</span>
+                        <span class="use-case-tag">Aplicaciones de IA generativa</span>
+                        <span class="use-case-tag">Prototipado rápido</span>
+                        <span class="use-case-tag">MLOps empresarial</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure Machine Learning
+                    <span class="badge">ML Platform</span>
+                </h3>
+                <p class="service-description">
+                    Azure Machine Learning es un servicio en la nube para acelerar y gestionar el ciclo de vida completo de proyectos de aprendizaje automático. Proporciona herramientas para científicos de datos y desarrolladores de todos los niveles, desde AutoML para usuarios sin experiencia hasta notebooks y pipelines para expertos. Soporta frameworks populares como TensorFlow, PyTorch, scikit-learn y ONNX.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">AutoML para entrenamiento automatizado</span>
+                        <span class="feature-item">Designer visual de pipelines</span>
+                        <span class="feature-item">Notebooks integrados con Jupyter</span>
+                        <span class="feature-item">MLflow integrado para seguimiento</span>
+                        <span class="feature-item">Responsible AI dashboard</span>
+                        <span class="feature-item">Endpoints administrados para inferencia</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Modelos personalizados</span>
+                        <span class="use-case-tag">Predicción y clasificación</span>
+                        <span class="use-case-tag">Detección de anomalías</span>
+                        <span class="use-case-tag">Recomendaciones</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Azure OpenAI Service -->
+        <section class="category">
+            <div class="category-header">
+                <span class="category-icon">✨</span>
+                <h2 class="category-title">2. IA Generativa</h2>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure OpenAI Service
+                    <span class="badge">IA Generativa</span>
+                </h3>
+                <p class="service-description">
+                    Azure OpenAI Service proporciona acceso a los modelos de lenguaje más avanzados de OpenAI, incluyendo GPT-4, GPT-4 Turbo, GPT-4o, DALL-E 3 y Whisper, con la seguridad, privacidad y cumplimiento empresarial de Azure. Los modelos se ejecutan completamente dentro de la infraestructura de Azure, garantizando que los datos no se utilicen para entrenar modelos de OpenAI.
+                </p>
+                <div class="service-features">
+                    <h4>Modelos disponibles:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">GPT-4o y GPT-4 Turbo (texto y multimodal)</span>
+                        <span class="feature-item">GPT-3.5 Turbo (texto optimizado)</span>
+                        <span class="feature-item">DALL-E 3 (generación de imágenes)</span>
+                        <span class="feature-item">Whisper (transcripción de audio)</span>
+                        <span class="feature-item">Embeddings (vectorización de texto)</span>
+                        <span class="feature-item">Fine-tuning de modelos</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Asistentes virtuales</span>
+                        <span class="use-case-tag">Generación de contenido</span>
+                        <span class="use-case-tag">Análisis de documentos</span>
+                        <span class="use-case-tag">Código y desarrollo</span>
+                        <span class="use-case-tag">Búsqueda semántica</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Search (anteriormente Cognitive Search)
+                    <span class="badge">RAG</span>
+                </h3>
+                <p class="service-description">
+                    Azure AI Search es un servicio de búsqueda en la nube con capacidades de IA integradas para enriquecer todo tipo de información. Es fundamental para implementar arquitecturas RAG (Retrieval-Augmented Generation) que combinan búsqueda semántica con modelos de lenguaje. Permite indexar, enriquecer y buscar contenido de diversas fuentes incluyendo documentos, bases de datos y almacenamiento en la nube.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Búsqueda vectorial y semántica</span>
+                        <span class="feature-item">Enriquecimiento con IA (OCR, entidades, etc.)</span>
+                        <span class="feature-item">Integración nativa con Azure OpenAI</span>
+                        <span class="feature-item">Indexadores para múltiples fuentes</span>
+                        <span class="feature-item">Ranking semántico avanzado</span>
+                        <span class="feature-item">Skills de IA personalizables</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Chatbots con conocimiento</span>
+                        <span class="use-case-tag">Búsqueda empresarial</span>
+                        <span class="use-case-tag">Análisis de documentos</span>
+                        <span class="use-case-tag">Knowledge mining</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vision Services -->
+        <section class="category">
+            <div class="category-header">
+                <span class="category-icon">👁️</span>
+                <h2 class="category-title">3. Visión por Computadora</h2>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Vision (Computer Vision)
+                </h3>
+                <p class="service-description">
+                    Azure AI Vision proporciona algoritmos avanzados de visión por computadora para procesar imágenes y extraer información valiosa. Puede analizar contenido visual, detectar objetos, leer texto impreso y manuscrito, y moderar contenido. La versión más reciente (4.0) incluye capacidades multimodales con Florence foundation model.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Análisis de imágenes con GPT-4 Vision</span>
+                        <span class="feature-item">OCR avanzado (Read API)</span>
+                        <span class="feature-item">Detección de objetos y etiquetas</span>
+                        <span class="feature-item">Generación de descripciones</span>
+                        <span class="feature-item">Detección de marcas y celebridades</span>
+                        <span class="feature-item">Análisis espacial de video</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Procesamiento de documentos</span>
+                        <span class="use-case-tag">Moderación de contenido</span>
+                        <span class="use-case-tag">Retail analytics</span>
+                        <span class="use-case-tag">Accesibilidad</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Face
+                </h3>
+                <p class="service-description">
+                    Azure AI Face proporciona algoritmos de IA para detectar, reconocer y analizar rostros humanos en imágenes. Puede detectar atributos faciales como edad, emoción, pose, maquillaje y vello facial. También ofrece verificación de identidad y agrupación de rostros similares. Requiere aprobación para acceso completo debido a consideraciones éticas.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Detección de rostros y landmarks</span>
+                        <span class="feature-item">Análisis de emociones (8 emociones)</span>
+                        <span class="feature-item">Estimación de edad y género</span>
+                        <span class="feature-item">Verificación de identidad 1:1</span>
+                        <span class="feature-item">Identificación 1:N</span>
+                        <span class="feature-item">Detección de liveness</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Verificación de identidad</span>
+                        <span class="use-case-tag">Análisis de emociones</span>
+                        <span class="use-case-tag">Control de acceso</span>
+                        <span class="use-case-tag">Experiencia de cliente</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Custom Vision
+                </h3>
+                <p class="service-description">
+                    Azure AI Custom Vision permite construir, entrenar y desplegar modelos de clasificación y detección de objetos personalizados con pocas imágenes de entrenamiento. Utiliza aprendizaje por transferencia para lograr alta precisión con conjuntos de datos pequeños. Los modelos pueden exportarse para ejecutarse offline en dispositivos edge.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Entrenamiento con pocas imágenes</span>
+                        <span class="feature-item">Clasificación multiclase y multietiqueta</span>
+                        <span class="feature-item">Detección de objetos personalizada</span>
+                        <span class="feature-item">Exportación a ONNX, TensorFlow, CoreML</span>
+                        <span class="feature-item">API REST y SDKs</span>
+                        <span class="feature-item">Entrenamiento iterativo</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Control de calidad</span>
+                        <span class="use-case-tag">Clasificación de productos</span>
+                        <span class="use-case-tag">Detección de defectos</span>
+                        <span class="use-case-tag">IoT y edge</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Video Indexer
+                </h3>
+                <p class="service-description">
+                    Azure AI Video Indexer extrae automáticamente información valiosa de archivos de video y audio utilizando modelos de IA. Puede identificar rostros, reconocer celebridades, transcribir audio, detectar escenas, extraer palabras clave, analizar sentimientos y mucho más. Convierte contenido multimedia no estructurado en datos estructurados y buscables.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Transcripción automática multilingüe</span>
+                        <span class="feature-item">Identificación de rostros y hablantes</span>
+                        <span class="feature-item">Detección de escenas y keyframes</span>
+                        <span class="feature-item">Extracción de topics y keywords</span>
+                        <span class="feature-item">OCR de texto en video</span>
+                        <span class="feature-item">Moderación de contenido</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Archivo de medios</span>
+                        <span class="use-case-tag">Búsqueda en video</span>
+                        <span class="use-case-tag">Accesibilidad</span>
+                        <span class="use-case-tag">Análisis de contenido</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Language Services -->
+        <section class="category">
+            <div class="category-header">
+                <span class="category-icon">💬</span>
+                <h2 class="category-title">4. Lenguaje y Texto</h2>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Language
+                </h3>
+                <p class="service-description">
+                    Azure AI Language proporciona capacidades de procesamiento de lenguaje natural (NLP) para comprender y analizar texto. Ofrece características pre-configuradas como análisis de sentimiento, extracción de entidades y resumen de texto, además de la capacidad de crear modelos personalizados para clasificación y extracción de entidades específicas del dominio.
+                </p>
+                <div class="service-features">
+                    <h4>Características pre-configuradas:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Análisis de sentimiento y opiniones</span>
+                        <span class="feature-item">Extracción de entidades nombradas (NER)</span>
+                        <span class="feature-item">Extracción de frases clave</span>
+                        <span class="feature-item">Detección de idioma</span>
+                        <span class="feature-item">Resumen de texto (extractivo y abstractivo)</span>
+                        <span class="feature-item">Respuesta a preguntas</span>
+                    </div>
+                </div>
+                <div class="service-features">
+                    <h4>Características personalizables:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Clasificación de texto personalizada</span>
+                        <span class="feature-item">NER personalizado</span>
+                        <span class="feature-item">Comprensión del lenguaje conversacional (CLU)</span>
+                        <span class="feature-item">Orquestación de flujos de trabajo</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Análisis de feedback</span>
+                        <span class="use-case-tag">Clasificación de tickets</span>
+                        <span class="use-case-tag">Extracción de información</span>
+                        <span class="use-case-tag">Chatbots inteligentes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Translator
+                </h3>
+                <p class="service-description">
+                    Azure AI Translator es un servicio de traducción automática neuronal que puede traducir texto y documentos en tiempo real en más de 100 idiomas. Soporta traducción de texto, documentos completos (preservando formato), transliteración y detección automática de idioma. Permite crear sistemas de traducción personalizados con terminología específica.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Traducción de texto en 100+ idiomas</span>
+                        <span class="feature-item">Traducción de documentos (PDF, Word, etc.)</span>
+                        <span class="feature-item">Custom Translator para dominios específicos</span>
+                        <span class="feature-item">Transliteración de scripts</span>
+                        <span class="feature-item">Detección automática de idioma</span>
+                        <span class="feature-item">Diccionarios bilingües</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Localización de apps</span>
+                        <span class="use-case-tag">Soporte multilingüe</span>
+                        <span class="use-case-tag">Traducción de documentos</span>
+                        <span class="use-case-tag">Comercio internacional</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Speech Services -->
+        <section class="category">
+            <div class="category-header">
+                <span class="category-icon">🎤</span>
+                <h2 class="category-title">5. Voz y Audio</h2>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Speech
+                </h3>
+                <p class="service-description">
+                    Azure AI Speech proporciona capacidades de reconocimiento y síntesis de voz de nivel empresarial. Incluye transcripción en tiempo real, conversión de texto a voz con voces neurales naturales, traducción de voz, identificación de hablantes y creación de voces personalizadas. Soporta más de 100 idiomas y variantes.
+                </p>
+                <div class="service-features">
+                    <h4>Speech-to-Text:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Transcripción en tiempo real y por lotes</span>
+                        <span class="feature-item">Modelos de lenguaje personalizados</span>
+                        <span class="feature-item">Diarización (identificación de hablantes)</span>
+                        <span class="feature-item">Puntuación y formato automático</span>
+                        <span class="feature-item">Detección de palabras clave</span>
+                        <span class="feature-item">Vocabulario personalizado</span>
+                    </div>
+                </div>
+                <div class="service-features">
+                    <h4>Text-to-Speech:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">400+ voces neurales preconfiguradas</span>
+                        <span class="feature-item">Custom Neural Voice (voz personalizada)</span>
+                        <span class="feature-item">Ajuste de tono, velocidad y estilo</span>
+                        <span class="feature-item">SSML para control avanzado</span>
+                        <span class="feature-item">Síntesis de audio largo</span>
+                        <span class="feature-item">Avatar de video (preview)</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Asistentes de voz</span>
+                        <span class="use-case-tag">Transcripción de llamadas</span>
+                        <span class="use-case-tag">Subtítulos en vivo</span>
+                        <span class="use-case-tag">Accesibilidad</span>
+                        <span class="use-case-tag">IVR conversacional</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Document Intelligence -->
+        <section class="category">
+            <div class="category-header">
+                <span class="category-icon">📄</span>
+                <h2 class="category-title">6. Procesamiento de Documentos</h2>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Document Intelligence (Form Recognizer)
+                </h3>
+                <p class="service-description">
+                    Azure AI Document Intelligence aplica aprendizaje automático avanzado para extraer texto, pares clave-valor, tablas y estructuras de documentos. Incluye modelos pre-entrenados para documentos comunes como facturas, recibos, identificaciones y la capacidad de entrenar modelos personalizados para formularios específicos del negocio.
+                </p>
+                <div class="service-features">
+                    <h4>Modelos pre-entrenados:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Facturas (invoices)</span>
+                        <span class="feature-item">Recibos (receipts)</span>
+                        <span class="feature-item">Documentos de identidad (ID)</span>
+                        <span class="feature-item">Tarjetas de presentación</span>
+                        <span class="feature-item">W-2 y formularios fiscales</span>
+                        <span class="feature-item">Contratos y documentos legales</span>
+                    </div>
+                </div>
+                <div class="service-features">
+                    <h4>Capacidades de análisis:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Extracción de layout y estructura</span>
+                        <span class="feature-item">OCR de alta precisión</span>
+                        <span class="feature-item">Detección de tablas</span>
+                        <span class="feature-item">Modelos personalizados sin código</span>
+                        <span class="feature-item">Procesamiento por lotes</span>
+                        <span class="feature-item">Análisis de documentos compuestos</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Automatización de AP/AR</span>
+                        <span class="use-case-tag">Onboarding de clientes</span>
+                        <span class="use-case-tag">Procesamiento de claims</span>
+                        <span class="use-case-tag">Digitalización de archivos</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Decision Services -->
+        <section class="category">
+            <div class="category-header">
+                <span class="category-icon">🎯</span>
+                <h2 class="category-title">7. Servicios de Decisión</h2>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Content Safety
+                </h3>
+                <p class="service-description">
+                    Azure AI Content Safety detecta contenido potencialmente ofensivo, riesgoso o no deseado en texto e imágenes. Proporciona clasificación en múltiples categorías de severidad y es fundamental para aplicaciones que manejan contenido generado por usuarios o IA. Se integra con Azure OpenAI Service para moderar entradas y salidas de modelos de lenguaje.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Moderación de texto (odio, violencia, sexual, autolesión)</span>
+                        <span class="feature-item">Moderación de imágenes</span>
+                        <span class="feature-item">Detección de jailbreak en prompts</span>
+                        <span class="feature-item">Groundedness detection</span>
+                        <span class="feature-item">Listas de bloqueo personalizadas</span>
+                        <span class="feature-item">Niveles de severidad configurables</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Moderación de UGC</span>
+                        <span class="use-case-tag">Guardrails para IA generativa</span>
+                        <span class="use-case-tag">Plataformas sociales</span>
+                        <span class="use-case-tag">Gaming</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Personalizer
+                </h3>
+                <p class="service-description">
+                    Azure AI Personalizer utiliza aprendizaje por refuerzo para seleccionar la mejor acción o contenido para cada usuario en tiempo real. Aprende continuamente del comportamiento del usuario para mejorar las recomendaciones sin necesidad de entrenamiento manual de modelos. Ideal para personalización de experiencias sin conocimientos profundos de ML.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Aprendizaje por refuerzo contextual</span>
+                        <span class="feature-item">Personalización en tiempo real</span>
+                        <span class="feature-item">Aprendizaje continuo automático</span>
+                        <span class="feature-item">Evaluación offline</span>
+                        <span class="feature-item">Modo aprendiz para pruebas</span>
+                        <span class="feature-item">Explicabilidad de decisiones</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Personalización de contenido</span>
+                        <span class="use-case-tag">Recomendaciones de productos</span>
+                        <span class="use-case-tag">Experiencias adaptativas</span>
+                        <span class="use-case-tag">Optimización de UI</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Anomaly Detector
+                </h3>
+                <p class="service-description">
+                    Azure AI Anomaly Detector identifica automáticamente anomalías en datos de series temporales. Detecta picos, caídas, desviaciones de patrones y cambios de tendencia sin necesidad de conocimientos de aprendizaje automático. Se adapta automáticamente a los patrones específicos de cada conjunto de datos.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Detección univariada y multivariada</span>
+                        <span class="feature-item">Detección en tiempo real y por lotes</span>
+                        <span class="feature-item">Sensibilidad configurable</span>
+                        <span class="feature-item">Adaptación automática a estacionalidad</span>
+                        <span class="feature-item">Sin entrenamiento requerido</span>
+                        <span class="feature-item">API simple de usar</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Monitoreo de IoT</span>
+                        <span class="use-case-tag">Detección de fraude</span>
+                        <span class="use-case-tag">Mantenimiento predictivo</span>
+                        <span class="use-case-tag">Monitoreo de KPIs</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bot Service -->
+        <section class="category">
+            <div class="category-header">
+                <span class="category-icon">🤖</span>
+                <h2 class="category-title">8. Bots y Agentes Conversacionales</h2>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Bot Service
+                </h3>
+                <p class="service-description">
+                    Azure AI Bot Service proporciona un entorno integrado para desarrollar, probar, implementar y administrar bots inteligentes. Se integra con Bot Framework SDK para construir bots sofisticados en C# o JavaScript, y se conecta con múltiples canales como Microsoft Teams, Slack, Facebook Messenger, y sitios web.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Bot Framework SDK (C#, JavaScript, Python)</span>
+                        <span class="feature-item">Integración con 15+ canales</span>
+                        <span class="feature-item">Plantillas y ejemplos predefinidos</span>
+                        <span class="feature-item">Composer para diseño visual</span>
+                        <span class="feature-item">Integración con Azure AI Language</span>
+                        <span class="feature-item">Escalamiento automático</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Atención al cliente</span>
+                        <span class="use-case-tag">Asistentes de productividad</span>
+                        <span class="use-case-tag">Bots de Teams</span>
+                        <span class="use-case-tag">FAQ automatizado</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Microsoft Copilot Studio (Power Virtual Agents)
+                </h3>
+                <p class="service-description">
+                    Microsoft Copilot Studio permite crear chatbots potentes sin necesidad de código utilizando una interfaz gráfica. Se integra nativamente con Microsoft 365, Dynamics 365 y Power Platform. La última versión incluye capacidades de IA generativa para crear copilots personalizados que pueden responder preguntas utilizando datos empresariales.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Diseñador visual sin código</span>
+                        <span class="feature-item">IA generativa integrada</span>
+                        <span class="feature-item">Conectores a 1000+ servicios</span>
+                        <span class="feature-item">Integración con SharePoint y Dataverse</span>
+                        <span class="feature-item">Análisis conversacional</span>
+                        <span class="feature-item">Publicación multicanal</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Help desk interno</span>
+                        <span class="use-case-tag">Onboarding de empleados</span>
+                        <span class="use-case-tag">Self-service de clientes</span>
+                        <span class="use-case-tag">Automatización de HR</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Applied AI Services -->
+        <section class="category">
+            <div class="category-header">
+                <span class="category-icon">⚡</span>
+                <h2 class="category-title">9. Servicios de IA Aplicada</h2>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Metrics Advisor
+                </h3>
+                <p class="service-description">
+                    Azure AI Metrics Advisor monitorea métricas y diagnostica problemas automáticamente utilizando IA. Ingiere datos de series temporales, aplica detección de anomalías, identifica las causas raíz de los problemas y notifica a los equipos. Reduce significativamente el tiempo necesario para diagnosticar incidentes en sistemas complejos.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Detección automática de anomalías</span>
+                        <span class="feature-item">Análisis de causa raíz</span>
+                        <span class="feature-item">Alertas inteligentes</span>
+                        <span class="feature-item">Conectores a múltiples fuentes de datos</span>
+                        <span class="feature-item">Dashboard interactivo</span>
+                        <span class="feature-item">Feedback loop para mejora continua</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Monitoreo de negocio</span>
+                        <span class="use-case-tag">Detección de incidentes</span>
+                        <span class="use-case-tag">Análisis de revenue</span>
+                        <span class="use-case-tag">Operaciones IT</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">
+                    Azure AI Immersive Reader
+                </h3>
+                <p class="service-description">
+                    Azure AI Immersive Reader es una herramienta de accesibilidad que mejora la comprensión lectora para usuarios de todas las edades y habilidades. Proporciona funciones como lectura en voz alta, traducción en línea, enfoque de línea, diccionario visual y división silábica. Se integra fácilmente en aplicaciones web y móviles.
+                </p>
+                <div class="service-features">
+                    <h4>Características principales:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Lectura en voz alta con voces neurales</span>
+                        <span class="feature-item">Traducción en 100+ idiomas</span>
+                        <span class="feature-item">Diccionario visual con imágenes</span>
+                        <span class="feature-item">División silábica</span>
+                        <span class="feature-item">Enfoque de línea y palabras</span>
+                        <span class="feature-item">Etiquetado de partes del discurso</span>
+                    </div>
+                </div>
+                <div class="use-cases">
+                    <h4>Casos de uso ideales:</h4>
+                    <div class="use-case-tags">
+                        <span class="use-case-tag">Educación</span>
+                        <span class="use-case-tag">Accesibilidad</span>
+                        <span class="use-case-tag">Aprendizaje de idiomas</span>
+                        <span class="use-case-tag">Dislexia y TDAH</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Resources -->
+        <section class="category">
+            <div class="category-header">
+                <span class="category-icon">📚</span>
+                <h2 class="category-title">10. Recursos Adicionales</h2>
+            </div>
+
+            <div class="service">
+                <h3 class="service-name">Documentación y Aprendizaje</h3>
+                <div class="service-features">
+                    <h4>Recursos oficiales de Microsoft:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">Azure AI Services Documentation: docs.microsoft.com/azure/ai-services</span>
+                        <span class="feature-item">Microsoft Learn: learn.microsoft.com (cursos gratuitos)</span>
+                        <span class="feature-item">Azure AI Gallery: gallery.azure.ai (ejemplos y demos)</span>
+                        <span class="feature-item">Azure Pricing Calculator: azure.microsoft.com/pricing/calculator</span>
+                        <span class="feature-item">Azure AI Blog: techcommunity.microsoft.com/t5/azure-ai</span>
+                        <span class="feature-item">GitHub Samples: github.com/Azure-Samples</span>
+                    </div>
+                </div>
+                <div class="service-features">
+                    <h4>Certificaciones recomendadas:</h4>
+                    <div class="feature-list">
+                        <span class="feature-item">AI-900: Azure AI Fundamentals</span>
+                        <span class="feature-item">AI-102: Azure AI Engineer Associate</span>
+                        <span class="feature-item">DP-100: Azure Data Scientist Associate</span>
+                        <span class="feature-item">AI-050: Azure OpenAI Service</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

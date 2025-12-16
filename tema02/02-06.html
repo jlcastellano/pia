@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios de IA en Azure</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #0078d4 0%, #00bcf2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .category {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #0078d4;
+        }
+        
+        .category-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+        
+        .category-title {
+            color: #0078d4;
+            font-size: 1.8em;
+        }
+        
+        .service {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #0078d4;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .service:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,120,212,0.2);
+        }
+        
+        .service-name {
+            color: #0078d4;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .service-name .badge {
+            background: #0078d4;
+            color: white;
+            font-size: 0.5em;
+            padding: 3px 10px;
+            border-radius: 15px;
+        }
+        
+        .service-description {
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .service-features {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .service-features h4 {
+            color: #0078d4;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #444;
+        }
+        
+        .feature-item::before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .use-cases {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e7f3ff;
+            border-radius: 8px;
+        }
+        
+        .use-cases h4 {
+            color: #0078d4;
+            margin-bottom: 10px;
+        }
+        
+        .use-case-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .use-case-tag {
+            background: #0078d4;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background: #0078d4;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .comparison-table tr:hover {
+            background: #e7f3ff;
+        }
+        
+        .pricing-note {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .pricing-note h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .azure-vs-gcp {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .cloud-column {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .cloud-column.azure {
+            border-top: 5px solid #0078d4;
+        }
+        
+        .cloud-column.gcp {
+            border-top: 5px solid #4285f4;
+        }
+        
+        .cloud-column h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .azure-vs-gcp {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Servicios de Inteligencia Artificial en Azure</h1>
+            <p>Microsoft Azure Cognitive Services y Azure AI</p>
+        </header>
+
+
+        <!-- Comparison Section -->
+        <section class="category">
+            <div class="category-header">
+                <span class="category-icon">⚖️</span>
+                <h2 class="category-title">10. Comparación Azure AI vs Google Cloud AI vs AWS AI</h2>
+            </div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Microsoft Azure</th>
+                        <th>Google Cloud Platform</th>
+                        <th>Amazon Web Services</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Plataforma ML Unificada</strong></td>
+                        <td>Azure Machine Learning, Azure AI Studio</td>
+                        <td>Vertex AI, Vertex AI Studio</td>
+                        <td>Amazon SageMaker</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IA Generativa</strong></td>
+                        <td>Azure OpenAI Service (GPT-4, DALL-E)</td>
+                        <td>Gemini, PaLM 2, Imagen</td>
+                        <td>Amazon Bedrock (Claude, Llama, Titan)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Visión por Computadora</strong></td>
+                        <td>Azure AI Vision, Custom Vision, Face API</td>
+                        <td>Vision AI, AutoML Vision</td>
+                        <td>Amazon Rekognition</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Análisis de Rostros</strong></td>
+                        <td>Azure AI Face (8 emociones)</td>
+                        <td>Vision AI Face Detection (4 emociones)</td>
+                        <td>Amazon Rekognition (7 emociones)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Procesamiento de Lenguaje</strong></td>
+                        <td>Azure AI Language</td>
+                        <td>Natural Language AI</td>
+                        <td>Amazon Comprehend</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Voz</strong></td>
+                        <td>Azure AI Speech</td>
+                        <td>Speech-to-Text, Text-to-Speech</td>
+                        <td>Amazon Transcribe, Amazon Polly</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Traducción</strong></td>
+                        <td>Azure AI Translator</td>
+                        <td>Translation AI</td>
+                        <td>Amazon Translate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Procesamiento de Documentos</strong></td>
+                        <td>Azure AI Document Intelligence</td>
+                        <td>Document AI</td>
+                        <td>Amazon Textract</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bots / Asistentes</strong></td>
+                        <td>Azure Bot Service, Copilot Studio</td>
+                        <td>Dialogflow CX</td>
+                        <td>Amazon Lex</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recomendaciones</strong></td>
+                        <td>Azure AI Personalizer</td>
+                        <td>Recommendations AI</td>
+                        <td>Amazon Personalize</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Detección de Anomalías</strong></td>
+                        <td>Azure AI Anomaly Detector, Metrics Advisor</td>
+                        <td>Vertex AI (modelos personalizados)</td>
+                        <td>Amazon Lookout for Metrics</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Moderación de Contenido</strong></td>
+                        <td>Azure AI Content Safety</td>
+                        <td>Vision AI SafeSearch</td>
+                        <td>Amazon Rekognition Moderation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Análisis de Video</strong></td>
+                        <td>Azure AI Video Indexer</td>
+                        <td>Video AI</td>
+                        <td>Amazon Rekognition Video</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contact Center</strong></td>
+                        <td>Dynamics 365 Contact Center + Copilot</td>
+                        <td>Contact Center AI (CCAI)</td>
+                        <td>Amazon Connect + Contact Lens</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Asistencia de Código</strong></td>
+                        <td>GitHub Copilot</td>
+                        <td>Gemini Code Assist</td>
+                        <td>Amazon CodeWhisperer (ahora Amazon Q Developer)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pricing-note">
+                <h4>💰 Nota sobre Precios y Cuotas Gratuitas</h4>
+                <p>
+                    <strong>Azure:</strong> Ofrece una cuenta gratuita con $200 USD de crédito por 30 días y servicios gratuitos durante 12 meses. 
+                    Muchos servicios de Azure AI tienen niveles gratuitos (Free tier) con cuotas mensuales limitadas. Por ejemplo, 
+                    Azure AI Face ofrece 30,000 transacciones gratis por mes en el plan F0.
+                </p>
+                <p>
+                    <strong>Google Cloud:</strong> Proporciona $300 USD de crédito gratuito por 90 días para nuevos usuarios. 
+                    Vision API ofrece 1,000 transacciones gratis por mes. Varios servicios tienen cuotas gratuitas mensuales permanentes.
+                </p>
+                <p>
+                    <strong>AWS:</strong> Ofrece capa gratuita (Free Tier) con niveles siempre gratuitos, 12 meses gratis, y pruebas gratuitas. 
+                    Por ejemplo, Amazon Rekognition incluye 5,000 imágenes gratis por mes durante los primeros 12 meses, y Amazon Comprehend 
+                    ofrece 50,000 unidades de texto gratis por mes durante 12 meses.
+                </p>
+                <p>
+                    Se recomienda revisar la calculadora de precios de cada proveedor para comparar costos específicos según el volumen de uso esperado.
+                </p>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
