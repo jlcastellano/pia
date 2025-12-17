@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Computer Vision - Análisis de Imágenes</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Azure Computer Vision - Análisis de Imágenes</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Microsoft Azure para Análisis de Imagen con Computer Vision</h1>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>Configurar el Proyecto Flask</h1>
+
+        <h2>Estructura de Carpetas</h2>
+        <p>Crea la siguiente estructura en tu computadora:</p>
+
+<pre><code class="language-plaintext">mi-proyecto-emociones-azure/
+├── app.py
+├── .env
+├── templates/
+│   ├── index.html
+│   └── result.html
+└── requirements.txt</code></pre>
+
+        <h2>Pasos:</h2>
+
+        <h3>1. Crea la carpeta del proyecto</h3>
+<pre><code class="language-bash">mkdir mi-proyecto-emociones-azure
+cd mi-proyecto-emociones-azure</code></pre>
+
+        <h3>2. Crea la carpeta de templates</h3>
+<pre><code class="language-bash">mkdir templates</code></pre>
+
+        <h3>3. Crea el archivo .env</h3>
+        <p>Crea un archivo llamado <code>.env</code> con tus credenciales:</p>
+<pre><code class="language-plaintext">AZURE_FACE_KEY=tu_clave_de_api_aqui
+AZURE_FACE_ENDPOINT=https://tu-recurso.cognitiveservices.azure.com/</code></pre>
+
+        <h3>4. Crea el archivo requirements.txt</h3>
+<pre><code class="language-plaintext">Flask==3.0.0
+azure-cognitiveservices-vision-face==0.6.0
+msrest==0.7.1
+python-dotenv==1.0.0</code></pre>
+
+        <h3>5. Crea un entorno virtual (recomendado)</h3>
+<pre><code class="language-bash">python -m venv venv
+
+# En Windows:
+venv\Scripts\activate
+
+# En Mac/Linux:
+source venv/bin/activate</code></pre>
+
+        <h3>6. Instala las dependencias</h3>
+<pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+
+        <h3>7. Crea el archivo app.py</h3>
+<pre><code class="language-python">from flask import Flask, request, render_template, flash
+from azure.cognitiveservices.vision.computervision import ComputerVisionClient
+from msrest.authentication import CognitiveServicesCredentials
+from dotenv import load_dotenv
+import os
+from werkzeug.utils import secure_filename
+
+load_dotenv()
+
+app = Flask(__name__)
+app.secret_key = 'tu_clave_secreta'
+
+# Configurar el cliente de Azure Computer Vision
+computervision_client = ComputerVisionClient(
+    os.getenv('VISION_ENDPOINT'),
+    CognitiveServicesCredentials(os.getenv('VISION_KEY'))
+)
+
+UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+MAX_FILE_SIZE = 4 * 1024 * 1024  # 4MB
+
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def analyze_image(image_path):
+    with open(image_path, 'rb') as image_stream:
+        try:
+            # Detectar características visuales de la imagen
+            features = ['Description', 'Tags', 'Objects']
+            analysis = computervision_client.analyze_image_in_stream(
+                image_stream,
+                visual_features=features
+            )
+            
+            results = {
+                'description': analysis.description.captions[0].text if analysis.description.captions else "No description available",
+                'confidence': analysis.description.captions[0].confidence if analysis.description.captions else 0,
+                'tags': [tag.name for tag in analysis.tags][:5] if analysis.tags else [],
+                'objects': [obj.object_property for obj in analysis.objects] if analysis.objects else []
+            }
+            
+            return results
+        except Exception as e:
+            print(f"Error en analyze_image: {str(e)}")
+            raise
+
+@app.route('/', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # Verificar si se envió un archivo
+        if 'file' not in request.files:
+            flash('No se seleccionó ningún archivo')
+            return render_template('index.html')
+        
+        file = request.files['file']
+        
+        # Verificar si se seleccionó un archivo
+        if file.filename == '':
+            flash('No se seleccionó ningún archivo')
+            return render_template('index.html')
+
+        # Verificar el tamaño del archivo
+        if request.content_length and request.content_length > MAX_FILE_SIZE:
+            flash('El archivo es demasiado grande. El tamaño máximo permitido es 4MB.')
+            return render_template('index.html')
+
+        if file and allowed_file(file.filename):
+            try:
+                # Guardar el archivo con nombre seguro
+                filename = secure_filename(file.filename)
+                filepath = os.path.join(UPLOAD_FOLDER, filename)
+                file.save(filepath)
+
+                # Analizar la imagen
+                results = analyze_image(filepath)
+
+                return render_template(
+                    'result.html',
+                    image_file=filename,
+                    results=results
+                )
+
+            except Exception as e:
+                print(f"Error detallado: {str(e)}")
+                flash('Error al procesar la imagen. Por favor, intente con otra imagen.')
+                return render_template('index.html')
+
+        else:
+            flash('Formato de archivo no permitido. Use .png, .jpg o .jpeg')
+            return render_template('index.html')
+
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)</code></pre>
+
+        <h3>8. Crea el archivo templates/index.html</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Análisis de Imágenes&lt;/title&gt;
+    &lt;link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"&gt;
+&lt;/head&gt;
+&lt;body class="bg-gray-100"&gt;
+    &lt;div class="container mx-auto px-4 py-8"&gt;
+        &lt;h1 class="text-3xl font-bold text-center mb-4"&gt;Análisis de Imágenes con Azure&lt;/h1&gt;
+        &lt;p class="text-center text-gray-600 mb-8"&gt;
+            Sube una imagen y obtén una descripción detallada, etiquetas y objetos detectados
+        &lt;/p&gt;
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    &lt;div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 max-w-md mx-auto"&gt;
+                        {{ message }}
+                    &lt;/div&gt;
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        &lt;div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6"&gt;
+            &lt;form method="post" enctype="multipart/form-data" class="space-y-6"&gt;
+                &lt;div class="flex flex-col"&gt;
+                    &lt;label class="mb-2 font-medium text-gray-700"&gt;Selecciona una imagen:&lt;/label&gt;
+                    &lt;input type="file" 
+                           name="file" 
+                           accept="image/*" 
+                           class="border p-2 rounded text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"&gt;
+                &lt;/div&gt;
+
+                &lt;div class="text-sm text-gray-600 space-y-2"&gt;
+                    &lt;p&gt;✓ Formatos permitidos: JPG, PNG, JPEG&lt;/p&gt;
+                    &lt;p&gt;✓ Tamaño máximo: 4MB&lt;/p&gt;
+                    &lt;p&gt;✓ La imagen debe ser clara y bien iluminada&lt;/p&gt;
+                &lt;/div&gt;
+
+                &lt;button type="submit" 
+                        class="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2"&gt;
+                    &lt;svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;
+                        &lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"&gt;
+                        &lt;/path&gt;
+                    &lt;/svg&gt;
+                    &lt;span&gt;Analizar Imagen&lt;/span&gt;
+                &lt;/button&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+
+        &lt;div class="mt-8 max-w-md mx-auto text-center text-gray-600"&gt;
+            &lt;h2 class="font-semibold mb-2"&gt;¿Qué puede detectar?&lt;/h2&gt;
+            &lt;ul class="text-sm space-y-1"&gt;
+                &lt;li&gt;• Descripción general de la imagen&lt;/li&gt;
+                &lt;li&gt;• Objetos presentes en la escena&lt;/li&gt;
+                &lt;li&gt;• Etiquetas y categorías&lt;/li&gt;
+                &lt;li&gt;• Características visuales relevantes&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;footer class="mt-12 text-center text-gray-500 text-sm"&gt;
+        &lt;p&gt;Powered by Azure Computer Vision&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </section>
+
+            <h3>9. Crea el archivo templates/result.html</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Resultado del Análisis&lt;/title&gt;
+    &lt;link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"&gt;
+&lt;/head&gt;
+&lt;body class="bg-gray-100"&gt;
+    &lt;div class="container mx-auto px-4 py-8"&gt;
+        &lt;h1 class="text-3xl font-bold text-center mb-8"&gt;Resultado del Análisis&lt;/h1&gt;
+
+        &lt;div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6"&gt;
+            &lt;div class="mb-6"&gt;
+                &lt;img src="{{ url_for('static', filename='uploads/' + image_file) }}" 
+                     alt="Imagen analizada" 
+                     class="w-full rounded-lg"&gt;
+            &lt;/div&gt;
+
+            &lt;div class="space-y-4"&gt;
+                &lt;div class="text-center"&gt;
+                    &lt;h2 class="text-xl font-semibold text-gray-800"&gt;Descripción:&lt;/h2&gt;
+                    &lt;p class="text-lg text-blue-600"&gt;{{ results.description }}&lt;/p&gt;
+                    &lt;p class="text-gray-600"&gt;Confianza: {{ "%.2f"|format(results.confidence * 100) }}%&lt;/p&gt;
+                &lt;/div&gt;
+
+                &lt;div class="mt-4"&gt;
+                    &lt;h3 class="text-lg font-semibold text-gray-800"&gt;Etiquetas detectadas:&lt;/h3&gt;
+                    &lt;div class="flex flex-wrap gap-2 mt-2"&gt;
+                        {% for tag in results.tags %}
+                        &lt;span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm"&gt;
+                            {{ tag }}
+                        &lt;/span&gt;
+                        {% endfor %}
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div class="mt-4"&gt;
+                    &lt;h3 class="text-lg font-semibold text-gray-800"&gt;Objetos detectados:&lt;/h3&gt;
+                    &lt;div class="flex flex-wrap gap-2 mt-2"&gt;
+                        {% for object in results.objects %}
+                        &lt;span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm"&gt;
+                            {{ object }}
+                        &lt;/span&gt;
+                        {% endfor %}
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;a href="{{ url_for('upload_file') }}" 
+                   class="block w-full bg-blue-500 text-white py-2 px-4 rounded text-center hover:bg-blue-600 transition-colors"&gt;
+                    Analizar otra imagen
+                &lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>Ejecutar la Aplicación</h1>
+
+        <h3>1. Activa tu entorno virtual (si no lo has hecho)</h3>
+<pre><code class="language-bash"># Windows:
+venv\Scripts\activate
+
+# Mac/Linux:
+source venv/bin/activate</code></pre>
+
+        <h3>2. Verifica que el archivo .env esté configurado</h3>
+<pre><code class="language-bash"># Muestra el contenido (sin mostrar valores sensibles)
+cat .env</code></pre>
+
+        <h3>3. Ejecuta la aplicación</h3>
+<pre><code class="language-bash">python app.py</code></pre>
+
+        <h3>4. Abre tu navegador</h3>
+        <p>Ve a: <code>http://127.0.0.1:5000</code></p>
+
+        <h3>5. Prueba la aplicación</h3>
+        <p>Sube una imagen con rostros y observa los resultados del análisis de emociones.</p>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
