@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entornos de programación de IA con Python</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Entornos de programación de IA con Python</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>2. IDEs para proyectos</h1>
+        
+        <h2>¿Cuándo usar un IDE en lugar de notebooks?</h2>
+        <p>Aunque el proceso de construcción y entrenamiento de un modelo normalmente se realiza en entornos de notebooks, cuando ya tienes el modelo predictivo listo y quieres implementarlo en un proyecto real, es más común usar un entorno de programación orientado al desarrollo de aplicaciones.</p>
+        <p>Existen muchísimas opciones de IDEs, pero vamos a ver algunos que presentan diferentes enfoques y características para distintos tipos de proyectos.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>2.1. Visual Studio Code</h1>
+        
+        <h2>¿Qué es Visual Studio Code?</h2>
+        <p>Es un IDE desarrollado por Microsoft que ha ganado muchísima popularidad en los últimos años. Aunque la descarga oficial está bajo software privativo de Microsoft (con opciones de suscripción y servicios extra de pago), la versión básica está disponible de forma gratuita y en código abierto.</p>
+        <p>Originalmente está enfocado en proyectos de .NET y otros lenguajes impulsados por Microsoft, pero la comunidad de Python lo ha adoptado masivamente. Existen numerosos plugins para Python en su marketplace que mejoran enormemente la experiencia de programación.</p>
+        
+        <h2>¿Por qué es recomendable?</h2>
+        <p><strong>Ideal para trabajo colaborativo</strong>: Es excelente si vas a trabajar en equipo, vinculando el IDE a un repositorio de GitHub o GitLab. Implementa varias funcionalidades de Git (sistema de control de versiones) y conjuntos de herramientas para conectar con proyectos en Azure, AWS (Amazon Web Services) o GCP (Google Cloud Platform), permitiéndote desplegar tus aplicaciones en la nube. La versión de pago incluye herramientas adicionales en este aspecto.</p>
+        <p><strong>Herramientas profesionales</strong>: Antes de llevar un proyecto a producción (es decir, ponerlo a funcionar en un entorno real), es necesario hacer pruebas exhaustivas, depurar el código y, frecuentemente, refactorizar (reescribir partes del código de forma más eficiente). Este tipo de tareas se realizan mucho mejor en un IDE como Visual Studio Code.</p>
+        
+        <h2>Soporte para Jupyter Notebooks</h2>
+        <p>En las últimas actualizaciones (2024-2025), se han incluido extensiones para trabajar con Jupyter Notebooks directamente en VSC (Visual Studio Code). Sin embargo, es importante tener en cuenta que aún necesitas instalar manualmente los paquetes y librerías que quieras usar.</p>
+        <p>Te recomendamos probar este modo de trabajo una vez que ya hayas trabajado durante un tiempo con Jupyter o Colab, para que te resulte más fácil identificar si los errores se deben a que falta algún paquete o son errores típicos del código. En VSC puedes ver archivos notebook con recursos adicionales para gestionar datasets de forma más visual.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>2.2. PyCharm</h1>
+        
+        <h2>¿Qué es PyCharm?</h2>
+        <p>PyCharm es un IDE enfocado específicamente en Python, desarrollado por la empresa JetBrains. Incluye funcionalidades muy específicas de este lenguaje. Tiene una versión llamada "Community" que es gratuita y se publica bajo la Licencia Apache.</p>
+        
+        <h2>Características de la versión Community (gratuita)</h2>
+        <p><strong>Entorno virtual por proyecto</strong>: Cada proyecto tiene su propio entorno virtual, lo que evita conflictos entre diferentes versiones de paquetes.</p>
+        <p><strong>Editor inteligente</strong>: Te ayuda a detectar errores automáticamente, verifica la sintaxis, completa el código mientras escribes y muestra documentación automática cuando la necesitas.</p>
+        <p><strong>Herramientas de calidad</strong>: Incluye un depurador gráfico (para encontrar y corregir errores), ejecución de tests (pruebas automáticas) e inspector de código.</p>
+        <p><strong>Terminal incorporada</strong>: Como todos los IDEs modernos, tiene una terminal integrada para ejecutar comandos directamente.</p>
+        
+        <h2>Integración con control de versiones y la nube</h2>
+        <p>Al igual que Visual Studio Code, PyCharm te permite realizar acciones de control de versiones desde una interfaz gráfica, haciendo commits (guardar cambios), push (enviar al repositorio remoto) y pull (traer cambios del repositorio) de forma visual. También tiene Toolkits o plugins para conectar con AWS, GCP o Azure y trabajar con despliegues en la nube.</p>
+        
+        <h2>Ventajas para depuración</h2>
+        <p>El proceso de depuración del código (encontrar y corregir errores) está mucho mejor organizado en un IDE como PyCharm. La interfaz te muestra claramente el flujo del programa, los valores de las variables en cada momento y dónde se producen los errores.</p>
+        
+        <h2>Versión Profesional</h2>
+        <p>La versión profesional (de pago por suscripción) incluye funcionalidades extra orientadas específicamente a ciencia de datos, como representaciones gráficas avanzadas, integración completa de Conda y soporte mejorado para cuadernos de Jupyter.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>2.3. Replit</h1>
+        
+        <h2>¿Qué es Replit?</h2>
+        <p>Replit es un IDE online que ejecuta el código directamente desde el navegador. Su principal ventaja es lo increíblemente sencillo que es empezar un proyecto y lanzarlo rápidamente.</p>
+        
+        <h2>Características destacadas</h2>
+        <p><strong>Soporte multilenguaje</strong>: Admite más de 50 lenguajes de programación, incluyendo Python.</p>
+        <p><strong>Accesibilidad total</strong>: Es tan versátil que incluso puedes usarlo desde un teléfono móvil.</p>
+        <p><strong>Colaboración en tiempo real</strong>: Permite que varios usuarios trabajen sobre el mismo proyecto simultáneamente, viendo los cambios en tiempo real. Aunque esta función es muy útil, se recomienda hacer integración con GitHub para mayor seguridad de tu código.</p>
+        <p><strong>Despliegue simplificado</strong>: Las opciones de despliegue (publicar tu proyecto para que otros lo usen) son muy simples pero efectivas. Puedes dar acceso a tu "Repl" (proyecto) en diferentes formatos desde el mismo momento de crearlo.</p>
+        <p><strong>Catálogo extenso</strong>: Cuenta con un catálogo muy variado de APIs (Application Programming Interfaces, interfaces de programación de aplicaciones) y plugins que enriquecen el proyecto adaptándolo a cualquier necesidad adicional.</p>
+        <p><strong>Interfaz práctica</strong>: La interfaz de trabajo es sencilla e incluye las herramientas y funcionalidades más necesarias, sin complicaciones innecesarias.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>2.4. Sublime Text</h1>
+        
+        <h2>¿Qué es Sublime Text?</h2>
+        <p>Sublime Text es un editor de texto y código fuente desarrollado en C++. Es una de las opciones más sencillas que verás en cuanto a IDEs, aunque admite plugins de terceros que enriquecen la experiencia.</p>
+        
+        <h2>Funcionalidades destacadas</h2>
+        <p><strong>Minimapa</strong>: Muestra una previsualización en miniatura de la estructura de todo tu código, permitiéndote navegar rápidamente por archivos largos.</p>
+        <p><strong>Edición múltiple</strong>: Permite tareas de selección múltiple y usar varios cursores al mismo tiempo (puedes editar varias líneas simultáneamente).</p>
+        <p><strong>Ayudas de programación</strong>: Autocompletado de código, marcado automático de llaves (para identificar dónde abren y cierran bloques de código).</p>
+        <p><strong>Coloreado de sintaxis</strong>: Usa diferentes colores para palabras clave, variables, funciones, etc., facilitando la lectura del código.</p>
+        <p><strong>Extensibilidad</strong>: Soporte para Snippets (fragmentos de código reutilizables) y Plugins.</p>
+        
+        <h2>Su papel en Ciencia de Datos</h2>
+        <p>En el ámbito de la ciencia de datos, Sublime Text funciona más como una herramienta de apoyo o complementaria que como el entorno principal del proyecto. Es como una "navaja suiza" para el científico de datos o el MLOps (profesional de operaciones de Machine Learning) que está desarrollando y probando.</p>
+        
+        <h2>¿Cuándo usarlo?</h2>
+        <p>Es un entorno perfecto para visualizar rápidamente y editar código, ejecutarlo y hacer pruebas. Cuando te llega una nueva idea o un truco que quieres probar rápidamente, Sublime se abre en segundos y cargar un archivo es muy sencillo, sin tener que configurar nada innecesario.</p>
+        
+        <h2>Manipulación eficiente de texto</h2>
+        <p>Como también admite tareas de manipulación efectiva de texto que tienen otros IDEs más complejos (a través de atajos de teclado), muchos desarrolladores lo prefieren para generar ciertas estructuras de datos o manipular fragmentos de código de forma rápida, sin tocar el código principal del proyecto en Visual Studio Code o PyCharm.</p>
+        <p>Por ejemplo, puedes seleccionar múltiples líneas y editarlas todas a la vez, convertir rápidamente listas de datos en diferentes formatos, o hacer transformaciones complejas con unos pocos atajos de teclado. Estas capacidades lo convierten en una herramienta muy valorada para tareas rápidas de edición y transformación de datos o código.</p>
+        
+ 
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entornos de programación de IA con Python</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Entornos de programación de IA con Python</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>1. Jupyter Notebook y entornos compatibles</h1>
+        
+        <h2>¿Qué es el Proyecto Jupyter?</h2>
+        <p>El Proyecto Jupyter (https://jupyter.org/) nació en 2014, creado por Fernando Pérez a partir de IPython, que era una consola para programar en Python. La gran innovación fue dar protagonismo al lenguaje Notebook, que es "agnóstico" (no depende de un lenguaje específico) y permite trabajar de forma muy práctica con diferentes lenguajes de programación.</p>
+        <p>Originalmente se enfocó en tres lenguajes principales para Ciencia de Datos: Python, R y Julia. De hecho, el nombre "Jupyter" viene de combinar las primeras letras de estos tres lenguajes: <strong>Ju</strong>lia, <strong>Pyt</strong>hon y <strong>R</strong>. Hoy en día, Jupyter admite muchísimos lenguajes de programación.</p>
+        
+        <h2>¿Por qué se hizo tan popular?</h2>
+        <p>Jupyter se convirtió en una herramienta fundamental por varias razones:</p>
+        <p>Es completamente gratuito y de código abierto (cualquiera puede usarlo y modificarlo)</p>
+        <p>Funciona directamente desde el navegador web</p>
+        <p>Está diseñado específicamente para facilitar el trabajo en ciencia de datos y computación científica</p>
+        <p>Simplifica mucho la configuración inicial, porque originalmente no estaba pensado para crear productos finales, sino para investigación y experimentación</p>
+        
+        <h2>Ventajas para el aprendizaje</h2>
+        <p>El formato Notebook es excepcional para educación. Muchos cursos utilizan notebooks como material didáctico completo. Como estudiante, puedes trabajar como si tuvieras un cuaderno de papel: escribes notas, observaciones y reflexiones, pero además puedes ejecutar código por partes. Esto te ayuda a identificar mejor dónde están los errores o qué te falta por completar.</p>
+        <p>Con el tiempo, Jupyter se ha vuelto tan importante que, como vimos en la unidad 2, muchas plataformas cloud de nivel profesional lo usan como interfaz principal para aplicaciones de aprendizaje automático.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>1.1. Jupyter Notebook</h1>
+        
+        <h2>¿Por qué es tan importante en Ciencia de Datos?</h2>
+        <p>La mayor parte del trabajo en ciencia de datos se realiza en Notebooks. Este formato ha revolucionado el proceso porque permite evaluar resultados rápidamente y compartirlos con otros colegas de forma visual y clara.</p>
+        
+        <h2>¿Cómo empezar a usarlo?</h2>
+        <p>Para trabajar con Jupyter Notebook y tener todos los paquetes necesarios para aprendizaje automático con Python, lo más recomendable es usar una distribución que traiga todo integrado. La opción más popular es <strong>Anaconda</strong>. Esta distribución incluye un navegador visual que hace muy cómodo configurar y gestionar entornos, paquetes y aplicaciones.</p>
+        <p>La forma más sencilla de comenzar es:</p>
+        <p>1. Instalar Anaconda en tu computadora</p>
+        <p>2. Arrancar Jupyter desde el escritorio de Anaconda</p>
+        <p>Lo primero que verás será una pantalla con los directorios y notebooks que existan en tu carpeta principal.</p>
+        
+        <h2>Trabajando con notebooks</h2>
+        <p>Puedes abrir notebooks que ya existan o crear uno nuevo haciendo clic en el botón "New" (Nuevo) en la esquina superior derecha. Los archivos de notebook tienen la extensión <strong>.ipynb</strong>, que es básicamente un archivo de texto con formato JSON (JavaScript Object Notation).</p>
+        <p>La interfaz es muy intuitiva. Su característica principal es la organización en celdas que pueden contener texto o código. Puedes ejecutar cada celda individualmente usando el botón del menú o el atajo de teclado <strong>Mayúsculas + Enter</strong>.</p>
+        <p>Por ejemplo, imagina que tienes varias celdas con código: puedes ejecutar la primera, ver el resultado, luego ejecutar la segunda, y así sucesivamente. Si alguna celda produce un error, lo verás claramente y podrás corregirlo antes de continuar.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>1.2. Google Colab</h1>
+        
+        <h2>¿Qué es Google Colab?</h2>
+        <p>Google Colab (originalmente llamado Colaboratory) es un entorno interactivo donde puedes crear cuadernos ejecutables que combinan celdas de código con celdas de texto enriquecido, imágenes, HTML (HyperText Markup Language), LaTeX, y más. Los cuadernos de Colab son básicamente cuadernos de Jupyter alojados en la nube de Google, por lo que incluyen muchas de sus características.</p>
+        
+        <h2>Ventajas principales de Colab sobre Jupyter tradicional</h2>
+        <p><strong>No necesitas instalar nada</strong>: Como es un servicio en la nube accesible vía web, simplemente abres tu navegador y comienzas a trabajar. No hay que preocuparse por instalaciones ni configuraciones complicadas.</p>
+        <p><strong>Paquetes pre-instalados y actualizados</strong>: Todos los paquetes principales necesarios para Ciencia de Datos ya están incorporados y siempre actualizados a sus versiones más recientes (actualizados a 2025).</p>
+        <p><strong>Recursos generosos</strong>: Cada vez que inicias una sesión, Google te asigna una máquina virtual con memoria en disco y RAM (Random Access Memory) más que suficientes para la mayoría de proyectos. El entorno se desconecta automáticamente después de un tiempo de inactividad o si superas las 12 horas de uso continuo. Una cuenta de Google puede tener hasta 5 sesiones abiertas simultáneamente. Es importante mencionar que Google puede aplicar penalizaciones de uso si alcanzas los límites de tiempo de forma sistemática.</p>
+        <p><strong>Acceso a GPU para mayor potencia</strong>: Puedes utilizar GPU (Graphics Processing Unit, unidades de procesamiento gráfico) para realizar cálculos mucho más rápidos, algo especialmente útil en deep learning.</p>
+        
+        <h2>¿Cómo empezar a usar Colab?</h2>
+        <p>Es muy sencillo:</p>
+        <p>1. Entra en la web de Colab (https://colab.research.google.com/)</p>
+        <p>2. Haz clic en la opción de "nuevo cuaderno" y listo, puedes empezar a trabajar</p>
+        <p>También puedes importar notebooks que hayas creado en Jupyter o que estén en GitHub. De la misma forma, cada cuaderno que crees se guardará automáticamente en tu Google Drive, en una carpeta específica de Colab. Puedes mover estos cuadernos a cualquier otra carpeta de Drive o descargarlos en formato .ipynb o .py para usarlos en otros entornos.</p>
+        
+        <h2>Aprovecha las celdas de texto</h2>
+        <p>Para documentar bien tu trabajo en las celdas de texto, te recomendamos aprender el lenguaje Markdown. Existen notebooks con ejemplos de todas las etiquetas y caracteres que puedes utilizar para incluir títulos, listas, enlaces, fórmulas matemáticas y todo tipo de elementos formativos.</p>
+        <p>También hay notebooks con consejos y funciones curiosas específicas de Colab que pueden mejorar mucho tu experiencia de trabajo.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>1.3. Binder</h1>
+        
+        <h2>¿Qué es Binder?</h2>
+        <p>Binder (https://mybinder.org/) es una aplicación web que proporciona un servidor temporal para ejecutar cuadernos de Jupyter que están alojados en un repositorio de GitHub. Es completamente gratuito y muy fácil de usar. Es un proyecto de código abierto mantenido por la comunidad con el apoyo de empresas como Google, OVH y el Turing Institute.</p>
+        
+        <h2>¿Cómo funciona?</h2>
+        <p>El proceso es muy simple:</p>
+        <p>1. Das acceso al repositorio de GitHub donde están tus notebooks, o especificas la ruta de uno en concreto</p>
+        <p>2. Binder crea automáticamente un contenedor Docker con todos los requisitos y dependencias que hayas especificado en tu repositorio (a partir de archivos como requirements.txt o environment.yml que deben estar en la carpeta raíz)</p>
+        <p>3. Si quieres compartir tu trabajo, Binder genera un enlace a un servidor de JupyterHub donde otros pueden acceder a todos los contenidos de tu repositorio</p>
+        <p>Esta última opción es perfecta para hacer demostraciones, mostrar tu trabajo a otros colaboradores e incluso invitarles a hacer cambios o aportar ideas.</p>
+        
+        <h2>Experiencia del usuario</h2>
+        <p>Cuando alguien recibe tu enlace de Binder, primero ve una pantalla de inicialización del entorno (mientras Binder prepara todo). Después se abre una interfaz de trabajo con el notebook ya cargado y todos los recursos del repositorio disponibles en el menú lateral izquierdo.</p>
+    </section>
+
+    <section class="contenido-didactico">
+        <h1>1.4. Kaggle</h1>
+        
+        <h2>Historia de Kaggle</h2>
+        <p>La plataforma Kaggle.com nació en 2010, creada por Anthony Goldbloom y Jeremy Howard, como una comunidad de científicos e ingenieros de datos dispuestos a participar en competiciones de aprendizaje automático. Diferentes empresas planteaban retos y los participantes competían por ofrecer las mejores soluciones. La idea funcionó extraordinariamente bien: un año después, la empresa ya valía 25 millones de dólares. En 2017 fue adquirida por Google, cuando ya contaba con más de un millón de usuarios registrados de 194 países diferentes.</p>
+        
+        <h2>¿Por qué es tan valiosa esta plataforma?</h2>
+        <p>Más allá de las competiciones, el verdadero valor de Kaggle actualmente, tanto para la comunidad como para Google, es la enorme cantidad de datasets (conjuntos de datos) y propuestas de soluciones de aprendizaje automático que reúne. En los "kernels" (ahora llamados "notebooks") de Kaggle se han generado modelos para el sector financiero, de la salud, para fines sociales y muchos otros campos.</p>
+        <p>Kaggle es una plataforma clave para cualquiera que esté aprendiendo o trabajando en ciencia de datos. El nivel de usuario que alcanzas según tu participación en la plataforma es un indicador importante a tener en cuenta en tu perfil profesional como programador de inteligencia artificial.</p>
+        
+        <h2>Recomendaciones de uso</h2>
+        <p>Te recomendamos explorar sus cursos de machine learning y deep learning (actualizados constantemente hasta 2025). Pero sobre todo, te sugerimos usar su interfaz de programación cuando encuentres un dataset interesante y quieras trabajar con él de forma integrada dentro de la propia plataforma.</p>
+        <p>Si el dataset forma parte de una competición, aunque ya no esté activa, puedes subir tu solución y recibir retroalimentación sobre la calidad de tu propuesta según tu puntuación y posición en el ranking.</p>
+        
+        <h2>¿Cómo trabajar con datasets en Kaggle?</h2>
+        <p>Imagina que encuentras un dataset interesante relacionado con un estudio que quieres hacer:</p>
+        <p>1. Desde la pantalla del dataset (una vez registrado), haz clic en la opción "New notebook" (Nuevo cuaderno)</p>
+        <p>2. Se abre la interfaz de notebook de Kaggle para un nuevo proyecto de código</p>
+        <p>3. El entorno ya incluye todos los paquetes necesarios de Python y las funcionalidades de un entorno tipo notebook</p>
+        <p>4. Por defecto aparece una celda con algunas importaciones y un ejemplo, pero puedes eliminarla si no la necesitas</p>
+        
+        <h2>Ventaja de iniciar desde un dataset</h2>
+        <p>Al haber creado el notebook a partir de un dataset específico, este queda automáticamente vinculado en la sección "Data" (Datos), y la ruta para acceder a él será siempre la misma, lo que facilita mucho el trabajo.</p>
+        <p>A partir de aquí, trabajas igual que en otros entornos notebook, con la particularidad de que Kaggle guarda tu trabajo automáticamente en un directorio donde puedes llevar un control básico de versiones.</p>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
