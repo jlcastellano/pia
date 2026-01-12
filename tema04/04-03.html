@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librerías de programación de Aprendizaje Automático con Python</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Librerías de programación de Aprendizaje Automático con Python</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>3. Scikit-learn: Aprendizaje automático accesible para todos</h1>
+        
+        <p>Scikit-learn es una de las librerías de aprendizaje automático más populares del mundo. Nació como un proyecto del Google Summer of Code y se ha convertido en una herramienta fundamental para millones de científicos de datos. Es especialmente utilizada para aplicar técnicas como <strong>regresión lineal</strong>, <strong>regresión logística</strong>, <strong>random forest (bosques aleatorios)</strong> y <strong>máquinas de vector soporte (SVM)</strong>. Una de sus mayores ventajas es que ofrece diagramas y guías para ayudarte a elegir el algoritmo más adecuado según el tipo de problema que quieras resolver.</p>
+
+        <h2>Proceso de trabajo con Scikit-learn</h2>
+        <figure>
+            <img src="04-07.png" alt="">
+        </figure>
+        <h3>Análisis exploratorio de datos</h3>
+        
+        <p>Primero, realizas un análisis exploratorio de los datos, cargándolos en tu programa y revisando qué tipos de valores contienen. Es importante identificar valores categóricos que necesiten convertirse a numéricos. Debes revisar las estadísticas básicas para determinar si es necesario normalizar o escalar los datos (ajustar su rango de valores).</p>
+
+        <h3>Fase de preprocesado</h3>
+        
+        <p>En la fase de preprocesado, eliminas columnas que no aportan información útil y conviertes las variables categóricas a formato numérico. Para variables con solo dos categorías, basta con asignar 0 y 1, pero para variables con más categorías se usa una técnica llamada <strong>one-hot encoding</strong> que crea columnas binarias separadas para cada categoría. Luego separas el dataset en dos partes: los datos de entrada (llamados <span class="codigo-inline">X</span>) que el modelo usará para aprender, y los datos de salida (llamados <span class="codigo-inline">y</span>) que son las respuestas o etiquetas correctas.</p>
+
+        <p>Posteriormente, divides tus datos en dos conjuntos: <strong>datos de entrenamiento (train)</strong> para que el modelo aprenda, y <strong>datos de evaluación (test)</strong> para verificar qué tan bien funciona con datos nuevos que no ha visto antes. El módulo <span class="codigo-inline">StandardScaler</span> facilita enormemente la normalización de los datos, asegurando que todas las variables estén en escalas comparables.</p>
+
+        <h3>Generación y evaluación del modelo</h3>
+        
+        <p>Para generar el modelo, creas un objeto de una clase específica (como <span class="codigo-inline">LogisticRegression</span> para regresión logística) y lo entrenas usando la función <span class="codigo-inline">fit</span> con tus datos de entrenamiento. Puedes comparar el rendimiento de diferentes técnicas y algoritmos, incluyendo modelos avanzados como <span class="codigo-inline">XGBClassifier</span> (basado en gradient boosting). Finalmente, examinas las métricas de precisión y otras medidas de desempeño para determinar qué técnica ofrece los mejores resultados para tu problema específico.</p>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

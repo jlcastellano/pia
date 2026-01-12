@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librerías de programación de Aprendizaje Automático con Python</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Librerías de programación de Aprendizaje Automático con Python</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>1. Pandas: Tu herramienta para manejar datos</h1>
+        
+        <p>Pandas es una librería de manipulación de datos que facilita enormemente el trabajo de los científicos de datos. Desde tareas tan simples como cargar un archivo CSV hasta operaciones más complejas de preparación y limpieza de datos, Pandas lo hace todo más sencillo.</p>
+
+        <p>Para entender cómo funciona Pandas, pensemos en la diferencia entre un vector convencional y un <strong>DataFrame</strong> de Pandas. Un DataFrame es como una tabla de Excel mejorada: tiene índices tanto para las filas como para las columnas, lo que permite organizar y acceder a los datos de manera muy eficiente. Por defecto, Pandas asigna números como índices si no le indicamos otras etiquetas personalizadas. Puedes crear un DataFrame de varias formas: desde un diccionario de Python o desde un array, y luego asignar los valores de los índices que prefieras.</p>
+
+        <p>Con Pandas puedes:</p>
+
+        <ul>
+            <li>Consultar rápidamente cuántos elementos hay en cada dimensión (filas y columnas)</li>
+            <li>Ver las dimensiones totales del conjunto de datos</li>
+            <li>Conocer los nombres o etiquetas de filas y columnas</li>
+            <li>Verificar el tipo de dato que contiene cada columna</li>
+        </ul>
+        <figure>
+            <img src="04-02.png" alt="">
+        </figure>
+        <p>La función <span class="codigo-inline">describe</span> es especialmente útil porque te proporciona automáticamente las estadísticas principales de tus datos: promedio, mínimo, máximo, desviación estándar, y más. También puedes crear representaciones gráficas básicas directamente desde el DataFrame. En ocasiones necesitarás trasponer un DataFrame (intercambiar filas por columnas) usando la función <span class="codigo-inline">T</span>.</p>
+        <figure>
+            <img src="04-03.png" alt="">
+        </figure>
+        <p>Una necesidad frecuente es convertir datos categóricos (como "sí" o "no") a valores numéricos (como 1 o 0), especialmente útil cuando trabajas con valores binarios. Para esto, puedes usar la función <span class="codigo-inline">replace</span> que sustituye categorías por valores numéricos. Otras funciones muy prácticas son:</p>
+
+        <ul>
+            <li><span class="codigo-inline">startswith</span>: verifica si un texto comienza con ciertos caracteres</li>
+            <li><span class="codigo-inline">split</span>: divide un texto en partes</li>
+            <li><span class="codigo-inline">iloc</span>: accede a datos por posición numérica</li>
+        </ul>
+        <figure>
+            <img src="04-04.png" alt="">
+        </figure>
+        <p>También puedes combinar múltiples DataFrames con <span class="codigo-inline">concat</span>, añadir nuevas columnas con valores calculados a partir de otras columnas, o eliminar columnas que ya no necesitas.</p>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

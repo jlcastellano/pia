@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librerías de programación de Aprendizaje Automático con Python</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Librerías de programación de Aprendizaje Automático con Python</div>
+    </header>
+
+
+    <section class="contenido-didactico">
+        <h1>5. PyTorch: Flexibilidad y potencia para investigación</h1>
+        
+        <p>PyTorch es una librería de código abierto basada en Torch, desarrollada por el laboratorio de investigación FAIR (Facebook AI Research) de Meta. Está especialmente optimizada para realizar cálculos con tensores (estructuras multidimensionales de datos) y para construir redes neuronales profundas de forma eficiente y flexible. En 2025, PyTorch se ha consolidado como la opción preferida en entornos de investigación académica y es ampliamente utilizada en la industria.</p>
+
+        <p>Una joya del ecosistema PyTorch es la librería <strong>fastai</strong>, que simplifica enormemente el desarrollo de modelos complejos permitiéndote usar modelos pre-entrenados de última generación con solo unas pocas líneas de código. Esto es especialmente útil cuando no tienes millones de datos para entrenar desde cero.</p>
+
+        <h2>Desarrollo típico con PyTorch</h2>
+
+        <p>El desarrollo típico con PyTorch implica los siguientes pasos:</p>
+
+        <p>Primero, instalas los módulos necesarios, especialmente <span class="codigo-inline">torchvision</span> si vas a trabajar con visión artificial. Luego defines los parámetros fundamentales de tu modelo y del proceso de entrenamiento, como la tasa de aprendizaje, el número de epochs y el tamaño del batch.</p>
+
+        <p>Posteriormente, descargas y cargas los datos usando utilidades como <span class="codigo-inline">DataLoader</span> que facilita el procesamiento por lotes. Defines tu modelo creando una clase que hereda de <span class="codigo-inline">nn.Module</span>, donde especificas la arquitectura de tu red neuronal en el método <span class="codigo-inline">__init__</span> y cómo fluyen los datos a través de ella en el método <span class="codigo-inline">forward</span>.</p>
+
+        <p>Estableces la función de pérdida o coste (como <span class="codigo-inline">CrossEntropyLoss</span> para clasificación) y el optimizador (como <span class="codigo-inline">Adam</span> o <span class="codigo-inline">SGD</span>) que determinará cómo se actualizan los pesos del modelo. Finalmente, procedes al entrenamiento mediante bucles que iteran sobre los datos, calculan las predicciones, computan la pérdida, y actualizan los pesos. La evaluación se realiza de forma similar pero sin actualizar los pesos.</p>
+
+        <h2>PyTorch Hub y características destacadas</h2>
+        
+        <p>PyTorch cuenta con <strong>PyTorch Hub</strong>, un repositorio de modelos pre-entrenados de alta calidad, incluyendo arquitecturas famosas como:</p>
+
+        <ul>
+            <li><strong>YOLO</strong>: para detección de objetos</li>
+            <li><strong>ResNet</strong>: para clasificación de imágenes</li>
+            <li><strong>BERT</strong>: para procesamiento de lenguaje natural</li>
+        </ul>
+
+        <p>Su API es muy descriptiva e intuitiva, lo que facilita tanto el aprendizaje como la lectura del código.</p>
+                <figure>
+            <img src="04-09.png" alt="">
+        </figure>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

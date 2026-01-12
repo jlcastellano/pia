@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librerías de programación de Aprendizaje Automático con Python</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Librerías de programación de Aprendizaje Automático con Python</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>4. TensorFlow y Keras: El poder de las redes neuronales profundas</h1>
+
+        <figure>
+            <img src="04-08.png" alt="">
+        </figure>
+        
+        <p>TensorFlow ha revolucionado el desarrollo de inteligencia artificial en todo el mundo. Fue desarrollado originalmente por Google Brain y se ha convertido en el estándar de facto para proyectos de aprendizaje profundo. En 2019, la versión 2.0 integró Keras de manera oficial, lo que simplificó enormemente la programación de redes neuronales profundas gracias a sus módulos de alto nivel que abstraen la complejidad.</p>
+
+        <h2>Ecosistema de TensorFlow</h2>
+        
+        <p>El ecosistema de TensorFlow en 2025 incluye herramientas complementarias muy útiles:</p>
+
+        <ul>
+            <li><strong>TensorBoard</strong>: para visualizar el proceso de entrenamiento y los resultados de forma interactiva</li>
+            <li><strong>TensorFlow Lite</strong>: para ejecutar modelos en dispositivos móviles y embebidos con recursos limitados</li>
+            <li><strong>TensorFlow.js</strong>: para correr modelos directamente en navegadores web</li>
+            <li><strong>TensorFlow Extended (TFX)</strong>: para desplegar modelos en producción a gran escala</li>
+        </ul>
+
+        <p>Keras, ahora parte integral de TensorFlow, está diseñada pensando en los humanos que la programan. Su filosofía es hacer el código más intuitivo y reducir la cantidad de acciones necesarias para lograr resultados. Además, ofrece mensajes de error claros y comprensibles que te ayudan a identificar y corregir problemas rápidamente.</p>
+
+        <h2>Flujo de trabajo típico con TensorFlow y Keras</h2>
+
+        <h3>1. Carga del dataset</h3>
+        
+        <p>Importas tus datos al programa, ya sea desde archivos locales o desde repositorios en línea.</p>
+
+        <h3>2. Construcción del modelo</h3>
+        
+        <p>Utilizas la clase <span class="codigo-inline">Sequential</span> que permite apilar capas de neuronas una tras otra de forma secuencial. Añades capas usando la clase <span class="codigo-inline">Dense</span> (capas densamente conectadas) y especificas funciones de activación como <span class="codigo-inline">relu</span> (para capas intermedias) o <span class="codigo-inline">softmax</span> (para la capa final en problemas de clasificación múltiple).</p>
+
+        <h3>3. Configuración de parámetros</h3>
+        
+        <p>Mediante el método <span class="codigo-inline">compile</span>, indicas qué optimizador usar (como Adam o SGD), qué función de pérdida o coste emplear (que mide qué tan equivocado está el modelo), y qué métrica monitorear (como <span class="codigo-inline">accuracy</span> para medir la precisión).</p>
+
+        <h3>4. Preparación de datos</h3>
+        
+        <p>Ajustas las dimensiones de los arrays para que coincidan con lo que el modelo espera, normalizas los valores de píxeles (típicamente dividiéndolos entre 255 para que estén entre 0 y 1), y conviertes las etiquetas a formato categórico usando <span class="codigo-inline">to_categorical</span>.</p>
+
+        <h3>5. Entrenamiento</h3>
+        
+        <p>Usas el método <span class="codigo-inline">fit</span> especificando el número de iteraciones completas sobre los datos (epochs) y el tamaño del lote (batch size), que determina cuántos ejemplos se procesan antes de actualizar los pesos del modelo.</p>
+
+        <h3>6. Evaluación</h3>
+        
+        <p>Empleas el método <span class="codigo-inline">evaluate</span> con tus datos de test para obtener métricas de rendimiento sobre datos que el modelo nunca vio durante el entrenamiento.</p>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
