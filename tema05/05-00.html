@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación de Redes Neuronales Profundas con Keras</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Programación de Redes Neuronales Profundas con Keras</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Introducción</h1>
+        <p>En esta unidad profundizamos en los conceptos fundamentales de las <strong>redes neuronales profundas</strong> (DNN - Deep Neural Networks) desde una perspectiva práctica y orientada a la programación en Python utilizando <strong>Keras</strong>. Keras es la API de alto nivel de la plataforma TensorFlow que proporciona una interfaz accesible y altamente productiva para resolver problemas de aprendizaje automático, con un enfoque en el deep learning moderno.</p>
+
+        <h2>Nota importante sobre versiones</h2>
+        <p>A partir de TensorFlow 2.16, al instalar TensorFlow con <kbd>pip install tensorflow</kbd> se instala Keras 3. Cuando tienes TensorFlow >= 2.16 y Keras 3, por defecto <code>from tensorflow import keras</code> (tf.keras) será Keras 3. Keras 3 es una reescritura completa de Keras que permite ejecutar flujos de trabajo sobre JAX, TensorFlow, PyTorch u OpenVINTO (solo para inferencia), y que desbloquea nuevas capacidades de entrenamiento y despliegue de modelos a gran escala.</p>
+        <p>Con su enfoque multi-backend, Keras te da la libertad de trabajar con JAX, TensorFlow y PyTorch. Puedes construir modelos que se muevan sin problemas entre estos frameworks y aprovechen las fortalezas de cada ecosistema.</p>
+        <p>Si necesitas mantener compatibilidad con código antiguo de Keras 2, el paquete legacy Keras 2 sigue publicándose regularmente en PyPI como <code>tf_keras</code>. Para usarlo, puedes instalarlo con <kbd>pip install tf_keras</kbd> y luego importarlo con <code>import tf_keras as keras</code>.</p>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

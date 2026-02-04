@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación de Redes Neuronales Profundas con Keras</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Programación de Redes Neuronales Profundas con Keras</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>2. Tipos de Capas y sus Parámetros</h1>
+
+        <h2>2.1 Capa Dense (Fully Connected)</h2>
+        <p>La capa <strong>Dense</strong> es la capa más común en redes neuronales. Dense es una capa completamente conectada (fully connected layer) para redes neuronales. Cada neurona está conectada a todas las neuronas de la capa anterior.</p>
+        <p>La operación matemática que realiza es:</p>
+        <p class="formula">output = activation(input · W + b)</p>
+
+        <h3>Parámetros principales:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parámetro</th>
+                    <th>Descripción</th>
+                    <th>Valores comunes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>units</code></td>
+                    <td>Número de neuronas en la capa</td>
+                    <td>Entero positivo (32, 64, 128, 256...)</td>
+                </tr>
+                <tr>
+                    <td><code>activation</code></td>
+                    <td>Función de activación</td>
+                    <td>'relu', 'sigmoid', 'softmax', 'tanh', None</td>
+                </tr>
+                <tr>
+                    <td><code>input_shape</code></td>
+                    <td>Forma de los datos de entrada (solo primera capa)</td>
+                    <td>Tupla, ej: (18,)</td>
+                </tr>
+                <tr>
+                    <td><code>kernel_initializer</code></td>
+                    <td>Inicialización de pesos</td>
+                    <td>'glorot_uniform' (default), 'he_normal'</td>
+                </tr>
+                <tr>
+                    <td><code>bias_initializer</code></td>
+                    <td>Inicialización del sesgo</td>
+                    <td>'zeros' (default)</td>
+                </tr>
+                <tr>
+                    <td><code>kernel_regularizer</code></td>
+                    <td>Regularización L1/L2 en pesos</td>
+                    <td>keras.regularizers.l2(0.01)</td>
+                </tr>
+                <tr>
+                    <td><code>use_bias</code></td>
+                    <td>Si incluir término de sesgo</td>
+                    <td>True (default), False</td>
+                </tr>
+            </tbody>
+        </table>
+
+<pre><code class="language-python"># Capa densa con regularización L2
+layers.Dense(
+    units=128,
+    activation='relu',
+    kernel_initializer='he_normal',
+    kernel_regularizer=keras.regularizers.l2(0.001),
+    name='capa_oculta_1'
+)</code></pre>
+
+        <h2>2.2 Funciones de Activación</h2>
+        <p>Las funciones de activación introducen <strong>no linealidad</strong> en el modelo, permitiendo aprender relaciones complejas. Sin ellas, una red neuronal profunda sería equivalente a una única transformación lineal.</p>
+
+        <h3>ReLU (Rectified Linear Unit)</h3>
+        <p class="formula">f(x) = max(0, x)</p>
+        <p>Es la función más utilizada en capas ocultas. <strong>Ventajas</strong>: computacionalmente eficiente, ayuda a mitigar el problema del gradiente desvaneciente. <strong>Desventaja</strong>: las neuronas pueden "morir" si siempre producen valores negativos.</p>
+        <p>LeakyReLU es una modificación de ReLU que permite un pequeño gradiente para entradas negativas. PReLU es un ReLU paramétrico con parámetros aprendibles. ELU (Exponential Linear Unit) proporciona no linealidades suaves.</p>
+
+<pre><code class="language-python"># Alternativas a ReLU estándar
+layers.Dense(64, activation='relu')  # ReLU estándar
+layers.Dense(64)
+layers.LeakyReLU(alpha=0.1)  # LeakyReLU
+layers.Dense(64)
+layers.PReLU()  # PReLU (parámetro aprendible)</code></pre>
+
+        <h3>Sigmoid</h3>
+        <p class="formula">f(x) = 1 / (1 + e<sup>-x</sup>)</p>
+        <p>Produce valores entre 0 y 1. Ideal para la capa de salida en <strong>clasificación binaria</strong>, donde la salida representa una probabilidad.</p>
+
+        <h3>Softmax</h3>
+        <p class="formula">f(x<sub>i</sub>) = e<sup>x<sub>i</sub></sup> / ∑<sub>j</sub> e<sup>x<sub>j</sub></sup></p>
+        <p>Normaliza las salidas para que sumen 1. Perfecta para la capa de salida en <strong>clasificación multiclase</strong>, donde cada salida representa la probabilidad de pertenecer a cada clase.</p>
+
+        <h3>Tanh (Tangente Hiperbólica)</h3>
+        <p class="formula">f(x) = tanh(x) = (e<sup>x</sup> - e<sup>-x</sup>) / (e<sup>x</sup> + e<sup>-x</sup>)</p>
+        <p>Produce valores entre -1 y 1. Históricamente popular, pero ReLU suele ofrecer mejor rendimiento en capas ocultas.</p>
+
+        <h3>Recomendaciones prácticas:</h3>
+        <ul>
+            <li><strong>Capas ocultas</strong>: Usa ReLU (o variantes como LeakyReLU, ELU)</li>
+            <li><strong>Capa de salida - clasificación binaria</strong>: Sigmoid</li>
+            <li><strong>Capa de salida - clasificación multiclase</strong>: Softmax</li>
+            <li><strong>Capa de salida - regresión</strong>: Sin activación (linear) o ReLU si solo valores positivos</li>
+        </ul>
+
+        <h2>Resumen de Funciones de Activación</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Función</th>
+                    <th>Fórmula</th>
+                    <th>Rango</th>
+                    <th>Ventajas</th>
+                    <th>Desventajas</th>
+                    <th>Uso típico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>ReLU</strong></td>
+                    <td><code>f(x) = max(0, x)</code></td>
+                    <td>[0, +∞)</td>
+                    <td>Simple, eficiente, evita vanishing gradient en valores positivos</td>
+                    <td>Neuronas "muertas" (si x&lt;0 siempre, gradiente=0 permanentemente)</td>
+                    <td><strong>Capas ocultas por defecto</strong>; CNNs y redes feedforward</td>
+                </tr>
+                <tr>
+                    <td><strong>Leaky ReLU</strong></td>
+                    <td><code>f(x) = max(αx, x)</code> donde α≈0.01</td>
+                    <td>(-∞, +∞)</td>
+                    <td>Evita neuronas muertas al permitir gradientes pequeños para x&lt;0</td>
+                    <td>El valor de α es arbitrario</td>
+                    <td>Alternativa a ReLU cuando hay muchas neuronas muriendo</td>
+                </tr>
+                <tr>
+                    <td><strong>PReLU</strong></td>
+                    <td><code>f(x) = max(αx, x)</code> donde α es aprendible</td>
+                    <td>(-∞, +∞)</td>
+                    <td>α se aprende durante entrenamiento, adaptándose a los datos</td>
+                    <td>Más parámetros que aprender</td>
+                    <td>Cuando Leaky ReLU mejora pero α óptimo es desconocido</td>
+                </tr>
+                <tr>
+                    <td><strong>ELU</strong></td>
+                    <td><code>f(x) = x si x&gt;0; α(e^x - 1) si x≤0</code></td>
+                    <td>(-α, +∞)</td>
+                    <td>Salidas negativas permiten media más cercana a cero; suave en x=0</td>
+                    <td>Más costosa computacionalmente por la exponencial</td>
+                    <td>Capas ocultas cuando se busca convergencia más rápida</td>
+                </tr>
+                <tr>
+                    <td><strong>SELU</strong></td>
+                    <td><code>f(x) = λ·x si x&gt;0; λ·α(e^x - 1) si x≤0</code></td>
+                    <td>(-λα, +∞)</td>
+                    <td>Auto-normalizante: mantiene media~0 y varianza~1 automáticamente</td>
+                    <td>Requiere inicialización específica (lecun_normal) y arquitectura densa</td>
+                    <td>Redes profundas sin BatchNorm</td>
+                </tr>
+                <tr>
+                    <td><strong>Sigmoid</strong></td>
+                    <td><code>f(x) = 1 / (1 + e^(-x))</code></td>
+                    <td>(0, 1)</td>
+                    <td>Salida interpretable como probabilidad</td>
+                    <td>Vanishing gradient en extremos; salida no centrada en cero</td>
+                    <td><strong>Capa de salida para clasificación binaria</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Tanh</strong></td>
+                    <td><code>f(x) = (e^x - e^(-x)) / (e^x + e^(-x))</code></td>
+                    <td>(-1, 1)</td>
+                    <td>Centrada en cero (mejor que sigmoid para capas ocultas)</td>
+                    <td>Vanishing gradient en extremos</td>
+                    <td>Capas ocultas de RNNs; cuando se necesita salida en [-1,1]</td>
+                </tr>
+                <tr>
+                    <td><strong>Softmax</strong></td>
+                    <td><code>f(x_i) = e^(x_i) / Σe^(x_j)</code></td>
+                    <td>(0, 1) y suma=1</td>
+                    <td>Convierte logits en distribución de probabilidad</td>
+                    <td>Solo tiene sentido para múltiples clases mutuamente excluyentes</td>
+                    <td><strong>Capa de salida para clasificación multiclase</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Swish</strong></td>
+                    <td><code>f(x) = x · σ(x) = x / (1 + e^(-x))</code></td>
+                    <td>(-0.28, +∞)</td>
+                    <td>Suave, no monótona; supera a ReLU en redes profundas</td>
+                    <td>Más costosa que ReLU</td>
+                    <td>Redes muy profundas; arquitecturas modernas como EfficientNet</td>
+                </tr>
+                <tr>
+                    <td><strong>GELU</strong></td>
+                    <td><code>f(x) = x · Φ(x)</code> donde Φ es la CDF gaussiana</td>
+                    <td>(-0.17, +∞)</td>
+                    <td>Suave, estocástica; excelente en transformers</td>
+                    <td>Computacionalmente más costosa</td>
+                    <td><strong>Transformers</strong> (BERT, GPT, ViT)</td>
+                </tr>
+                <tr>
+                    <td><strong>Softplus</strong></td>
+                    <td><code>f(x) = ln(1 + e^x)</code></td>
+                    <td>(0, +∞)</td>
+                    <td>Versión suave de ReLU; derivada es sigmoid</td>
+                    <td>Más costosa que ReLU; puede saturar</td>
+                    <td>Cuando se necesita ReLU diferenciable en todo punto</td>
+                </tr>
+                <tr>
+                    <td><strong>Linear (None)</strong></td>
+                    <td><code>f(x) = x</code></td>
+                    <td>(-∞, +∞)</td>
+                    <td>No limita el rango de salida</td>
+                    <td>Sin no-linealidad</td>
+                    <td><strong>Capa de salida para regresión</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>2.3 Capa Flatten</h2>
+        <p>La capa <strong>Flatten</strong> transforma datos multidimensionales en un vector unidimensional, necesario antes de conectar a capas Dense cuando se trabaja con datos como imágenes.</p>
+
+<pre><code class="language-python"># Ejemplo: imágenes de 28x28 píxeles
+model = keras.Sequential([
+    layers.Flatten(input_shape=(28, 28)),  # 28*28 = 784 valores
+    layers.Dense(128, activation='relu'),
+    layers.Dense(10, activation='softmax')
+])</code></pre>
+
+        <h2>2.4 Capas de Regularización</h2>
+        <p><strong>Dropout</strong> es una capa de regularización para prevenir el sobreajuste al establecer aleatoriamente entradas a 0. Durante el entrenamiento, un porcentaje de las neuronas se "apaga" aleatoriamente, forzando a la red a aprender representaciones más robustas.</p>
+
+<pre><code class="language-python">model = keras.Sequential([
+    layers.Dense(256, activation='relu', input_shape=(100,)),
+    layers.Dropout(0.3),  # Desactiva 30% de las neuronas durante entrenamiento
+    layers.Dense(128, activation='relu'),
+    layers.Dropout(0.2),
+    layers.Dense(1, activation='sigmoid')
+])</code></pre>
+
+        <p><strong>BatchNormalization</strong> normaliza las entradas para mejorar la velocidad y estabilidad del entrenamiento. Normaliza la salida de la capa anterior, acelerando la convergencia y permitiendo usar learning rates más altos.</p>
+
+<pre><code class="language-python">model = keras.Sequential([
+    layers.Dense(256, activation='relu', input_shape=(100,)),
+    layers.BatchNormalization(),
+    layers.Dense(128, activation='relu'),
+    layers.BatchNormalization(),
+    layers.Dense(1, activation='sigmoid')
+])</code></pre>
+
+        <h2>2.5 Capa Input Explícita</h2>
+        <p><strong>Input</strong> se usa para definir formas de entrada explícitamente para los modelos. Es una alternativa más explícita a usar <code>input_shape</code> en la primera capa:</p>
+
+<pre><code class="language-python"># Usando capa Input explícita
+model = keras.Sequential([
+    layers.Input(shape=(18,)),
+    layers.Dense(128, activation='relu'),
+    layers.Dense(1, activation='sigmoid')
+])</code></pre>
+
+        <h2>Resumen de Tipos de Capas y sus Parámetros</h2>
+
+        <h3>Capas Principales</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Capa</th>
+                    <th>Descripción</th>
+                    <th>Parámetros clave</th>
+                    <th>Uso típico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Dense</strong></td>
+                    <td>Capa completamente conectada; cada neurona se conecta a todas las entradas</td>
+                    <td>
+                        <ul>
+                            <li><code>units</code>: número de neuronas</li>
+                            <li><code>activation</code>: función de activación ('relu', 'sigmoid', 'softmax', None)</li>
+                            <li><code>input_shape</code>: forma de entrada (solo primera capa)</li>
+                            <li><code>kernel_regularizer</code>: regularización L1/L2</li>
+                        </ul>
+                    </td>
+                    <td>Capas ocultas y de salida en redes feedforward</td>
+                </tr>
+                <tr>
+                    <td><strong>Flatten</strong></td>
+                    <td>Aplana datos multidimensionales a un vector 1D</td>
+                    <td><code>input_shape</code>: forma de los datos a aplanar</td>
+                    <td>Antes de capas Dense cuando la entrada son imágenes o tensores multidimensionales</td>
+                </tr>
+                <tr>
+                    <td><strong>Input</strong></td>
+                    <td>Define explícitamente la forma de entrada del modelo</td>
+                    <td><code>shape</code>: tupla con la forma de entrada</td>
+                    <td>Primera capa para definir claramente las dimensiones de entrada</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Capas de Regularización</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Capa</th>
+                    <th>Descripción</th>
+                    <th>Parámetros clave</th>
+                    <th>Uso típico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Dropout</strong></td>
+                    <td>Desactiva aleatoriamente un porcentaje de neuronas durante el entrenamiento</td>
+                    <td><code>rate</code>: fracción de neuronas a desactivar (0.0-1.0)</td>
+                    <td>Entre capas Dense para prevenir sobreajuste; valores típicos: 0.2-0.5</td>
+                </tr>
+                <tr>
+                    <td><strong>BatchNormalization</strong></td>
+                    <td>Normaliza las activaciones de la capa anterior (media ~0, varianza ~1)</td>
+                    <td>
+                        <ul>
+                            <li><code>momentum</code>: para media móvil (default 0.99)</li>
+                            <li><code>epsilon</code>: constante para estabilidad numérica</li>
+                        </ul>
+                    </td>
+                    <td>Después de capas Dense/Conv para acelerar entrenamiento y estabilizar</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Capas para Imágenes (Convolucionales)</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Capa</th>
+                    <th>Descripción</th>
+                    <th>Parámetros clave</th>
+                    <th>Uso típico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Conv2D</strong></td>
+                    <td>Aplica filtros convolucionales 2D para extraer características espaciales</td>
+                    <td>
+                        <ul>
+                            <li><code>filters</code>: número de filtros</li>
+                            <li><code>kernel_size</code>: tamaño del filtro (ej: (3,3))</li>
+                            <li><code>strides</code>: paso del filtro</li>
+                            <li><code>padding</code>: 'valid' o 'same'</li>
+                            <li><code>activation</code>: función de activación</li>
+                        </ul>
+                    </td>
+                    <td>Extracción de características en imágenes</td>
+                </tr>
+                <tr>
+                    <td><strong>MaxPooling2D</strong></td>
+                    <td>Reduce dimensionalidad tomando el valor máximo en ventanas</td>
+                    <td><code>pool_size</code>: tamaño de la ventana (ej: (2,2))</td>
+                    <td>Reducir dimensiones y extraer características dominantes</td>
+                </tr>
+                <tr>
+                    <td><strong>GlobalAveragePooling2D</strong></td>
+                    <td>Promedia cada canal a un único valor</td>
+                    <td>Ninguno requerido</td>
+                    <td>Antes de la capa de salida en clasificación de imágenes</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Capas para Secuencias (Recurrentes)</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Capa</th>
+                    <th>Descripción</th>
+                    <th>Parámetros clave</th>
+                    <th>Uso típico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>LSTM</strong></td>
+                    <td>Memoria a largo-corto plazo; captura dependencias temporales largas</td>
+                    <td>
+                        <ul>
+                            <li><code>units</code>: dimensión del estado oculto</li>
+                            <li><code>return_sequences</code>: si devuelve secuencia completa o solo último estado</li>
+                            <li><code>dropout</code>: dropout en conexiones de entrada</li>
+                            <li><code>recurrent_dropout</code>: dropout en conexiones recurrentes</li>
+                        </ul>
+                    </td>
+                    <td>Series temporales, texto, secuencias con dependencias largas</td>
+                </tr>
+                <tr>
+                    <td><strong>GRU</strong></td>
+                    <td>Versión simplificada de LSTM con menos parámetros</td>
+                    <td>Mismos que LSTM</td>
+                    <td>Similar a LSTM pero más rápido; buena opción inicial para secuencias</td>
+                </tr>
+                <tr>
+                    <td><strong>Embedding</strong></td>
+                    <td>Convierte índices enteros en vectores densos de dimensión fija</td>
+                    <td>
+                        <ul>
+                            <li><code>input_dim</code>: tamaño del vocabulario</li>
+                            <li><code>output_dim</code>: dimensión del embedding</li>
+                        </ul>
+                    </td>
+                    <td>Primera capa para procesamiento de texto</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

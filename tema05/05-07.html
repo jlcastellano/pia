@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación de Redes Neuronales Profundas con Keras</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Programación de Redes Neuronales Profundas con Keras</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>7. Ejemplo Completo: Clasificación de Entregas</h1>
+
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+# Configuración para reproducibilidad
+tf.random.set_seed(42)
+np.random.seed(42)
+
+# ========== 1. CARGA Y PREPROCESADO DE DATOS ==========
+
+# Cargar datos (ajustar ruta según tu entorno)
+data = pd.read_csv('Shipment_arrival/Train.csv')
+
+# Eliminar columna de identificador
+data = data.drop('ID', axis=1)
+
+# Codificar variable binaria
+data['Gender'] = data['Gender'].replace({'F': 0, 'M': 1})
+
+# One-hot encoding para variables categóricas múltiples
+def onehot_encode(df, column):
+    df = df.copy()
+    dummies = pd.get_dummies(df[column], prefix=column, dtype=int)
+    df = pd.concat([df, dummies], axis=1)
+    df = df.drop(column, axis=1)
+    return df
+
+for column in ['Warehouse_block', 'Mode_of_Shipment', 'Product_importance']:
+    data = onehot_encode(data, column=column)
+
+# Separar features y target
+y = data['Reached.on.Time_Y.N']
+X = data.drop('Reached.on.Time_Y.N', axis=1)
+
+# División train/test
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, shuffle=True, random_state=42
+)
+
+# Normalización
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+print(f"Shape de X_train: {X_train.shape}")
+print(f"Shape de X_test: {X_test.shape}")
+
+# ========== 2. CONSTRUCCIÓN DEL MODELO ==========
+
+model = keras.Sequential([
+    layers.Input(shape=(X_train.shape[1],)),
+    layers.Dense(128, activation='relu', kernel_regularizer=keras.regularizers.l2(0.001)),
+    layers.BatchNormalization(),
+    layers.Dropout(0.3),
+    layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(0.001)),
+    layers.BatchNormalization(),
+    layers.Dropout(0.2),
+    layers.Dense(32, activation='relu'),
+    layers.Dense(1, activation='sigmoid')
+])
+
+model.summary()
+
+# ========== 3. COMPILACIÓN ==========
+
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=0.001),
+    loss='binary_crossentropy',
+    metrics=[
+        'accuracy',
+        keras.metrics.Precision(name='precision'),
+        keras.metrics.Recall(name='recall'),
+        keras.metrics.AUC(name='auc')
+    ]
+)
+
+# ========== 4. CALLBACKS ==========
+
+callbacks = [
+    keras.callbacks.EarlyStopping(
+        monitor='val_loss',
+        patience=15,
+        restore_best_weights=True,
+        verbose=1
+    ),
+    keras.callbacks.ReduceLROnPlateau(
+        monitor='val_loss',
+        factor=0.5,
+        patience=5,
+        min_lr=1e-7,
+        verbose=1
+    ),
+    keras.callbacks.ModelCheckpoint(
+        filepath='mejor_modelo_entregas.keras',
+        monitor='val_auc',
+        save_best_only=True,
+        verbose=1
+    )
+]
+
+# ========== 5. ENTRENAMIENTO ==========
+
+history = model.fit(
+    X_train, y_train,
+    epochs=100,
+    batch_size=32,
+    validation_split=0.2,
+    callbacks=callbacks,
+    verbose=1
+)
+
+# ========== 6. EVALUACIÓN ==========
+
+print("\n" + "="*50)
+print("EVALUACIÓN EN CONJUNTO DE TEST")
+print("="*50)
+results = model.evaluate(X_test, y_test, verbose=0)
+for name, value in zip(model.metrics_names, results):
+    print(f"{name}: {value:.4f}")
+
+# ========== 7. PREDICCIONES ==========
+
+predictions = model.predict(X_test)
+predicted_classes = (predictions > 0.5).astype(int).flatten()
+
+# Matriz de confusión
+from sklearn.metrics import confusion_matrix, classification_report
+print("\nMatriz de Confusión:")
+print(confusion_matrix(y_test, predicted_classes))
+print("\nReporte de Clasificación:")
+print(classification_report(y_test, predicted_classes))</code></pre>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

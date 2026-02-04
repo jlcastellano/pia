@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación de Redes Neuronales Profundas con Keras</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Programación de Redes Neuronales Profundas con Keras</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>6. Evaluación y Predicción</h1>
+
+        <h2>6.1 Evaluación del Modelo</h2>
+        <p><code>tf.keras.Model.evaluate</code> devuelve los valores de pérdida y métricas para el modelo; configurado mediante el método <code>tf.keras.Model.compile</code>.</p>
+
+<pre><code class="language-python"># Evaluar en conjunto de test
+test_loss, test_accuracy = model.evaluate(X_test, y_test, verbose=1)
+print(f'Pérdida en test: {test_loss:.4f}')
+print(f'Precisión en test: {test_accuracy:.4f}')</code></pre>
+
+        <h2>6.2 Predicciones</h2>
+        <p><code>tf.keras.Model.predict</code> genera predicciones de salida para las muestras de entrada.</p>
+
+<pre><code class="language-python"># Obtener probabilidades
+predictions = model.predict(X_test)
+
+# Para clasificación binaria: convertir probabilidades a clases
+predicted_classes = (predictions > 0.5).astype(int)
+
+# Para clasificación multiclase: obtener la clase con mayor probabilidad
+import numpy as np
+predicted_classes = np.argmax(predictions, axis=1)</code></pre>
+
+        <h2>6.3 Análisis del Historial de Entrenamiento</h2>
+        <p>El objeto <code>history</code> devuelto por <code>fit()</code> contiene las métricas de cada época:</p>
+
+<pre><code class="language-python">import matplotlib.pyplot as plt
+
+# Graficar pérdida
+plt.figure(figsize=(12, 4))
+
+plt.subplot(1, 2, 1)
+plt.plot(history.history['loss'], label='Entrenamiento')
+plt.plot(history.history['val_loss'], label='Validación')
+plt.title('Pérdida durante el entrenamiento')
+plt.xlabel('Época')
+plt.ylabel('Pérdida')
+plt.legend()
+
+# Graficar precisión
+plt.subplot(1, 2, 2)
+plt.plot(history.history['accuracy'], label='Entrenamiento')
+plt.plot(history.history['val_accuracy'], label='Validación')
+plt.title('Precisión durante el entrenamiento')
+plt.xlabel('Época')
+plt.ylabel('Precisión')
+plt.legend()
+
+plt.tight_layout()
+plt.show()</code></pre>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

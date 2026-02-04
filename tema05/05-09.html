@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación de Redes Neuronales Profundas con Keras</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Programación de Redes Neuronales Profundas con Keras</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>9. Mejores Prácticas y Consejos</h1>
+
+        <h2>9.1 Diseño de la Arquitectura</h2>
+        <ol>
+            <li><strong>Comienza simple</strong>: Empieza con pocas capas y neuronas, y aumenta gradualmente si es necesario</li>
+            <li><strong>Número de neuronas</strong>: Una regla heurística es empezar con un número entre el tamaño de entrada y el de salida</li>
+            <li><strong>Profundidad vs. anchura</strong>: Redes más profundas (más capas) suelen ser más expresivas que redes anchas (más neuronas por capa)</li>
+        </ol>
+
+        <h2>9.2 Prevención del Sobreajuste</h2>
+        <ol>
+            <li><strong>Regularización L2</strong>: Penaliza pesos grandes</li>
+            <li><strong>Dropout</strong>: Desactiva neuronas aleatoriamente durante el entrenamiento</li>
+            <li><strong>Early stopping</strong>: Detiene el entrenamiento cuando la validación deja de mejorar</li>
+            <li><strong>Aumentación de datos</strong>: Especialmente útil para imágenes</li>
+            <li><strong>Más datos</strong>: La mejor regularización es tener más datos de entrenamiento</li>
+        </ol>
+
+        <h2>9.3 Diagnóstico de Problemas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Síntoma</th>
+                    <th>Posible Causa</th>
+                    <th>Solución</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Loss no disminuye</td>
+                    <td>Learning rate muy bajo o muy alto</td>
+                    <td>Ajustar learning rate</td>
+                </tr>
+                <tr>
+                    <td>Loss oscila mucho</td>
+                    <td>Learning rate muy alto</td>
+                    <td>Reducir learning rate</td>
+                </tr>
+                <tr>
+                    <td>Train loss baja, val loss alta</td>
+                    <td>Sobreajuste</td>
+                    <td>Añadir regularización, early stopping</td>
+                </tr>
+                <tr>
+                    <td>Train y val loss ambas altas</td>
+                    <td>Subajuste</td>
+                    <td>Modelo más complejo, más epochs</td>
+                </tr>
+                <tr>
+                    <td>NaN en loss</td>
+                    <td>Learning rate muy alto, datos no normalizados</td>
+                    <td>Verificar datos, reducir lr</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>9.4 Guardado y Carga de Modelos</h2>
+
+<pre><code class="language-python"># Guardar modelo completo (arquitectura + pesos + configuración)
+model.save('mi_modelo.keras')
+
+# Cargar modelo
+modelo_cargado = keras.models.load_model('mi_modelo.keras')
+
+# Guardar solo pesos
+model.save_weights('pesos_modelo.weights.h5')
+
+# Cargar pesos (el modelo debe estar ya definido)
+model.load_weights('pesos_modelo.weights.h5')</code></pre>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

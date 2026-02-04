@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación de Redes Neuronales Profundas con Keras</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Programación de Redes Neuronales Profundas con Keras</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>8. Ejemplo Completo: Clasificación de Imágenes (Fashion MNIST)</h1>
+
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+# ========== 1. CARGA DE DATOS ==========
+
+fashion_mnist = keras.datasets.fashion_mnist
+(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+
+class_names = ['Camiseta/top', 'Pantalón', 'Jersey', 'Vestido', 'Abrigo',
+               'Sandalia', 'Camisa', 'Zapatilla', 'Bolso', 'Botín']
+
+print(f"Shape de train_images: {train_images.shape}")  # (60000, 28, 28)
+print(f"Shape de train_labels: {train_labels.shape}")  # (60000,)
+
+# ========== 2. PREPROCESADO ==========
+
+# Normalización de píxeles (0-255 -> 0-1)
+train_images = train_images / 255.0
+test_images = test_images / 255.0
+
+# Visualizar algunas imágenes
+plt.figure(figsize=(10, 10))
+for i in range(25):
+    plt.subplot(5, 5, i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.imshow(train_images[i], cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]])
+plt.tight_layout()
+plt.show()
+
+# ========== 3. CONSTRUCCIÓN DEL MODELO ==========
+
+model = keras.Sequential([
+    # Aplanar imagen 28x28 a vector de 784
+    layers.Flatten(input_shape=(28, 28)),
+    
+    # Capas ocultas
+    layers.Dense(256, activation='relu'),
+    layers.BatchNormalization(),
+    layers.Dropout(0.3),
+    layers.Dense(128, activation='relu'),
+    layers.Dropout(0.2),
+    
+    # Capa de salida: 10 clases
+    layers.Dense(10, activation='softmax')
+])
+
+model.summary()
+
+# ========== 4. COMPILACIÓN Y ENTRENAMIENTO ==========
+
+model.compile(
+    optimizer='adam',
+    loss='sparse_categorical_crossentropy',  # Etiquetas como enteros
+    metrics=['accuracy']
+)
+
+callbacks = [
+    keras.callbacks.EarlyStopping(patience=10, restore_best_weights=True)
+]
+
+history = model.fit(
+    train_images, train_labels,
+    epochs=50,
+    batch_size=64,
+    validation_split=0.1,
+    callbacks=callbacks,
+    verbose=1
+)
+
+# ========== 5. EVALUACIÓN ==========
+
+test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=0)
+print(f'\nPrecisión en test: {test_acc:.4f}')
+
+# ========== 6. PREDICCIONES Y VISUALIZACIÓN ==========
+
+predictions = model.predict(test_images)
+
+def plot_prediction(i, predictions_array, true_label, img):
+    plt.figure(figsize=(6, 3))
+    
+    plt.subplot(1, 2, 1)
+    plt.imshow(img, cmap=plt.cm.binary)
+    predicted_label = np.argmax(predictions_array)
+    color = 'blue' if predicted_label == true_label else 'red'
+    plt.xlabel(f"{class_names[predicted_label]} ({100*np.max(predictions_array):.1f}%)\n"
+               f"Real: {class_names[true_label]}", color=color)
+    plt.xticks([])
+    plt.yticks([])
+    
+    plt.subplot(1, 2, 2)
+    plt.bar(range(10), predictions_array, color='gray')
+    plt.bar(predicted_label, predictions_array[predicted_label], color=color)
+    plt.bar(true_label, predictions_array[true_label], color='blue', alpha=0.5)
+    plt.xticks(range(10), class_names, rotation=45, ha='right')
+    plt.ylim([0, 1])
+    
+    plt.tight_layout()
+    plt.show()
+
+# Visualizar algunas predicciones
+for i in [0, 5, 10, 15]:
+    plot_prediction(i, predictions[i], test_labels[i], test_images[i])</code></pre>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

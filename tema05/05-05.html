@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación de Redes Neuronales Profundas con Keras</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Programación de Redes Neuronales Profundas con Keras</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>5. Entrenamiento del Modelo</h1>
+
+        <h2>5.1 Compilación</h2>
+        <p>Antes de entrenar, el modelo debe compilarse especificando el optimizador, la función de pérdida y las métricas a monitorear:</p>
+
+<pre><code class="language-python">model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=0.001),
+    loss='binary_crossentropy',
+    metrics=['accuracy', keras.metrics.Precision(), keras.metrics.Recall()]
+)</code></pre>
+
+        <h2>5.2 El Método fit()</h2>
+        <p>La clase <code>tf.keras.Model</code> tiene métodos integrados de entrenamiento y evaluación: <code>tf.keras.Model.fit</code> entrena el modelo por un número fijo de epochs.</p>
+        <p>Al pasar datos a los bucles de entrenamiento integrados de un modelo, debes usar arrays de NumPy (si tus datos son pequeños y caben en memoria) o objetos <code>tf.data.Dataset</code>.</p>
+
+        <h3>Parámetros principales de fit():</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parámetro</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>x</code></td>
+                    <td>Datos de entrada</td>
+                </tr>
+                <tr>
+                    <td><code>y</code></td>
+                    <td>Etiquetas/valores objetivo</td>
+                </tr>
+                <tr>
+                    <td><code>epochs</code></td>
+                    <td>Número de iteraciones completas sobre el dataset</td>
+                </tr>
+                <tr>
+                    <td><code>batch_size</code></td>
+                    <td>Número de muestras por actualización de gradiente (default: 32)</td>
+                </tr>
+                <tr>
+                    <td><code>validation_split</code></td>
+                    <td>Fracción de datos para validación (0.0-1.0)</td>
+                </tr>
+                <tr>
+                    <td><code>validation_data</code></td>
+                    <td>Tupla (x_val, y_val) para validación</td>
+                </tr>
+                <tr>
+                    <td><code>callbacks</code></td>
+                    <td>Lista de callbacks</td>
+                </tr>
+                <tr>
+                    <td><code>verbose</code></td>
+                    <td>0=silencioso, 1=barra de progreso, 2=una línea por epoch</td>
+                </tr>
+                <tr>
+                    <td><code>shuffle</code></td>
+                    <td>Si mezclar datos cada epoch (default: True)</td>
+                </tr>
+            </tbody>
+        </table>
+
+<pre><code class="language-python">history = model.fit(
+    X_train, y_train,
+    epochs=50,
+    batch_size=32,
+    validation_split=0.2,
+    callbacks=[
+        keras.callbacks.EarlyStopping(patience=10, restore_best_weights=True),
+        keras.callbacks.ReduceLROnPlateau(factor=0.5, patience=5)
+    ],
+    verbose=1
+)</code></pre>
+
+        <h2>5.3 Epochs y Batch Size</h2>
+        <p><strong>Epochs</strong>: Una época es una pasada completa por todo el conjunto de entrenamiento. Durante cada época, el modelo ve cada ejemplo de entrenamiento una vez. Más épocas permiten más oportunidades de aprendizaje, pero también aumentan el riesgo de sobreajuste.</p>
+        <p><strong>Batch Size</strong>: El número de muestras procesadas antes de actualizar los pesos. Afecta a:</p>
+        <ul>
+            <li><strong>Velocidad de entrenamiento</strong>: Batches más grandes aprovechan mejor la paralelización de GPU</li>
+            <li><strong>Consumo de memoria</strong>: Batches más grandes requieren más memoria</li>
+            <li><strong>Generalización</strong>: Batches más pequeños pueden actuar como regularización</li>
+            <li><strong>Valores comunes</strong>: 16, 32, 64, 128, 256</li>
+        </ul>
+
+<pre><code class="language-python"># Ejemplo con diferentes configuraciones
+# Batch pequeño - más ruidoso pero puede generalizar mejor
+model.fit(X_train, y_train, epochs=100, batch_size=16)
+
+# Batch grande - más rápido, requiere más memoria
+model.fit(X_train, y_train, epochs=100, batch_size=256)</code></pre>
+
+        <h2>5.4 Callbacks</h2>
+        <p>Los métodos de entrenamiento te dan acceso a características integradas de entrenamiento: <strong>Callbacks</strong>. Puedes aprovechar callbacks integrados para early stopping, checkpointing de modelos y monitoreo con TensorBoard. También puedes implementar callbacks personalizados.</p>
+
+        <h3>Callbacks más útiles:</h3>
+
+<pre><code class="language-python">callbacks = [
+    # Detener si no hay mejora
+    keras.callbacks.EarlyStopping(
+        monitor='val_loss',
+        patience=10,
+        restore_best_weights=True
+    ),
+    
+    # Guardar el mejor modelo
+    keras.callbacks.ModelCheckpoint(
+        filepath='mejor_modelo.keras',
+        monitor='val_accuracy',
+        save_best_only=True
+    ),
+    
+    # Reducir learning rate cuando se estanca
+    keras.callbacks.ReduceLROnPlateau(
+        monitor='val_loss',
+        factor=0.5,
+        patience=5,
+        min_lr=1e-7
+    ),
+    
+    # Visualización con TensorBoard
+    keras.callbacks.TensorBoard(
+        log_dir='./logs',
+        histogram_freq=1
+    )
+]</code></pre>
+
+        <p>La mejor manera de mantener un ojo en tu modelo durante el entrenamiento es usar <strong>TensorBoard</strong>, una aplicación basada en navegador que puedes ejecutar localmente.</p>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

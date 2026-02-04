@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación de Redes Neuronales Profundas con Keras</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Programación de Redes Neuronales Profundas con Keras</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>1. Arquitectura de Modelos Sequential</h1>
+
+        <h2>1.1 El Perceptrón: La Unidad Fundamental</h2>
+        <p>La unidad básica de cualquier red neuronal es el <strong>perceptrón</strong>. Matemáticamente, realiza una transformación lineal seguida opcionalmente de una función de activación no lineal. La ecuación fundamental es:</p>
+        <p class="formula">y = f(∑<sub>i=1</sub><sup>n</sup> w<sub>i</sub> x<sub>i</sub> + b) = f(W<sup>T</sup> X + b)</p>
+        <p>Donde:</p>
+        <ul>
+            <li><strong>x<sub>i</sub></strong>: Variables de entrada (features)</li>
+            <li><strong>w<sub>i</sub></strong>: Pesos (weights) que determinan la importancia de cada entrada</li>
+            <li><strong>b</strong>: Sesgo (bias), un término independiente que permite desplazar la función</li>
+            <li><strong>f</strong>: Función de activación que introduce no linealidad</li>
+        </ul>
+        <p>El proceso de aprendizaje consiste en ajustar los valores de <em>w<sub>i</sub></em> y <em>b</em> para minimizar el error entre las predicciones y los valores reales.</p>
+
+        <h2>1.2 Modelo Sequential en Keras</h2>
+        <p>El tipo de modelo más simple es el modelo <strong>Sequential</strong>, que es una pila lineal de capas. Para arquitecturas más complejas, puedes usar la API funcional de Keras, que permite construir grafos arbitrarios de capas, o usar subclassing para escribir modelos desde cero.</p>
+        <p>Las estructuras de datos principales de Keras son las capas y los modelos. Una capa es una transformación simple de entrada/salida, y un modelo es un grafo acíclico dirigido (DAG) de capas. La clase <code>tf.keras.layers.Layer</code> es la abstracción fundamental en Keras. Una capa encapsula un estado (pesos) y algún cálculo (definido en el método <code>call</code>).</p>
+
+<pre><code class="language-python">import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+# Modelo básico con Sequential
+model = keras.Sequential([
+    layers.Dense(128, activation='relu', input_shape=(18,)),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(1, activation='sigmoid')
+])
+
+# Alternativa: añadir capas una por una
+model = keras.Sequential()
+model.add(layers.Dense(128, activation='relu', input_shape=(18,)))
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(1, activation='sigmoid'))</code></pre>
+
+        <h2>1.3 Visualización de la Arquitectura</h2>
+        <p>Keras proporciona métodos útiles para inspeccionar la estructura del modelo:</p>
+
+<pre><code class="language-python"># Resumen del modelo
+model.summary()
+
+# Visualización gráfica (requiere graphviz y pydot)
+keras.utils.plot_model(model, show_shapes=True, show_layer_names=True)</code></pre>
+
+     <h2>Resumen de Modelos</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Modelo</th>
+                    <th>Descripción</th>
+                    <th>Cuándo usarlo</th>
+                    <th>Ejemplo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Sequential</strong></td>
+                    <td>Pila lineal de capas donde cada capa tiene exactamente una entrada y una salida</td>
+                    <td>Arquitecturas simples donde los datos fluyen secuencialmente de una capa a la siguiente</td>
+                    <td><code>keras.Sequential([layers.Dense(64), layers.Dense(1)])</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Functional API</strong></td>
+                    <td>Permite crear grafos arbitrarios de capas con múltiples entradas/salidas y conexiones complejas</td>
+                    <td>Modelos con ramificaciones, múltiples entradas/salidas, capas compartidas o conexiones residuales</td>
+                    <td><code>output = layers.Dense(1)(x)</code> seguido de <code>keras.Model(inputs, outputs)</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Subclassing</strong></td>
+                    <td>Definir modelos como clases Python heredando de <code>keras.Model</code>, con control total sobre el forward pass</td>
+                    <td>Arquitecturas muy personalizadas o investigación donde se necesita máxima flexibilidad</td>
+                    <td>Clase que hereda de <code>keras.Model</code> con método <code>call()</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

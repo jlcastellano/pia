@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación de Redes Neuronales Profundas con Keras</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Programación de Redes Neuronales Profundas con Keras</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>4. Optimizadores</h1>
+        <p>Los optimizadores implementan algoritmos de <strong>descenso del gradiente</strong> para ajustar los pesos del modelo en la dirección que minimiza la función de coste.</p>
+
+        <h2>4.1 Principales Optimizadores</h2>
+
+        <h3>SGD (Stochastic Gradient Descent)</h3>
+        <p>El optimizador más básico. Actualiza los pesos en la dirección opuesta al gradiente.</p>
+        <p class="formula">w<sub>t+1</sub> = w<sub>t</sub> - η ∇L(w<sub>t</sub>)</p>
+
+<pre><code class="language-python">optimizer = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)</code></pre>
+
+        <p>El parámetro <strong>momentum</strong> acumula velocidad en direcciones consistentes, acelerando la convergencia.</p>
+
+        <h3>RMSprop (Root Mean Square Propagation)</h3>
+        <p>Adapta el learning rate para cada parámetro, dividiéndolo por una media móvil de los gradientes recientes al cuadrado.</p>
+
+<pre><code class="language-python">optimizer = keras.optimizers.RMSprop(learning_rate=0.001)</code></pre>
+
+        <h3>Adam (Adaptive Moment Estimation)</h3>
+        <p>Combina las ideas de momentum y RMSprop. Mantiene tanto una media móvil del gradiente como de su cuadrado. Es el optimizador más utilizado y una excelente opción por defecto.</p>
+
+<pre><code class="language-python">optimizer = keras.optimizers.Adam(learning_rate=0.001, beta_1=0.9, beta_2=0.999)</code></pre>
+
+        <h3>AdamW</h3>
+        <p>Variante de Adam con weight decay desacoplado. Mejora la generalización en muchos casos.</p>
+
+<pre><code class="language-python">optimizer = keras.optimizers.AdamW(learning_rate=0.001, weight_decay=0.004)</code></pre>
+
+       <h3>Resumen</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Optimizador</th>
+                    <th>Descripción</th>
+                    <th>Parámetros clave</th>
+                    <th>Ventajas</th>
+                    <th>Desventajas</th>
+                    <th>Cuándo usarlo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>SGD</strong></td>
+                    <td>Descenso del gradiente estocástico básico; actualiza pesos en dirección opuesta al gradiente</td>
+                    <td>
+                        <ul>
+                            <li><code>learning_rate</code>: 0.01 típico</li>
+                            <li><code>momentum</code>: 0.9 típico</li>
+                            <li><code>nesterov</code>: True/False</li>
+                        </ul>
+                    </td>
+                    <td>Simple, bien entendido, buena generalización</td>
+                    <td>Convergencia lenta, sensible a learning rate</td>
+                    <td>Fine-tuning, cuando se necesita control preciso</td>
+                </tr>
+                <tr>
+                    <td><strong>RMSprop</strong></td>
+                    <td>Adapta el learning rate dividiendo por media móvil del cuadrado de gradientes recientes</td>
+                    <td>
+                        <ul>
+                            <li><code>learning_rate</code>: 0.001 típico</li>
+                            <li><code>rho</code>: factor de decaimiento (0.9)</li>
+                        </ul>
+                    </td>
+                    <td>Maneja bien gradientes de diferentes escalas, bueno para RNNs</td>
+                    <td>Puede converger a mínimos subóptimos</td>
+                    <td>Redes recurrentes (LSTM, GRU)</td>
+                </tr>
+                <tr>
+                    <td><strong>Adam</strong></td>
+                    <td>Combina momentum + RMSprop; mantiene medias móviles del gradiente y su cuadrado</td>
+                    <td>
+                        <ul>
+                            <li><code>learning_rate</code>: 0.001 típico</li>
+                            <li><code>beta_1</code>: 0.9 (momentum)</li>
+                            <li><code>beta_2</code>: 0.999 (escala)</li>
+                        </ul>
+                    </td>
+                    <td>Rápida convergencia, funciona bien "out of the box", robusto</td>
+                    <td>Puede generalizar peor que SGD en algunos casos</td>
+                    <td><strong>Primera opción por defecto</strong> para la mayoría de problemas</td>
+                </tr>
+                <tr>
+                    <td><strong>AdamW</strong></td>
+                    <td>Adam con weight decay desacoplado (regularización L2 aplicada correctamente)</td>
+                    <td>Mismos que Adam + <code>weight_decay</code></td>
+                    <td>Mejor generalización que Adam estándar</td>
+                    <td>Ligeramente más complejo de configurar</td>
+                    <td>Cuando Adam sobreajusta; modelos grandes</td>
+                </tr>
+                <tr>
+                    <td><strong>Nadam</strong></td>
+                    <td>Adam con momentum de Nesterov</td>
+                    <td>Mismos que Adam</td>
+                    <td>Convergencia más rápida en algunos casos</td>
+                    <td>Más costoso computacionalmente</td>
+                    <td>Cuando Adam es lento en converger</td>
+                </tr>
+                <tr>
+                    <td><strong>Adagrad</strong></td>
+                    <td>Adapta learning rate acumulando todos los gradientes históricos</td>
+                    <td><code>learning_rate</code>: 0.01 típico</td>
+                    <td>Bueno para datos dispersos (sparse)</td>
+                    <td>Learning rate decrece mucho y puede estancarse</td>
+                    <td>Datos con features dispersos (NLP con bag-of-words)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>4.2 Learning Rate (Tasa de Aprendizaje)</h2>
+        <p>El <strong>learning rate</strong> controla el tamaño de los pasos durante la optimización:</p>
+        <ul>
+            <li><strong>Muy pequeño</strong>: Entrenamiento extremadamente lento, puede quedarse atascado</li>
+            <li><strong>Muy grande</strong>: Entrenamiento inestable, puede no converger o divergir</li>
+            <li><strong>Rango típico inicial</strong>: 0.0001 a 0.01 (1e-4 a 1e-2)</li>
+        </ul>
+
+<pre><code class="language-python"># Configuración típica de Adam
+optimizer = keras.optimizers.Adam(learning_rate=0.001)
+
+# Con learning rate muy pequeño para fine-tuning
+optimizer = keras.optimizers.Adam(learning_rate=1e-5)</code></pre>
+
+        <h3>Guía Rápida de Learning Rate</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Rango</th>
+                    <th>Descripción</th>
+                    <th>Comportamiento típico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1e-5 a 1e-4</td>
+                    <td>Muy bajo</td>
+                    <td>Entrenamiento muy lento pero estable; útil para fine-tuning</td>
+                </tr>
+                <tr>
+                    <td>1e-4 a 1e-3</td>
+                    <td>Bajo-medio</td>
+                    <td><strong>Rango recomendado para empezar</strong>; buen balance</td>
+                </tr>
+                <tr>
+                    <td>1e-3 a 1e-2</td>
+                    <td>Medio</td>
+                    <td>Entrenamiento rápido; puede ser inestable</td>
+                </tr>
+                <tr>
+                    <td>&gt; 1e-2</td>
+                    <td>Alto</td>
+                    <td>Riesgo de divergencia; solo para casos específicos</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>4.3 Learning Rate Scheduling</h2>
+        <p>Hay varios schedules integrados disponibles: ExponentialDecay, PiecewiseConstantDecay, PolynomialDecay e InverseTimeDecay. Un schedule de learning rate dinámico (por ejemplo, reducir el learning rate cuando la pérdida de validación ya no mejora) no se puede lograr con estos objetos de schedule, ya que el optimizador no tiene acceso a las métricas de validación.</p>
+        <p>Sin embargo, los callbacks sí tienen acceso a todas las métricas, incluyendo métricas de validación. Por lo tanto, puedes lograr este patrón usando un callback que modifique el learning rate actual en el optimizador. De hecho, esto ya viene integrado como el callback <code>ReduceLROnPlateau</code>.</p>
+
+<pre><code class="language-python"># Schedule exponencial
+lr_schedule = keras.optimizers.schedules.ExponentialDecay(
+    initial_learning_rate=0.001,
+    decay_steps=10000,
+    decay_rate=0.9
+)
+optimizer = keras.optimizers.Adam(learning_rate=lr_schedule)
+
+# ReduceLROnPlateau (reduce cuando la métrica deja de mejorar)
+reduce_lr = keras.callbacks.ReduceLROnPlateau(
+    monitor='val_loss',
+    factor=0.2,
+    patience=5,
+    min_lr=1e-7
+)</code></pre>
+
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
