@@ -122,6 +122,67 @@
                 </tr>
             </tbody>
         </table>
+        
+        <h3>Guía Rápida por Ubicación en la Red</h3>
+
+        <p>La elección de la función de activación depende principalmente de <strong>dónde se ubique en la arquitectura</strong> de la red neuronal:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Ubicación</th>
+                    <th>Función recomendada</th>
+                    <th>Alternativas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Capas ocultas (general)</strong></td>
+                    <td>ReLU</td>
+                    <td>Leaky ReLU, ELU, Swish</td>
+                </tr>
+                <tr>
+                    <td><strong>Capas ocultas (transformers)</strong></td>
+                    <td>GELU</td>
+                    <td>Swish</td>
+                </tr>
+                <tr>
+                    <td><strong>Capas ocultas (RNNs)</strong></td>
+                    <td>Tanh</td>
+                    <td>ReLU (con cuidado)</td>
+                </tr>
+                <tr>
+                    <td><strong>Salida: clasificación binaria</strong></td>
+                    <td>Sigmoid</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Salida: clasificación multiclase</strong></td>
+                    <td>Softmax</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Salida: regresión (cualquier valor)</strong></td>
+                    <td>Linear (None)</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Salida: regresión (solo positivos)</strong></td>
+                    <td>ReLU o Softplus</td>
+                    <td>Exponential</td>
+                </tr>
+                <tr>
+                    <td><strong>Salida: regresión (rango [0,1])</strong></td>
+                    <td>Sigmoid</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Salida: regresión (rango [-1,1])</strong></td>
+                    <td>Tanh</td>
+                    <td>—</td>
+                </tr>
+            </tbody>
+        </table>
 
         <h2>4.2 Learning Rate (Tasa de Aprendizaje)</h2>
         <p>El <strong>learning rate</strong> controla el tamaño de los pasos durante la optimización:</p>
