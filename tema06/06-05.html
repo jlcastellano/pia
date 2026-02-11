@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación y Optimización de Modelos de Machine Learning</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Evaluación y Optimización de Modelos de Machine Learning</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Normalización por lotes (Batch Normalization)</h1>
+        
+        <p>La normalización es una técnica que usamos para hacer que diferentes muestras sean comparables entre sí. Imagina que quieres comparar las alturas de personas de diferentes países: si unos usan metros y otros pies, primero necesitas convertir todo a la misma unidad. Eso es normalizar.</p>
+        <figure>
+            <img src="06-03.png">
+        </figure>
+                
+        <h2>¿Qué es la Normalización por Lotes?</h2>
+        
+        <p>Es una técnica especialmente útil en modelos complejos con muchas capas (particularmente capas convolucionales, que se usan para procesar imágenes). La idea es aplicar normalización no solo a los datos de entrada, sino también entre las capas del modelo.</p>
+        
+        <p>Funciona así: tomamos los datos que salen de una capa antes de que entren a la siguiente, y los normalizamos. En Keras/TensorFlow, existe la capa <span class="inline-code">BatchNormalization</span> que hace esto automáticamente.</p>
+        
+        <h2>Beneficios principales:</h2>
+        
+        <ol>
+            <li>Acelera significativamente el entrenamiento</li>
+            <li>Hace el entrenamiento más estable</li>
+            <li>Ayuda a que el gradiente (la información sobre cómo ajustar los pesos) se propague mejor en redes muy profundas</li>
+            <li>Permite usar tasas de aprendizaje más altas</li>
+        </ol>
+        
+        <h2>Implementación en Keras/TensorFlow:</h2>
+        
+        <p>Se suele colocar después de una capa Dense o convolucional, antes de la función de activación o después de ella (hay debate sobre cuál es mejor):</p>
+        
+        <pre><code class="language-python">dense_model.add(layers.Dense(32, activation='relu'))
+dense_model.add(layers.BatchNormalization())</code></pre>
+        
+        <h2>Impacto visual:</h2>
+        
+        <p>Según estudios (como el artículo de Chris Rawles sobre normalización por lotes), se puede apreciar que con esta técnica el modelo converge (alcanza buenos resultados) mucho más rápido y de forma más suave, sin tantas oscilaciones en el error.</p>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

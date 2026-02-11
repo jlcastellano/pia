@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación y Optimización de Modelos de Machine Learning</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Evaluación y Optimización de Modelos de Machine Learning</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Optimización de hiperparámetros</h1>
+        
+        <p>Cuando diseñamos un modelo de deep learning, encontrar la mejor configuración es un proceso que requiere experimentación. No hay una fórmula mágica que nos diga exactamente cuántas capas usar, cuántas neuronas por capa, qué tasa de aprendizaje elegir, etc. Estos valores se llaman <strong>hiperparámetros</strong> porque no los aprende el modelo, sino que los decidimos nosotros antes del entrenamiento.</p>
+                <figure>
+            <img src="06-05.png">
+        </figure>
+        <h2>Proceso típico de optimización:</h2>
+        
+        <ol>
+            <li><strong>Elección inicial:</strong> Basándose en la experiencia, conocimiento del problema y ejemplos similares, elegimos un conjunto inicial de hiperparámetros.</li>
+            <li><strong>Programación:</strong> Implementamos el modelo con esos parámetros.</li>
+            <li><strong>Entrenamiento y observación:</strong> Entrenamos el modelo usando datos de entrenamiento y validación, observando cuidadosamente la métrica de validación (precisión, error, etc.).</li>
+            <li><strong>Variación sistemática:</strong> Elegimos UN hiperparámetro para variar y cambiamos solo ese, manteniendo los demás fijos.</li>
+            <li><strong>Repetición:</strong> Entrenamos nuevamente y comparamos los resultados.</li>
+            <li><strong>Validación final:</strong> Después de varias pruebas que hayan mejorado la métrica de validación, es importante usar también los datos de test para evaluar el modelo antes de empezar a experimentar con otro hiperparámetro.</li>
+        </ol>
+        
+        <h2>Herramientas para facilitar este proceso:</h2>
+        
+        <p>TensorBoard incluye una herramienta llamada <strong>HParams</strong> (Hyperparameters) que presenta de forma gráfica e interactiva las relaciones entre los diferentes hiperparámetros probados y sus resultados. Puedes ver visualmente qué combinaciones de parámetros producen los mejores valores de precisión.</p>
+        
+        <h2>Automatización de la búsqueda:</h2>
+        
+        <p>En 2025, existen varias herramientas que automatizan la búsqueda de los mejores hiperparámetros:</p>
+        
+        <ul>
+            <li><strong>Keras Tuner:</strong> La solución oficial de TensorFlow/Keras para búsqueda automatizada de hiperparámetros</li>
+            <li><strong>Optuna:</strong> Una framework moderna y eficiente para optimización de hiperparámetros</li>
+            <li><strong>Ray Tune:</strong> Para búsquedas distribuidas en múltiples máquinas</li>
+            <li><strong>Hyperopt e Hyperas:</strong> Opciones más clásicas pero aún utilizadas</li>
+        </ul>
+        
+        <p>Estas herramientas prueban automáticamente diferentes combinaciones de hiperparámetros y te ayudan a encontrar las mejores configuraciones sin tener que hacerlo manualmente, ahorrando mucho tiempo y esfuerzo.</p>
+        
+        <p class="nota"><strong>Consejo importante:</strong> Aunque estas herramientas automáticas son útiles, es fundamental entender qué hace cada hiperparámetro para poder interpretar los resultados y tomar decisiones informadas sobre la arquitectura de tu modelo.</p>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

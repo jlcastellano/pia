@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación y Optimización de Modelos de Machine Learning</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Evaluación y Optimización de Modelos de Machine Learning</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Visualización del entrenamiento con TensorBoard</h1>
+        
+        <p>TensorBoard es una herramienta de visualización integrada en TensorFlow que nos permite monitorear el entrenamiento de nuestros modelos en tiempo real. A continuación, te muestro cómo configurarlo en Google Colab (actualizado para 2025).</p>
+        <figure>
+            <img src="06-04.png">
+        </figure>
+                
+        <h2>Configuración en Google Colab:</h2>
+        
+        <p>Primero, cargamos la extensión de TensorBoard para cuadernos Jupyter:</p>
+        
+        <pre><code class="language-python">%load_ext tensorboard</code></pre>
+        
+        <p>Importamos las librerías necesarias:</p>
+        
+        <pre><code class="language-python">import tensorflow as tf
+import datetime, os</code></pre>
+        
+        <h2>Ejemplo completo con el dataset Fashion-MNIST:</h2>
+        
+        <ol>
+            <li>Descargamos el dataset Fashion-MNIST (imágenes de ropa y accesorios)</li>
+            <li>Normalizamos los datos (los escalamos para que estén en un rango adecuado)</li>
+            <li>Creamos una red neuronal profunda que incluye una capa de dropout</li>
+            <li>Al configurar el entrenamiento con <span class="inline-code">model.compile()</span>, añadimos un callback (función de retorno) que conecta con TensorBoard</li>
+            <li>Iniciamos la visualización de TensorBoard usando su función mágica para notebooks</li>
+        </ol>
+        
+        <h2>Ventajas de TensorBoard:</h2>
+        
+        <p>La interfaz de TensorBoard nos muestra:</p>
+        
+        <ul>
+            <li>Gráficos interactivos de cómo evoluciona el error y la precisión</li>
+            <li>Visualizaciones de la arquitectura de la red</li>
+            <li>Histogramas de los pesos y sus actualizaciones</li>
+            <li>Y mucho más</li>
+        </ul>
+        
+        <p>Si iniciamos TensorBoard antes del entrenamiento, podemos monitorizar el proceso mientras ocurre, viendo en tiempo real cómo mejora (o empeora) el modelo. En 2025, la API especial para notebooks (tensorboard.notebook) ofrece funcionalidades mejoradas y mejor integración con Google Colab y Jupyter.</p>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

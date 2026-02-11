@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación y Optimización de Modelos de Machine Learning</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Evaluación y Optimización de Modelos de Machine Learning</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>Descarte (Dropout)</h1>
+        
+        <p>La técnica del <strong>dropout</strong> es elegantemente simple pero muy efectiva. Consiste en desactivar aleatoriamente algunas neuronas durante el entrenamiento, poniendo su salida a cero.</p>
+        <figure>
+            <img src="06-02.png">
+        </figure>
+                
+        <h2>¿Cómo funciona?</h2>
+        
+        <p>En cada iteración del entrenamiento, seleccionamos al azar un porcentaje de neuronas de cada capa y las "apagamos" temporalmente. Esto obliga a la red a no depender demasiado de neuronas específicas y a distribuir el aprendizaje de forma más robusta.</p>
+        
+        <p>El <strong>dropout rate</strong> (tasa de descarte) es la fracción de neuronas que desactivamos, y típicamente está entre 0.2 (20%) y 0.5 (50%). Un valor de 0.5 significa que en cada iteración, aproximadamente la mitad de las neuronas están desactivadas.</p>
+        
+        <h2>Implementación en Keras/TensorFlow:</h2>
+        
+        <p>En Keras, aplicamos dropout añadiendo una capa especial de tipo <span class="inline-code">Dropout</span> después de la capa que queremos regularizar:</p>
+        
+        <pre><code class="language-python">model.add(layers.Dense(16, activation='relu', input_shape=(10000,)))
+model.add(layers.Dropout(0.5))</code></pre>
+        
+        <p>En este ejemplo, desactivamos el 50% de las salidas de la capa anterior de forma aleatoria durante el entrenamiento.</p>
+        
+        <h2>Resultados:</h2>
+        
+        <p>Cuando aplicamos capas de dropout adecuadamente, observamos que el error con los datos de validación mejora significativamente comparado con el modelo sin dropout. El modelo generaliza mejor porque ha aprendido a ser más robusto.</p>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación y Optimización de Modelos de Machine Learning</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>Evaluación y Optimización de Modelos de Machine Learning</div>
+    </header>
+
+    <section class="contenido-didactico">
+        <h1>¿Cómo evitar el sobreentrenamiento?</h1>
+        
+        <p>En el ejemplo anterior, limitamos el número de iteraciones a 5 para evitar el overfitting, pero esta no es la mejor solución. El modelo no generaliza bien y su precisión queda limitada. Para mejorar el rendimiento y evitar el sobreentrenamiento de forma más efectiva, existen varias técnicas que forman parte de lo que llamamos <strong>Regularización</strong>. Veamos las más utilizadas:</p>
+        <figure>
+            <img src="06-01.png">
+        </figure>
+        
+        <h2>1. Conseguir más datos de entrenamiento:</h2>
+        
+        <p>Cuantos más ejemplos diferentes vea el modelo durante el entrenamiento, mejor aprenderá a generalizar. Los casos anómalos tendrán menos impacto porque serán una proporción menor del total. Es como aprender un idioma: cuanto más lo practiques con diferentes personas y situaciones, mejor lo dominarás.</p>
+        
+        <h2>2. Reducir el tamaño de la red:</h2>
+        
+        <p>El sobreentrenamiento está relacionado con la cantidad de información que el modelo puede "memorizar" a través de sus pesos (los números que ajusta durante el entrenamiento). Si reducimos el número de parámetros del modelo (menos capas o menos neuronas por capa), limitamos su capacidad de memorización.</p>
+        
+        <p>La estrategia recomendada es:</p>
+        
+        <ul>
+            <li>Empezar con un modelo pequeño</li>
+            <li>Ir aumentándolo gradualmente mientras observamos cómo mejora la evaluación</li>
+            <li>Detenernos cuando ya no veamos mejoras significativas</li>
+        </ul>
+        
+        <h2>3. Regularización de los pesos:</h2>
+        
+        <p>Esta técnica limita los valores que pueden alcanzar los pesos del modelo, como una forma de restringir su capacidad de memoria. Es como poner un límite a cuánta información puede memorizar.</p>
+        
+        <h2>4. Descarte o Dropout:</h2>
+        
+        <p>Durante el entrenamiento, desactivamos aleatoriamente algunas neuronas (poniendo sus salidas a cero).</p>
+        
+        
+        <p>Esto obliga al modelo a no depender demasiado de neuronas específicas y mejora su capacidad de generalización. Es como practicar un deporte con diferentes compañeros de equipo: aprendes a adaptarte mejor.</p>
+        
+        <p>En las siguientes secciones, analizaremos con más detalle las dos últimas técnicas.</p>
+        
+        <blockquote>El término "overfitting" también se traduce literalmente como "sobreajuste". En esencia, consiste en que el modelo intenta ajustarse demasiado a la distribución específica de los datos de entrenamiento, incluyendo sus anomalías, en lugar de aprender los patrones generales.</blockquote>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
