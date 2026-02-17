@@ -32,3 +32,6 @@ tema06/solucion-ajustes-01.ipynb
 tema06/Ajustes.ipynb
 tema06/solucion-ajustes-02.ipynb
 tema06/tensorboard.ipynb
+tema06/keras_tuner_results/
+tema06/logs/
+tema06/spam.csv
